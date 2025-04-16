@@ -6,25 +6,12 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 16:44:27 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:08:49 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <limits.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include "libft/libft.h"
 
 typedef struct s_env
 {
@@ -59,7 +46,20 @@ typedef struct s_cmd {
 	struct s_cmd *next;
 }	t_cmd;
 
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include "libft/libft.h"
 # include "parsing/parsing.h"
 # include "execution/execution.h"
+
 
 #endif

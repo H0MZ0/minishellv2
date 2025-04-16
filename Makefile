@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-HEADER = parsing/minishell.h
+HEADER =  execution/execution.h parsing/parsing.h minishell.h
 
 PRS_FILES = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing/handel_error.c \
 			parsing/parce_cmd.c parsing/env_copy.c parsing/free_all.c parsing/print_lists.c \
