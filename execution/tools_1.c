@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 13:55:54 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:36:49 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ char	**aloc(char *cmd1, char *cmd2, char *cmd3, char *cmd4)
 	return (commad);
 }
 
-char	**get_paths(t_cmd *f_cmd, t_env *env_list)
+char	**get_paths(t_env *env_list)
 {
-	(void)f_cmd;
 	int	i;
 
 	i = 0;

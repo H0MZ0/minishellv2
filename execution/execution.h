@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 13:54:06 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:37:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minishell.h"
 
-void	execution_part(t_cmd *cmd_list, t_env *env_list);
+void	execution_part(t_cmd *cmd_list, t_env *env_list, char **av, char **envp);
 void	is_builtin(char *cmd1, char *cmd2, char *cmd3, char *cmd4);
 void	execute_echo(char *param, char *input);
 void	execute_pwd(void);
@@ -27,7 +27,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *str1, const char *str2);
-char	**get_paths(t_cmd *f_cmd, t_env *env_list);
+char	**get_paths(t_env *env_list);
 char	*check_cmd(char **paths, char *cmd);
 // char	*ft_strdup(char *str);
 
