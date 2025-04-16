@@ -6,13 +6,15 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 12:56:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:44:27 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <stddef.h>
