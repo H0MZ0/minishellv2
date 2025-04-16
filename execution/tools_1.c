@@ -6,11 +6,11 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/12 17:51:21 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:10:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -67,24 +67,6 @@ int	ft_strcmp(const char *str1, const char *str2)
 		i++;
 	}
 	return (0);
-}
-
-char	*ft_strdup(char *str)
-{
-	char	*dest;
-	int		i;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	dest = malloc(ft_strlen(str) + 1);
-	while (str[i])
-	{
-		dest[i] = str[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 char	**aloc(char *cmd1, char *cmd2, char *cmd3, char *cmd4)

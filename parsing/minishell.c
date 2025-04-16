@@ -6,12 +6,11 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/14 16:48:27 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:09:20 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "parsing.h"
 
 int main(int ac, char **av, char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/14 12:20:35 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:11:23 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int 	is_operator(char c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(const char *str);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);

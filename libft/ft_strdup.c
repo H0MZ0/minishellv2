@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 11:38:39 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/14 12:20:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:10:24 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ char	*ft_strdup(const char *str)
 	if (!str)
 		return (NULL);
 	dest = malloc(ft_strlen(str) + 1);
-	if (!dest)
-		return (NULL);
 	while (str[i])
 	{
 		dest[i] = str[i];

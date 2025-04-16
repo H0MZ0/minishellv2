@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 static char	*chik(char const *s1, char const *s2)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 void is_builtin(char *cmd1, char *cmd2, char *cmd3, char *cmd4)
 {
