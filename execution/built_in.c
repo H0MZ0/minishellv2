@@ -6,28 +6,33 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/13 19:09:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:47:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	execute_echo(char *param, char *input)
+int	execute_echo(t_cmd *cmd)
 {
-	if (ft_strcmp("-n", param) == 0)
-		printf("%s", input);
+	if (ft_strcmp(cmd->args[1], "-n") == 0)
+		print_arr(&cmd->args[1]);
 	else
-		printf("%s\n", param);
-}
-int	execute_cd(char *path)
-{
-	if (chdir(path) == -1)
 	{
-		perror("cd");
+		print_arr(&cmd->args[1]);
+		printf("\n");
+	}
+	return (1);
+}
+int	execute_cd(t_cmd *cmd)
+{
+	printf ("here\n");
+	if (chdir(cmd->args[1]) == -1)
+	{
+		printf ("ach hada emmm \n");
 		return (1);
 	}
-	chdir(path);
-	return (0);
+	// chdir(cmd->args[1]);
+	return (1);
 }
 
 void	execute_pwd(void)

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 17:19:23 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:44:08 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include "../minishell.h"
 
 void	execution_part(t_cmd *cmd_list, t_env *env_list, char **av, char **envp);
-void	is_builtin(char *cmd1, char *cmd2, char *cmd3, char *cmd4);
-void	execute_echo(char *param, char *input);
+int     is_builtin(t_cmd *cmd);
+int     execute_echo(t_cmd *cmd);
+void    print_arr(char **arr);
 void	execute_pwd(void);
-int		execute_cd(char *path);
+int     execute_cd(t_cmd *cmd);
 void	free_arr(char **str);
 void	put_error(char *msg);
 char	**ft_split(char const *s, char c);

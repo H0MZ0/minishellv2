@@ -11,9 +11,8 @@ PRS_FILES = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing
 			parsing/parce_cmd.c parsing/env_copy.c parsing/free_all.c parsing/print_lists.c \
 			parsing/tools_1.c 
 
-EXC_FILES = execution/tools_1.c execution/ft_split.c execution/ft_strjoin.c \
-			execution/check_1.c execution/built_in.c execution/ft_free.c execution/error.c \
-			execution/execution.c
+EXC_FILES = execution/tools_1.c execution/tools_2.c execution/ft_split.c \
+			execution/built_in.c execution/ft_free.c execution/execution.c
 
 POBJ_FILES = $(PRS_FILES:.c=.o)
 EOBJ_FILES = $(EXC_FILES:.c=.o)

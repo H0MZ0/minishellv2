@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 15:36:49 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:44:48 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,6 @@ int	ft_strcmp(const char *str1, const char *str2)
 	return (0);
 }
 
-char	**aloc(char *cmd1, char *cmd2, char *cmd3, char *cmd4)
-{
-	char	**commad;
-
-	if (!cmd1 || !cmd2 || !cmd3 || !cmd4)
-		return (NULL);
-	commad = malloc(sizeof(char *) * 5);
-	if (!commad)
-		return (NULL);
-	commad[0] = ft_strdup(cmd1);
-	commad[1] = ft_strdup(cmd2);
-	commad[2] = ft_strdup(cmd3);
-	commad[3] = ft_strdup(cmd4);
-	commad[4] = NULL;
-	return (commad);
-}
-
 char	**get_paths(t_env *env_list)
 {
 	int	i;
@@ -60,4 +43,50 @@ char	**get_paths(t_env *env_list)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+int	is_builtin(t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->args[0], "cd"))
+		execute_cd(cmd);
+	else if (!ft_strcmp(cmd->args[0], "echo"))
+		execute_echo(cmd);
+	// else if (!ft_strcmp(cmd->args[0], "pwd"))
+	// 	printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "export"))
+		printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "unset"))
+		printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "exit"))
+		printf("%s\n", cmd->args[0]);
+	return (0);
+}
+
+char	*check_cmd(char **paths, char *cmd)
+{
+	char	*command;
+	int		i;
+
+	if (!cmd || !paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		command = ft_strjoin(paths[i], "/");
+		command = ft_strjoin(command, cmd);
+		if (access(command, X_OK) == 0)
+			return (command);
+		free(command);
+		i++;
+	}
+	return (NULL);
+}
+
+void	put_error(char *msg)
+{
+	write(2, "Error\n", ft_strlen("ERROR\n"));
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	exit(1);
 }
