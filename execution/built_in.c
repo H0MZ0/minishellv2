@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/17 16:47:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:07:21 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,25 @@ int	execute_echo(t_cmd *cmd)
 }
 int	execute_cd(t_cmd *cmd)
 {
-	printf ("here\n");
-	if (chdir(cmd->args[1]) == -1)
+	if (!cmd->args[1])
 	{
-		printf ("ach hada emmm \n");
-		return (1);
+		if (chdir(getenv("HOME")) == -1)
+		{
+			perror("cd");
+			return (1);
+		}
 	}
-	// chdir(cmd->args[1]);
+	else
+	{
+		if (chdir(cmd->args[1]) == -1)
+		{
+			perror("cd");
+			return (1);
+		}
+	}
 	return (1);
 }
+
 
 void	execute_pwd(void)
 {
