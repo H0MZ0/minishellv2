@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 16:58:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:12:15 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ char	**get_paths(t_env *env_list)
 	}
 	return (NULL);
 }
-int	is_builtin(t_cmd *cmd)
+int	is_builtin(t_cmd *cmd, t_env *envp)
 {
 	if (!ft_strcmp(cmd->args[0], "cd"))
-		execute_cd(cmd);
+		return (execute_cd(cmd));
 	else if (!ft_strcmp(cmd->args[0], "echo"))
-		execute_echo(cmd);
-	// else if (!ft_strcmp(cmd->args[0], "pwd"))
+		return (execute_echo(cmd));
+	else if (!ft_strcmp(cmd->args[0], "pwd"))
+		return (execute_pwd());
+	// else if (!ft_strcmp(cmd->args[0], "export"))
 	// 	printf("%s\n", cmd->args[0]);
-	else if (!ft_strcmp(cmd->args[0], "export"))
-		printf("%s\n", cmd->args[0]);
-	else if (!ft_strcmp(cmd->args[0], "unset"))
-		printf("%s\n", cmd->args[0]);
+	// else if (!ft_strcmp(cmd->args[0], "unset"))
+	// 	printf("%s\n", cmd->args[0]);
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		printf("%s\n", cmd->args[0]);
-	else if (!ft_strcmp(cmd->args[0], "exit"))
-		printf("%s\n", cmd->args[0]);
+		return (execute_env(envp));
+	// else if (!ft_strcmp(cmd->args[0], "exit"))
+	// 	printf("%s\n", cmd->args[0]);
 	return (0);
 }
 
