@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 18:12:15 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:44:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	// 	printf("%s\n", cmd->args[0]);
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		return (execute_env(envp));
-	// else if (!ft_strcmp(cmd->args[0], "exit"))
-	// 	printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "exit"))
+		printf("%s\n", cmd->args[0]);
 	return (0);
 }
 
@@ -85,8 +85,8 @@ char	*check_cmd(char **paths, char *cmd)
 
 void	put_error(char *msg)
 {
-	write(2, "Error\n", ft_strlen("ERROR\n"));
+	// write(2, "Error\n", ft_strlen("ERROR\n"));
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
-	exit(1);
+	// exit(1);
 }

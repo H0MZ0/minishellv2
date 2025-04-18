@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 18:13:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:22:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *str1, const char *str2);
 char	**get_paths(t_env *env_list);
 char	*check_cmd(char **paths, char *cmd);
+int		count_args(char **args);
 // char	*ft_strdup(char *str);
 
 //BUILT_IN
