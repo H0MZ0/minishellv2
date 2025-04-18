@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/17 17:09:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/18 13:52:24 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	execute_cd(t_cmd *cmd)
 	}
 	return (1);
 }
-
 
 void	execute_pwd(void)
 {
