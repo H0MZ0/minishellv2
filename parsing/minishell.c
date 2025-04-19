@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/19 16:23:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:58:57 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int main(int ac, char **av, char **envp)
         {
             f_cmd = build_cmd_list(cmd);
             // print_cmd_list(f_cmd);
-            execution_part(f_cmd, env_list, av, envp);
+            execution_part(f_cmd, env_list, envp);
         }
         // free_token_list(cmd); 
         // free(line);

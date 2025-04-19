@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 18:22:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:59:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minishell.h"
 
-void	execution_part(t_cmd *cmd_list, t_env *env_list, char **av, char **envp);
+void	execution_part(t_cmd *cmd_list, t_env *env_list, char **envp);
 void	print_arr(char **arr);
 void	free_arr(char **str);
 void	put_error(char *msg);

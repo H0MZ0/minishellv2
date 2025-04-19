@@ -6,17 +6,16 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/19 15:13:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:59:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	execution_part(t_cmd *f_cmd, t_env *env_list, char **av, char **envp)
+void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 {
 	char	**paths;
 	char	*cmd;
-	(void)av;
 
 	paths = get_paths(env_list);
 	if (is_builtin(f_cmd, env_list))
