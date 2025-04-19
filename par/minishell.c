@@ -6,20 +6,12 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/19 18:16:03 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:58:57 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int is_empty(char *line)
-{
-	if (line[0] == '\0')
-	{
-		return (1);
-	}
-	return 0;
-}
 int main(int ac, char **av, char **envp)
 {
     (void) ac;
@@ -29,9 +21,10 @@ int main(int ac, char **av, char **envp)
     t_env *env_list = NULL;
     t_token *cmd;
     t_cmd *f_cmd;
+    t_env *node;
     while (envp[i])
     {
-        t_env *node = env_copy(envp[i]);
+        node = env_copy(envp[i]);
         if (node)
             append_env(&env_list, node);
         i++;
@@ -40,7 +33,7 @@ int main(int ac, char **av, char **envp)
     // print_list(&env_list);
     while (1)
     {
-        line = readline("minishell$ ");
+        line = readline(CYAN "minishell$ " RESET);
         if (!line)
         {
             free(line);
@@ -52,13 +45,11 @@ int main(int ac, char **av, char **envp)
             continue;
         }
         add_history(line);
-
         int last = 0;
         cmd = tokenize_line(line, env_list, last);
         if (check_syntax(cmd))
         {
             f_cmd = build_cmd_list(cmd);
-            // parce_cmd(f_cmd);
             // print_cmd_list(f_cmd);
             execution_part(f_cmd, env_list, envp);
         }

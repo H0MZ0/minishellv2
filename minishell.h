@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/19 16:22:46 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:14:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ typedef enum e_token_type
 
 typedef struct s_cmd
 {
-	char			**args;
+	char				**args;
 	char			*infile;
 	char			*outfile;
 	int				append;
 	int				has_pipe;
+	char			*heredoc_delim;
+	int  			heredoc_expand;
 	struct s_cmd	*next;
 }	t_cmd;
 
