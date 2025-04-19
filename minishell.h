@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/16 17:08:49 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 16:22:46 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	char *value;
-	int type;
-	struct s_token *next;
+	char			*value;
+	int				type;
+	struct s_token	*next;
 }	t_token;
 
 typedef enum e_token_type
@@ -37,13 +37,14 @@ typedef enum e_token_type
 	HEREDOC
 }	t_token_type;
 
-typedef struct s_cmd {
-	char **args;
-	char *infile;
-	char *outfile;
-	int append;
-	int has_pipe;
-	struct s_cmd *next;
+typedef struct s_cmd
+{
+	char			**args;
+	char			*infile;
+	char			*outfile;
+	int				append;
+	int				has_pipe;
+	struct s_cmd	*next;
 }	t_cmd;
 
 # include <sys/types.h>
@@ -61,5 +62,14 @@ typedef struct s_cmd {
 # include "parsing/parsing.h"
 # include "execution/execution.h"
 
+# define RESET		"\x1b[0m"
+# define BLACK		"\x1b[30m"
+# define RED		"\x1b[31m"
+# define GREEN		"\x1b[32m"
+# define YELLOW		"\x1b[33m"
+# define BLUE		"\x1b[34m"
+# define MAGENTA	"\x1b[35m"
+# define CYAN		"\x1b[36m"
+# define WHITE		"\x1b[37m"
 
 #endif

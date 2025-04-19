@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 18:44:38 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:14:00 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*check_cmd(char **paths, char *cmd)
 	char	*command;
 	int		i;
 
-	if (!cmd || !paths)
+	if (!cmd || !paths || !paths[0])
 		return (NULL);
 	i = 0;
 	while (paths[i])

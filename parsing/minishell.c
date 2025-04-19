@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/16 15:26:19 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/19 16:23:33 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int main(int ac, char **av, char **envp)
     // print_list(&env_list);
     while (1)
     {
-        line = readline("minishell$ ");
+        line = readline(CYAN "minishell$ " RESET);
         if (!line)
         {
             free(line);
