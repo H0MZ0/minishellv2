@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/18 17:57:30 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:40:55 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ int get_token_length(char *line, int i)
         return 1;
     }
     while (line[i])
-    {
+    { 
         if (line[i] == '\'' && !in_double_quote)
             in_single_quote = !in_single_quote;
         else if (line[i] == '"' && !in_single_quote)
             in_double_quote = !in_double_quote;
+        else if(line[i] == '\\' && line[i + 1] == '"')
+        {
+            i += 1;
+        }
         else if (!in_single_quote && !in_double_quote)
         {
             if (ft_isspace(line[i]) || is_operator(line[i]))
@@ -108,6 +112,7 @@ t_token *tokenize_line(char *line, t_env *env, int last_exit_status)
             break;
 
         len = get_token_length(line, i);
+        // printf("len = %d\n", len);
         if(len == -1)
         {
             printf("syntax error: unclosed quote\n");

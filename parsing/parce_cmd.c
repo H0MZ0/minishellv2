@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/19 18:20:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:41:25 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ char *remove_quotes(const char *str)
             in_double_quote = !in_double_quote;
             i++;
         }
+        else if(str[i] == '\\' && str[i + 1] == '"')
+        {
+            i += 1;
+        }
         else
         {
             result[j++] = str[i++];
@@ -72,6 +76,7 @@ char *remove_quotes(const char *str)
 
 static void add_arg_to_cmd(t_cmd *cmd, char *arg)
 {
+    // printf("arg is %s\n", arg);
     arg = remove_quotes(arg);
     // printf("arg is %s\n", arg);
     int old_len = calculate_args(cmd);
