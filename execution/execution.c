@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/20 17:34:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:58:03 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 
 	if (path_cmd(f_cmd, envp))
 		return ;
-	printf("cmd not work\n");
 	paths = get_paths(env_list);
 	if (is_builtin(f_cmd, env_list))
 		return ;
