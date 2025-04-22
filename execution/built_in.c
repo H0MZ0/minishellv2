@@ -6,34 +6,18 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 11:51:06 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:58:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-int	is_valid_n_flag(char *arg)
-{
-	int	j;
-
-	j= 1;
-	if (arg[0] != '-' || arg[1] != 'n')
-		return (0);
-	while (arg[j])
-	{
-		if (arg[j] != 'n')
-			return (0);
-		j++;
-	}
-	return (1);
-}
 
 int	execute_echo(t_cmd *cmd)
 {
 	int	 (i), (n_flag);
 	i = 1;
 	n_flag = 0;
-	while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
+	while (cmd->args[i] && is_new_line(cmd->args[i]))
 	{
 		n_flag = 1;
 		i++;
@@ -49,7 +33,6 @@ int	execute_echo(t_cmd *cmd)
 		printf("\n");
 	return (1);
 }
-
 
 int	execute_cd(t_cmd *cmd)
 {

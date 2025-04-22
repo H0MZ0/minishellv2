@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 09:14:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:17:19 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 	char	*cmd;
 	t_cmd	*tmp;
 
+	// print_list_env(&env_list);
+	print_this(&env_list, "OLDPWD");
+	// print_this(&env_list, "PWD");
 	if (path_cmd(f_cmd, envp))
 		return ;
 	paths = get_paths(env_list);

@@ -6,11 +6,26 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:53 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/19 17:57:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:17:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+void	print_this(t_env **env_list, char *sch)
+{
+	t_env	*tmp;
+	int	i;
+
+	i = 0;
+	tmp = *env_list;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, sch) == 0)
+			printf("key = %s, value = %s", tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+}
 
 void    print_arr(char **arr)
 {
