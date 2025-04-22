@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:40:55 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:15:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ int get_token_length(char *line, int i)
     while (line[i] && ft_isspace(line[i]))
         i++;
     start = i;
-
-    if (is_operator(line[i]))
+    if (line[i] == ';')
+    {
+        if(line[i + 1] == ';')
+            return (-2);
+        return 1;
+    }
+    else if (is_operator(line[i]))
     {
         if (is_operator(line[i + 1]) && line[i] == line[i + 1] && line[i] != '|')
             return 2;
@@ -65,10 +70,18 @@ int get_token_length(char *line, int i)
             in_single_quote = !in_single_quote;
         else if (line[i] == '"' && !in_single_quote)
             in_double_quote = !in_double_quote;
-        else if(line[i] == '\\' && line[i + 1] == '"')
+        else if(line[i] == '\\' )
         {
-            i += 1;
+            if (!line[i + 1])
+                return(-3);
+            else if(line[i + 1] == '"')
+            {
+                in_double_quote = 0;
+                i += 2;
+            }
         }
+        if (line[i] == ';') 
+            break;
         else if (!in_single_quote && !in_double_quote)
         {
             if (ft_isspace(line[i]) || is_operator(line[i]))
@@ -94,6 +107,8 @@ t_token_type get_token_type(char *str)
         return REDIR_IN;
     if (!strcmp(str, "<<"))
         return HEREDOC;
+    if (!strcmp(str, ";"))
+        return SEMICOLON;    
     return WORD;
 }
 
@@ -110,12 +125,17 @@ t_token *tokenize_line(char *line, t_env *env, int last_exit_status)
             i++;
         if (!line[i])
             break;
-
+        
         len = get_token_length(line, i);
-        // printf("len = %d\n", len);
-        if(len == -1)
+
+        if(len < 0)
         {
-            printf("syntax error: unclosed quote\n");
+            if(len == (-1))
+                printf("syntax error: unclosed quote\n");
+            else if(len == (-2))
+                printf("syntax error near `;;'\n");
+            else if(len == (-3))
+                printf("syntax error near `\\'\n");
             return 0;
         }
         token_str = strndup(line + i, len);

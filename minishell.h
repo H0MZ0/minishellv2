@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/20 16:38:10 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/22 09:25:13 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef enum e_token_type
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
-	HEREDOC
+	HEREDOC,
+    SEMICOLON
 }	t_token_type;
 
 typedef struct s_cmd
@@ -48,6 +49,15 @@ typedef struct s_cmd
 	int  			heredoc_expand;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef	struct s_mini
+{
+	t_cmd	*cmd;
+	t_token	*token;
+	t_env	*env;
+	int		exit_code;
+}	t_mini;
+
 
 # include <sys/types.h>
 # include <sys/wait.h>

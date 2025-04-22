@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:41:25 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:18:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,15 @@ char *remove_quotes(const char *str)
             in_double_quote = !in_double_quote;
             i++;
         }
-        else if(str[i] == '\\' && str[i + 1] == '"')
+        else if(str[i] == '\\' )
         {
-            i += 1;
+            if(!in_double_quote)
+                i += 1;
+            else if(str[i + 1] == '"')
+            {
+                in_double_quote = 0;
+                i += 1;
+            }
         }
         else
         {
@@ -165,6 +171,12 @@ t_cmd *build_cmd_list(t_token *tokens)
         if (current->type == PIPE)
         {
             current_cmd->has_pipe = 1;
+            add_cmd_to_list(&cmd_list, current_cmd);
+            current_cmd = create_cmd();
+        }
+        else if (current->type == SEMICOLON )
+        {
+            // printf("here");
             add_cmd_to_list(&cmd_list, current_cmd);
             current_cmd = create_cmd();
         }

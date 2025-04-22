@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/18 18:27:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 09:26:51 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,9 @@ int	execute_env(t_env *envp)
 	}
 	return (1);
 }
-// void	execute_exit(void)
+
+void	execute_exit(int exit_code)
+{
+	//all_free_function
+	exit (exit_code);
+}
