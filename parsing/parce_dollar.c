@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:30:59 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/24 22:48:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char *replace_var_in_string(char *src, int var_start, int var_len, char *value)
 	int after_len = ft_strlen(src + var_start + var_len + 1);
 	int total_len = before_len + value_len + after_len;
 
-	char *new_str = malloc(total_len + 1);
+	char *new_str = ft_malloc(total_len + 1);
 	if (!new_str)
 		return (NULL);
 

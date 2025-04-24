@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:08:35 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:30:49 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/24 22:48:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char *key(char *str)
     while (str[i] && str[i] != '=')
         i++;
 
-    char *key = malloc(i + 1);
+    char *key = ft_malloc(i + 1);
     if (!key)
         return NULL;
 
@@ -47,7 +47,7 @@ char *value(char *str)
     while (str[i + len])
         len++;
 
-    char *value = malloc(len + 1);
+    char *value = ft_malloc(len + 1);
     if (!value)
         return NULL;
 
@@ -64,7 +64,7 @@ char *value(char *str)
 
 t_env *env_copy(char *content)
 {
-    t_env *new_node = malloc(sizeof(t_env));
+    t_env *new_node = ft_malloc(sizeof(t_env));
     if (!new_node)
         return NULL;
 

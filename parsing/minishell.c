@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/24 18:50:37 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 22:51:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int main(int ac, char **av, char **envp)
     }
 
     free_env_list(env_list);
+    ft_free_all();
     return 0;
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/23 16:15:35 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/24 22:48:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token *create_token(char *str, t_token_type type)
 {
     t_token *new_token;
 
-    new_token = malloc(sizeof(t_token));
+    new_token = ft_malloc(sizeof(t_token));
     if (!new_token)
         return (NULL);
     new_token->value = ft_strdup(str);
