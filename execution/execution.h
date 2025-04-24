@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 12:17:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:38:33 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	print_this(t_env **env_list, char *sch);
 int		is_builtin(t_cmd *cmd, t_env *envp);
 int		execute_echo(t_cmd *cmd);
 int 	execute_pwd(void);
-int		execute_cd(t_cmd *cmd);
+int	    execute_cd(t_cmd *cmd, t_env **env_list);
 int		execute_env(t_env *envp);
 
 //BUILT_IN_HELPERS
-int	is_new_line(char *arg);
+int 	is_new_line(char *arg);
+void	env_path(t_env **env_list, t_cmd *cmd);
 
 #endif

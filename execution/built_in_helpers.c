@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:57:53 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 11:58:39 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:41:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,12 @@ int	is_new_line(char *arg)
 	return (1);
 }
 
+void	env_path(t_env **env_list, t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd->args[1])
+		print_this(env_list, "HOME");
+	
+}

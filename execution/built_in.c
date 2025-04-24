@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 11:58:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:37:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int	execute_echo(t_cmd *cmd)
 	return (1);
 }
 
-int	execute_cd(t_cmd *cmd)
+int	execute_cd(t_cmd *cmd, t_env **env)
 {
+	env_path(env, cmd);
 	if (count_args(cmd->args) > 2)
 	{
 		put_error("cd: too many arguments");
