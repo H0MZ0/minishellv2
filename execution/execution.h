@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 12:38:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:19:05 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define EXECUTION_H
 
 # include "../minishell.h"
+
+typedef struct s_memblock {
+    void *ptr;
+    struct s_memblock *next;
+} t_memblock;
 
 void	execution_part(t_cmd *cmd_list, t_env *env_list, char **envp);
 void	print_arr(char **arr);
@@ -41,5 +46,9 @@ int		execute_env(t_env *envp);
 //BUILT_IN_HELPERS
 int 	is_new_line(char *arg);
 void	env_path(t_env **env_list, t_cmd *cmd);
+//FREE
+void    *ft_malloc(size_t size);
+void    ft_free_all(void);
+
 
 #endif

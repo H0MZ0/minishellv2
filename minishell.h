@@ -6,12 +6,13 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 18:59:18 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:12:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 //EXIT_STATUS
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1

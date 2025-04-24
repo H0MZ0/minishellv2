@@ -6,7 +6,8 @@
     "wait.h": "c",
     "types.h": "c",
     "history.h": "c",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "execution.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
