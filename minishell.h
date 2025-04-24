@@ -6,12 +6,17 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 09:25:13 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:59:18 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+//EXIT_STATUS
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
+# define EXIT_CMD_NOT_FOUND 127
+# define EXIT_INVALID_ARGS 2
 
 typedef struct s_env
 {
@@ -29,14 +34,15 @@ typedef struct s_token
 
 typedef enum e_token_type
 {
-	WORD,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	APPEND,
-	HEREDOC,
+    WORD,
+    PIPE,
+    REDIR_OUT,
+    REDIR_IN,
+    APPEND,
+    HEREDOC,
     SEMICOLON
-}	t_token_type;
+} t_token_type;
+
 
 typedef struct s_cmd
 {
@@ -49,15 +55,6 @@ typedef struct s_cmd
 	int  			heredoc_expand;
 	struct s_cmd	*next;
 }	t_cmd;
-
-typedef	struct s_mini
-{
-	t_cmd	*cmd;
-	t_token	*token;
-	t_env	*env;
-	int		exit_code;
-}	t_mini;
-
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -73,6 +70,7 @@ typedef	struct s_mini
 # include "libft/libft.h"
 # include "parsing/parsing.h"
 # include "execution/execution.h"
+# include <signal.h>
 
 # define RESET		"\x1b[0m"
 # define BLACK		"\x1b[30m"

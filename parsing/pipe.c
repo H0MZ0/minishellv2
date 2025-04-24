@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:31:01 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:22:50 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void pipex(t_cmd *cmd, char **envp)
 	pid1 = fork();
 	if (pid1 == 0)
 	{
+		set_child_signals();
+
 		if (cmd->infile)
 		{
 			int fd_in = open(cmd->infile, O_RDONLY);
@@ -38,8 +40,8 @@ void pipex(t_cmd *cmd, char **envp)
 			close(fd_in);
 		}
 
-		dup2(pipe_fd[1], STDOUT_FILENO); 
-		close(pipe_fd[0]); 
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 
 		execve(cmd->args[0], cmd->args, envp);
@@ -47,38 +49,41 @@ void pipex(t_cmd *cmd, char **envp)
 		exit(1);
 	}
 
+
 	pid2 = fork();
 	if (pid2 == 0)
+{
+	set_child_signals(); 
+
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+
+	t_cmd *next_cmd = cmd->next;
+
+	if (next_cmd->outfile)
 	{
-		dup2(pipe_fd[0], STDIN_FILENO); 
-		close(pipe_fd[1]); 
-		close(pipe_fd[0]); 
+		int flags = O_WRONLY | O_CREAT;
+		if (next_cmd->append)
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
 
-		t_cmd *next_cmd = cmd->next;
-
-		if (next_cmd->outfile)
+		int fd_out = open(next_cmd->outfile, flags, 0644);
+		if (fd_out < 0)
 		{
-			int flags = O_WRONLY | O_CREAT;
-            if (next_cmd->append)
-                flags |= O_APPEND;
-            else
-                flags |= O_TRUNC;
-
-            int fd_out = open(next_cmd->outfile, flags, 0644);
-
-			if (fd_out < 0)
-			{
-				perror("open outfile");
-				exit(1);
-			}
-			dup2(fd_out, STDOUT_FILENO);
-			close(fd_out);
+			perror("open outfile");
+			exit(1);
 		}
-
-		execve(next_cmd->args[0], next_cmd->args, envp);
-		perror("execve");
-		exit(1);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
 	}
+
+	execve(next_cmd->args[0], next_cmd->args, envp);
+	perror("execve");
+	exit(1);
+}
+
 
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);

@@ -6,12 +6,31 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 16:37:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:53:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+int	is_builtin(t_cmd *cmd, t_env *envp)
+{
+	if (!ft_strcmp(cmd->args[0], "cd"))
+		return (execute_cd(cmd, &envp));
+	else if (!ft_strcmp(cmd->args[0], "echo"))
+		return (execute_echo(cmd));
+	else if (!ft_strcmp(cmd->args[0], "pwd"))
+		return (execute_pwd());
+	else if (!ft_strcmp(cmd->args[0], "export"))
+		printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "unset"))
+		printf("%s\n", cmd->args[0]);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		return (execute_env(envp));
+	else if (!ft_strcmp(cmd->args[0], "exit"))
+		printf("%s\n", cmd->args[0]);
+	return (0);
+}
+/*GOOD*/
 int	execute_echo(t_cmd *cmd)
 {
 	int	 (i), (n_flag);
@@ -55,25 +74,27 @@ int	execute_cd(t_cmd *cmd, t_env **env)
 	return (1);
 }
 
+/*GOOD*/
 int	execute_pwd(void)
 {
-	char	buffer[1024];
-	if (getcwd(buffer, sizeof(buffer)))
+	char	buffer[PATH_MAX];
+
+	if (getcwd(buffer, sizeof(buffer)) != NULL)
 		printf("%s\n", buffer);
 	else
-		perror("pwd");
+		perror("minishell: pwd");
 	return (1);
 }
 
-// void	execute_export(void)
-// void	execute_unset(void)
+
+/*GOOD*/
 int	execute_env(t_env *envp)
 {
 	t_env *tmp = envp;
-
+	
 	while (tmp)
 	{
-		printf("%s%s\n", tmp->key, tmp->value);
+		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -84,3 +105,11 @@ void	execute_exit(int exit_code)
 	//all_free_function
 	exit (exit_code);
 }
+
+
+
+
+
+
+// void	execute_export(void)
+// void	execute_unset(void)

@@ -9,11 +9,12 @@ HEADER =  execution/execution.h parsing/parsing.h minishell.h
 
 PRS_FILES = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing/handel_error.c \
 			parsing/parce_cmd.c parsing/env_copy.c parsing/free_all.c parsing/print_lists.c \
-			parsing/pipe.c
+			parsing/pipe.c parsing/signals.c
 
 EXC_FILES = execution/tools_1.c execution/tools_2.c execution/ft_split.c \
-			execution/built_in.c execution/ft_free.c execution/execution.c \
-			execution/built_in_helpers.c
+			execution/built_in.c execution/built_in_helpers.c execution/ft_free.c \
+			execution/ft_strjoin.c execution/execution.c execution/in_out.c
+
 
 POBJ_FILES = $(PRS_FILES:.c=.o)
 EOBJ_FILES = $(EXC_FILES:.c=.o)

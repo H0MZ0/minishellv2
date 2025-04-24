@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/21 19:15:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:15:35 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,56 +45,76 @@ void append_token(t_token **head, t_token *new)
 
 int get_token_length(char *line, int i)
 {
-    int start = i;
+    int start;
     int in_single_quote = 0;
     int in_double_quote = 0;
 
     while (line[i] && ft_isspace(line[i]))
         i++;
     start = i;
+
     if (line[i] == ';')
     {
-        if(line[i + 1] == ';')
-            return (-2);
+        if (line[i + 1] == ';')
+            return -2;
         return 1;
     }
-    else if (is_operator(line[i]))
+    if (is_operator(line[i]))
     {
         if (is_operator(line[i + 1]) && line[i] == line[i + 1] && line[i] != '|')
             return 2;
         return 1;
     }
+
     while (line[i])
-    { 
+    {
+        if (line[i] == '`')
+            return -4;
         if (line[i] == '\'' && !in_double_quote)
-            in_single_quote = !in_single_quote;
-        else if (line[i] == '"' && !in_single_quote)
-            in_double_quote = !in_double_quote;
-        else if(line[i] == '\\' )
         {
-            if (!line[i + 1])
-                return(-3);
-            else if(line[i + 1] == '"')
+            in_single_quote = !in_single_quote;
+            i++;
+        }
+        else if (line[i] == '"' && !in_single_quote)
+        {
+            in_double_quote = !in_double_quote;
+            i++;
+        }
+        else if (line[i] == '\\')
+        {
+            if (in_single_quote)
             {
-                in_double_quote = 0;
+                i++;
+            }
+            else if (in_double_quote)
+            {
+                if (line[i + 1] == '"' || line[i + 1] == '\\' || line[i + 1] == '$' || line[i + 1] == '`')
+                    i += 2;
+                else
+                    i++;
+            }
+            else
+            {
+                if (!line[i + 1])
+                    return -3;
                 i += 2;
             }
         }
-        if (line[i] == ';') 
-            break;
-        else if (!in_single_quote && !in_double_quote)
+        else
         {
-            if (ft_isspace(line[i]) || is_operator(line[i]))
-                break;
+            if (!in_single_quote && !in_double_quote)
+            {
+                if (line[i] == ';' || ft_isspace(line[i]) || is_operator(line[i]))
+                    break;
+            }
+            i++;
         }
-        i++;
     }
     if (in_single_quote || in_double_quote)
         return -1;
+
     return i - start;
 }
-
-
 t_token_type get_token_type(char *str)
 {
     if (!strcmp(str, "|"))
@@ -136,6 +156,9 @@ t_token *tokenize_line(char *line, t_env *env, int last_exit_status)
                 printf("syntax error near `;;'\n");
             else if(len == (-3))
                 printf("syntax error near `\\'\n");
+            else if(len == (-4))
+                printf("syntax error near ``'\n");
+            free_token_list(head);
             return 0;
         }
         token_str = strndup(line + i, len);
@@ -151,7 +174,6 @@ t_token *tokenize_line(char *line, t_env *env, int last_exit_status)
         {
             append_token(&head, create_token(token_str, type));
         }
-
         free(token_str);
         i += len;
     }

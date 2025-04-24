@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/22 09:11:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:50:37 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ int main(int ac, char **av, char **envp)
 {
     (void) ac;
     (void) av;
+
     char *line;
     int i = 0;
     t_env *env_list = NULL;
-    t_token *cmd;
-    t_cmd *f_cmd;
+    t_token *cmd = NULL;
+    t_cmd *f_cmd = NULL;
+
     while (envp[i])
     {
         t_env *node = env_copy(envp[i]);
@@ -36,35 +38,48 @@ int main(int ac, char **av, char **envp)
             append_env(&env_list, node);
         i++;
     }
-    // print_list_env(&env_list);
-    // print_list(&env_list);
+
     mini_display();
+
     while (1)
     {
+        set_prompt_signals();
         line = readline(CYAN "minishell$ " RESET);
+
         if (!line)
         {
-            free(line);
-            exit(1);
+            free(line); 
+            free_env_list(env_list);
+            exit(0);
         }
+
         if (is_empty(line))
         {
             free(line);
             continue;
         }
+
         add_history(line);
 
         int last = 0;
         cmd = tokenize_line(line, env_list, last);
-        if (check_syntax(cmd))
+        if (cmd && check_syntax(cmd))
         {
             f_cmd = build_cmd_list(cmd);
-            // parce_cmd(f_cmd);
-            // print_cmd_list(f_cmd);
-            execution_part(f_cmd, env_list, envp);
+            if (f_cmd)
+            {
+                // print_cmd_list(f_cmd);
+                // parce_cmd(f_cmd);
+                execution_part(f_cmd, env_list, envp);
+                // free_cmd_list(f_cmd);
+            }
         }
-        // free_token_list(cmd); 
-        // free(line);
+
+        // free_token_list(cmd);
+        free(line);        
     }
-    return (0);
+
+    free_env_list(env_list);
+    return 0;
 }
+

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 12:32:26 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:52:52 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,6 @@ char	**get_paths(t_env *env_list)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-int	is_builtin(t_cmd *cmd, t_env *envp)
-{
-	if (!ft_strcmp(cmd->args[0], "cd"))
-		return (execute_cd(cmd, &envp));
-	else if (!ft_strcmp(cmd->args[0], "echo"))
-		return (execute_echo(cmd));
-	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		return (execute_pwd());
-	// else if (!ft_strcmp(cmd->args[0], "export"))
-	// 	printf("%s\n", cmd->args[0]);
-	// else if (!ft_strcmp(cmd->args[0], "unset"))
-	// 	printf("%s\n", cmd->args[0]);
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		return (execute_env(envp));
-	else if (!ft_strcmp(cmd->args[0], "exit"))
-		printf("%s\n", cmd->args[0]);
-	return (0);
 }
 
 char	*check_cmd(char **paths, char *cmd)
