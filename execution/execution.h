@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 16:33:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:49:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTION_H
 
 # include "../minishell.h"
+# include "../libft/libft.h"
 
 typedef struct s_memblock {
     void *ptr;
@@ -56,7 +57,10 @@ int 	is_new_line(char *arg);
 void	env_path(t_env **env_list, t_cmd *cmd);
 //FREE
 void    *ft_malloc(size_t size);
-void    ft_free_all(void);
+void	free_all(void);
 
+//IN_OUT
+void	outfile(const char *filename);
+void	infile(const char *filename);
 
 #endif

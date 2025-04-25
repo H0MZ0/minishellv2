@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_out.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:06:12 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 18:45:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:46:02 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,8 @@ void	outfile(const char *filename)
 	}
 	close(fd_out);
 }
+
+	// int main()
+	// {
+	// 	outfile(getcwd(NULL, 0));
+	// }

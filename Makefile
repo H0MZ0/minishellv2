@@ -15,7 +15,7 @@ EXC_FILES = execution/tools_1.c execution/tools_2.c execution/ft_split.c \
 			execution/ft_free.c execution/ft_strjoin.c execution/execution.c \
 			execution/in_out.c execution/builtin/built_in.c \
 			execution/builtin/exp_uns.c execution/builtin/expuns_utils1.c \
-			execution/builtin/expuns_utils2.c
+			execution/builtin/expuns_utils2.c execution/ft_malloc.c
 
 
 POBJ_FILES = $(PRS_FILES:.c=.o)

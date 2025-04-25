@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:17:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:50:10 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 	char	*cmd;
 	t_cmd	*tmp;
 
-	// print_list_env(&env_list);
-	// print_this(&env_list, "OLDPWD");
-	// printf("\n");
-	// print_this(&env_list, "PWD");
-	// printf("\n");
 	if (path_cmd(f_cmd, envp))
 		return ;
 	paths = get_paths(env_list);
@@ -55,7 +50,13 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 		{
 			pid_t	pid = fork();
 			if (pid == 0)
+			{
+				if (f_cmd->infile != NULL)
+					infile(f_cmd->infile);
+				if (f_cmd->outfile != NULL)
+					outfile(f_cmd->outfile);
 				execve(cmd, &f_cmd->args[0], envp);
+			}
 			else
 				waitpid(pid, NULL, 0);
 			free(cmd);
