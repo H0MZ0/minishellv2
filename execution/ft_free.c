@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:50:31 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 01:42:45 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:33:29 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	free_arr(char **str)
 	}
 	free (str);
 }
+
+
 
 t_memblock *g_alloc_list = NULL;
 
