@@ -6,11 +6,11 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:17:31 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 02:53:48 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../execution.h"
 
 int	is_builtin(t_cmd *cmd, t_env *envp)
 {
@@ -30,7 +30,7 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 		execute_exit();
 	return (0);
 }
-/*GOOD*/
+
 int	execute_echo(t_cmd *cmd)
 {
 	int	 (i), (n_flag);
@@ -53,7 +53,6 @@ int	execute_echo(t_cmd *cmd)
 	return (1);
 }
 
-/*GOOD*/
 int	execute_pwd(void)
 {
 	char	*cwd = getcwd(NULL, 0);
@@ -68,7 +67,6 @@ int	execute_pwd(void)
 	return (1);
 }
 
-/*GOOD*/
 int	execute_env(t_env *envp)
 {
 	t_env *tmp = envp;
@@ -79,12 +77,6 @@ int	execute_env(t_env *envp)
 		tmp = tmp->next;
 	}
 	return (1);
-}
-
-void	execute_exit(void)
-{
-	ft_free_all();
-	exit (1);
 }
 
 int	execute_cd(t_cmd *cmd, t_env **env)
@@ -107,6 +99,3 @@ int	execute_cd(t_cmd *cmd, t_env **env)
 	}
 	return (1);
 }
-
-// void	execute_export(void)
-// void	execute_unset(void)
