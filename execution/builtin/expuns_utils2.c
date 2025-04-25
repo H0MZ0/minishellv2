@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expuns_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:53:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:41:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	is_new_line(char *arg)
 
 void	env_path(t_env **env_list, t_cmd *cmd)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (!cmd->args[1])
 		print_this(env_list, "HOME");
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 18:52:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:34:33 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	ft_strcmp(const char *str1, const char *str2)
 
 char	**get_paths(t_env *env_list)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	t_env	*tmp;
 
 	tmp = env_list;

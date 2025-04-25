@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:32:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:33:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	    execute_cd(t_cmd *cmd, t_env **env_list);
 int		execute_env(t_env *envp);
 void	execute_exit(void);
 //EXPORT
-int	execute_export(t_cmd *cmd, t_env **envp);
-int	is_valid_key(const char *str);
+int	    execute_export(t_cmd *cmd, t_env **envp);
+int	    is_valid_key(const char *str);
 t_env	*find_env(t_env *env, const char *key);
 char	*extract_key(const char *str);
 char	*extract_value(const char *str);

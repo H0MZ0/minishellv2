@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:53 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 12:17:28 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:34:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	print_this(t_env **env_list, char *sch)
 {
 	t_env	*tmp;
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	tmp = *env_list;
 	while (tmp)
 	{
