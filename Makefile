@@ -14,8 +14,8 @@ PRS_FILES = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing
 EXC_FILES = execution/tools_1.c execution/tools_2.c execution/ft_split.c \
 			execution/built_in.c execution/built_in_helpers.c execution/ft_free.c \
 			execution/ft_strjoin.c execution/execution.c execution/in_out.c \
-			execution/free.c
-
+			execution/builtin_export.c	execution/builtin_export_utils.c \
+			execution/builtin_export_exec.c
 
 POBJ_FILES = $(PRS_FILES:.c=.o)
 EOBJ_FILES = $(EXC_FILES:.c=.o)

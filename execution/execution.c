@@ -6,11 +6,12 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/22 16:43:50 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 02:17:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
 int	path_cmd(t_cmd *f_cmd, char **envp)
 {
 	if (f_cmd->args[0][0] == '/')

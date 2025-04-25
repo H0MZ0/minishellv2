@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 22:53:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/25 02:17:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
 		return (execute_pwd());
 	else if (!ft_strcmp(cmd->args[0], "export"))
-		printf("%s\n", cmd->args[0]);
+		execute_export(cmd, &envp);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
 		printf("%s\n", cmd->args[0]);
 	else if (!ft_strcmp(cmd->args[0], "env"))
@@ -53,39 +53,20 @@ int	execute_echo(t_cmd *cmd)
 	return (1);
 }
 
-int	execute_cd(t_cmd *cmd, t_env **env)
-{
-	env_path(env, cmd);
-	if (count_args(cmd->args) > 2)
-	{
-		put_error("cd: too many arguments");
-		return (1);
-	}
-	if (!cmd->args[1])
-	{
-		if (chdir(getenv("HOME")) == -1)
-			perror("cd");
-	}
-	else
-	{
-		if (chdir(cmd->args[1]) == -1)
-			perror("cd");
-	}
-	return (1);
-}
-
 /*GOOD*/
 int	execute_pwd(void)
 {
-	char	buffer[PATH_MAX];
+	char	*cwd = getcwd(NULL, 0);
 
-	if (getcwd(buffer, sizeof(buffer)) != NULL)
-		printf("%s\n", buffer);
+	if (cwd)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+	}
 	else
-		perror("minishell: pwd");
+		perror("pwd");
 	return (1);
 }
-
 
 /*GOOD*/
 int	execute_env(t_env *envp)
@@ -106,10 +87,26 @@ void	execute_exit(void)
 	exit (1);
 }
 
-
-
-
-
+int	execute_cd(t_cmd *cmd, t_env **env)
+{
+	env_path(env, cmd);
+	if (count_args(cmd->args) > 2)
+	{
+		put_error("cd: too many arguments");
+		return (1);
+	}
+	if (!cmd->args[1])
+	{
+		if (chdir(getenv("HOME")) == -1)
+			perror("cd");
+	}
+	else
+	{
+		if (chdir(cmd->args[1]) == -1)
+			perror("cd");
+	}
+	return (1);
+}
 
 // void	execute_export(void)
 // void	execute_unset(void)
