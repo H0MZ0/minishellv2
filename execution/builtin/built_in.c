@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:53:48 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/26 17:45:46 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,31 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	return (0);
 }
 
+int	open_and_write(t_cmd *cmd, int flag)
+{
+	(void)flag;
+	int	i;
+	int	fd;
+
+	printf("%s\n", cmd->outfile);
+	fd = open(cmd->outfile, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+	{
+		perror("fd");
+		return (1);
+	}
+	i = 1;
+	while (cmd->args[i])
+	{
+		write(fd, cmd->args[i], ft_strlen(cmd->args[i]));
+		write(fd, "\n", 1);
+		i++;
+	}
+	close(fd);
+	return (1);
+}
+
+
 int	execute_echo(t_cmd *cmd)
 {
 	int	 (i), (n_flag);
@@ -41,8 +66,11 @@ int	execute_echo(t_cmd *cmd)
 		n_flag = 1;
 		i++;
 	}
+	if (cmd->infile || cmd->outfile)
+		return (open_and_write(cmd, n_flag));
 	while (cmd->args[i])
 	{
+		
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
