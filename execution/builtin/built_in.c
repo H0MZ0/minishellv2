@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/26 17:45:46 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/26 17:55:53 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 
 int	open_and_write(t_cmd *cmd, int flag)
 {
-	(void)flag;
 	int	i;
 	int	fd;
 
-	printf("%s\n", cmd->outfile);
 	fd = open(cmd->outfile, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
 	{
@@ -45,16 +43,20 @@ int	open_and_write(t_cmd *cmd, int flag)
 		return (1);
 	}
 	i = 1;
+	if (flag)
+		i++;
 	while (cmd->args[i])
 	{
 		write(fd, cmd->args[i], ft_strlen(cmd->args[i]));
-		write(fd, "\n", 1);
+		if (cmd->args[i + 1])
+			write (fd, " ", 1);
 		i++;
 	}
+	if (!flag)
+		write (fd, "\n", 1);
 	close(fd);
 	return (1);
 }
-
 
 int	execute_echo(t_cmd *cmd)
 {
