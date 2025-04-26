@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 18:49:04 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:14:23 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,9 @@ void	free_all(void);
 //IN_OUT
 void	outfile(const char *filename);
 void	infile(const char *filename);
+
+//ECHO
+int	execute_echo(t_cmd *cmd);
+int	open_and_write(t_cmd *cmd, int flag, int index);
 
 #endif
