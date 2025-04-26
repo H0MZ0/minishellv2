@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 19:12:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/26 16:40:27 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct s_token
 
 typedef enum e_token_type
 {
-    WORD,
-    PIPE,
-    REDIR_OUT,
-    REDIR_IN,
-    APPEND,
-    HEREDOC,
-    SEMICOLON
+	WORD,
+	PIPE,
+	REDIR_OUT,
+	REDIR_IN,
+	APPEND,
+	HEREDOC,
+	SEMICOLON
 } t_token_type;
 
 
