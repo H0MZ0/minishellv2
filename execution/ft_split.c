@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 11:31:39 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/24 22:49:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:01:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	j = 0;
 	nword = count_word((char *)s, c);
-	ptr = (char **)ft_malloc((nword + 1) * sizeof(char *));
+	ptr = (char **)malloc((nword + 1) * sizeof(char *));
 	if (!ptr)
 		return (NULL);
 	while (i < nword)

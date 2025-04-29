@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 18:50:10 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:06:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 		f_cmd = f_cmd->next;
 		free (tmp);
 	}
-	free_arr(paths);
+	// free_arr(paths);
 }

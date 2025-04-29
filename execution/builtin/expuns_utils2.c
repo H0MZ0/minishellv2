@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expuns_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 17:49:02 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:02:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	env_path(t_env **env_list, t_cmd *cmd)
 void	execute_exit(void)
 {
 	printf("exit\n");
-	free_all();
+	// free_all();
 	exit (1);
 }

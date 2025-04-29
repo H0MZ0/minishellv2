@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/24 22:48:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:02:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_cmd *create_cmd()
 {
-    t_cmd *new_cmd = ft_malloc(sizeof(t_cmd));
+    t_cmd *new_cmd = malloc(sizeof(t_cmd));
     if (!new_cmd)
         return NULL;
 
@@ -44,7 +44,7 @@ char *remove_quotes(const char *str)
 {
     int i = 0, j = 0;
     int in_single_quote = 0, in_double_quote = 0;
-    char *result = ft_malloc(ft_strlen(str) + 1);
+    char *result = malloc(ft_strlen(str) + 1);
     if (!result)
         return NULL;
 
@@ -111,7 +111,7 @@ static void add_arg_to_cmd(t_cmd *cmd, char *arg)
     arg = remove_quotes(arg);
     // printf("arg is %s\n", arg);
     int old_len = calculate_args(cmd);
-    char **args = ft_malloc(sizeof(char *) * (old_len + 2));
+    char **args = malloc(sizeof(char *) * (old_len + 2));
     if (!args)
         return;
     int i = 0;

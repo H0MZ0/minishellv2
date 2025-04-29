@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 10:45:36 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:46:05 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,9 @@
 # include "../minishell.h"
 # include "../libft/libft.h"
 
-typedef struct s_alloc
-{
-    void *ptr;
-    struct s_alloc *next;
-} t_alloc;
-
 void	execution_part(t_cmd *cmd_list, t_env *env_list, char **envp);
 void	print_arr(char **arr);
-void	free_arr(char **str);
+// void	free_arr(char **str);
 void	put_error(char *msg);
 char	**ft_split(char const *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -57,8 +51,8 @@ void	remove_env_var(t_env **envp, const char *key);
 int 	is_new_line(char *arg);
 void	env_path(t_env **env_list, t_cmd *cmd);
 //FREE
-void    *ft_malloc(size_t size, t_alloc *alloc_list);
-void    free_all(t_alloc *alloc_list);
+void    *ft_malloc(size_t size, t_list *alloc_list);
+void    free_all(t_list *alloc_list);
 
 //IN_OUT
 void	outfile(const char *filename);
