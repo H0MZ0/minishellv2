@@ -11,8 +11,8 @@ PRS_FILES = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing
 			parsing/parce_cmd.c parsing/env_copy.c parsing/free_all.c parsing/print_lists.c \
 			parsing/pipe.c parsing/signals.c
 
-EXC_FILES = execution/tools_1.c execution/tools_2.c execution/ft_split.c \
-			execution/ft_strjoin.c execution/execution.c \
+EXC_FILES = execution/tools_1.c execution/tools_2.c \
+			execution/execution.c \
 			execution/in_out.c execution/builtin/built_in.c \
 			execution/builtin/exp_uns.c execution/builtin/expuns_utils1.c \
 			execution/builtin/expuns_utils2.c execution/ft_malloc.c \
