@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 16:34:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:15:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *str1, const char *str2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str1 || !str2)
@@ -30,16 +30,13 @@ int	ft_strcmp(const char *str1, const char *str2)
 
 char	**get_paths(t_env *env_list)
 {
-	// int	i;
-
-	// i = 0;
 	t_env	*tmp;
 
 	tmp = env_list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, "PATH") == 0)
-			return(ft_split(tmp->value, ':'));
+			return (ft_split(tmp->value, ':'));
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -67,8 +64,6 @@ char	*check_cmd(char **paths, char *cmd)
 
 void	put_error(char *msg)
 {
-	// write(2, "Error\n", ft_strlen("ERROR\n"));
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
-	// exit(1);
 }

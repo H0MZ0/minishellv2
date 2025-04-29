@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:53 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 16:34:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:15:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	print_this(t_env **env_list, char *sch)
 {
 	t_env	*tmp;
-	// int	i;
 
-	// i = 0;
 	tmp = *env_list;
 	while (tmp)
 	{
@@ -27,9 +25,9 @@ void	print_this(t_env **env_list, char *sch)
 	}
 }
 
-void    print_arr(char **arr)
+void	print_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!arr)
@@ -37,13 +35,13 @@ void    print_arr(char **arr)
 	while (arr[i])
 	{
 		printf("%s", arr[i]);
-			if (arr[i + 1])
-				printf(" ");
+		if (arr[i + 1])
+			printf(" ");
 		i++;
 	}
 }
 
-int		count_args(char **args)
+int	count_args(char **args)
 {
 	int	i;
 
@@ -57,9 +55,9 @@ int		count_args(char **args)
 
 void	mini_display(void)
 {
-	printf (GREEN"\n  ____  ____  _          _ _\n"
+	printf(GREEN"\n  ____  ____  _          _ _\n"
 		" | ___|/ ___|| |__   ___| | |\n"
 		" | |_  \\___ \\| '_ \\ / _ \\ | |\n"
 		" |  _|  ___) | | | |  __/ | |\n"
-		" |_|   |____/|_| |_|\\___|_|_|\n\n" RESET);
+		" |_|   |____/|_| |_|\\___|_|_|\n\n"RESET);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/25 17:49:20 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:18:09 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ int main(int ac, char **av, char **envp)
             }
         }
 
-        // free_token_list(cmd);
+        free_token_list(cmd);
         free(line);        
     }
 
     free_env_list(env_list);
+    // free (f_cmd);
     // ft_free_all();
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/26 18:08:50 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:09:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 
 int	execute_pwd(void)
 {
-	char	*cwd = getcwd(NULL, 0);
+	char	*cwd;
 
+	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
 		printf("%s\n", cwd);
@@ -47,8 +48,9 @@ int	execute_pwd(void)
 
 int	execute_env(t_env *envp)
 {
-	t_env *tmp = envp;
-	
+	t_env	*tmp;
+
+	tmp = envp;
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->key, tmp->value);

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:36 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:53:39 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:10:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	add_or_update_env(t_env **env, char *arg)
 	t_env	*found;
 	char	*key;
 	char	*value;
+	t_env	*new;
 
 	key = extract_key(arg);
 	value = extract_value(arg);
@@ -83,7 +84,7 @@ void	add_or_update_env(t_env **env, char *arg)
 	}
 	else
 	{
-		t_env *new = malloc(sizeof(t_env));
+		new = malloc(sizeof(t_env));
 		new->key = key;
 		new->value = value;
 		new->next = *env;
