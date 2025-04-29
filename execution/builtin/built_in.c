@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 17:32:47 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:31:48 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,27 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		return (execute_echo(cmd));
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		return (execute_pwd());
+		return (execute_pwd(cmd));
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		execute_export(cmd, &envp);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
 		execute_unset(cmd, &envp);
 	else if (!ft_strcmp(cmd->args[0], "env"))
-		return (execute_env(envp));
+		return (execute_env(cmd, envp));
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		execute_exit();
+		execute_exit(cmd);
 	return (0);
 }
 
-int	execute_pwd(void)
+int	execute_pwd(t_cmd *cmd)
 {
 	char	*cwd;
 
+	if (count_args(cmd->args) > 1)
+	{
+		put_error("pwd: too many arguments");
+		return (1);
+	}
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
@@ -46,11 +51,16 @@ int	execute_pwd(void)
 	return (1);
 }
 
-int	execute_env(t_env *envp)
+int	execute_env(t_cmd *cmd, t_env *envp)
 {
 	t_env	*tmp;
 
 	tmp = envp;
+	if (count_args(cmd->args) > 1)
+	{
+		put_error("env: too many arguments");
+		return (1);
+	}
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->key, tmp->value);
