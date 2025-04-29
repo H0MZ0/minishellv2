@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 17:28:37 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:32:47 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	else if (!ft_strcmp(cmd->args[0], "export"))
 		execute_export(cmd, &envp);
 	else if (!ft_strcmp(cmd->args[0], "unset"))
-		printf("%s\n", cmd->args[0]);
+		execute_unset(cmd, &envp);
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		return (execute_env(envp));
 	else if (!ft_strcmp(cmd->args[0], "exit"))

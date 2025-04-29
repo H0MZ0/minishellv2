@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 17:10:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:32:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*extract_value(const char *str);
 void	add_or_update_env(t_env **env, char *arg);
 
 /* Unset */
+int     execute_unset(t_cmd *cmd, t_env **envp);
 void	remove_env_var(t_env **envp, const char *key);
 
 /* Built-in Helpers */

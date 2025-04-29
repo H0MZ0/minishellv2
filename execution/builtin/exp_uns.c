@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/25 02:53:44 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:33:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_export(t_cmd *cmd, t_env **envp)
 			add_or_update_env(envp, cmd->args[i]);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	execute_unset(t_cmd *cmd, t_env **envp)
@@ -49,5 +49,5 @@ int	execute_unset(t_cmd *cmd, t_env **envp)
 		}
 		i++;
 	}
-	return (0);
+	return (1);
 }
