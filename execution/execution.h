@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 13:14:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:10:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		is_builtin(t_cmd *cmd, t_env *envp);
 int		execute_echo(t_cmd *cmd);
 int		execute_pwd(void);
 int		execute_cd(t_cmd *cmd, t_env **env_list);
+void	update_env(t_env **env, char *key, char *replace);
 int		execute_env(t_env *envp);
 void	execute_exit(void);
 

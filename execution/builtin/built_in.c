@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 13:49:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:28:37 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	is_builtin(t_cmd *cmd, t_env *envp)
 {
-	if (!ft_strcmp(cmd->args[0], "cd")){
-		print_list_env(&envp);
+	if (!ft_strcmp(cmd->args[0], "cd"))
 		return (execute_cd(cmd, &envp));
-	}
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		return (execute_echo(cmd));
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
@@ -63,21 +61,25 @@ int	execute_env(t_env *envp)
 
 int	execute_cd(t_cmd *cmd, t_env **env)
 {
-	env_path(env, cmd);
+	char	*old_pwd;
+	char	*new_pwd;
+
 	if (count_args(cmd->args) > 2)
+		return ((put_error("cd: too many arguments")), 1);
+	if (!cmd->args[1])
+		return ((put_error("please type relative or absolute path")), 1);
+	old_pwd = getcwd(NULL, 0);
+	if (chdir(cmd->args[1]) == -1)
 	{
-		put_error("cd: too many arguments");
+		perror("cd");
+		free(old_pwd);
 		return (1);
 	}
-	if (!cmd->args[1])
-	{
-		if (chdir(getenv("HOME")) == -1)
-			perror("cd");
-	}
-	else
-	{
-		if (chdir(cmd->args[1]) == -1)
-			perror("cd");
-	}
+	update_env(env, "OLDPWD", old_pwd);
+	free(old_pwd);
+	new_pwd = getcwd(NULL, 0);
+	update_env(env, "PWD", new_pwd);
+	free(new_pwd);
 	return (1);
 }
+

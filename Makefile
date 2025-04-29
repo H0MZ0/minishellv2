@@ -16,7 +16,7 @@ EXC_FILES = execution/tools_1.c execution/tools_2.c \
 			execution/in_out.c execution/builtin/built_in.c \
 			execution/builtin/exp_uns.c execution/builtin/expuns_utils1.c \
 			execution/builtin/expuns_utils2.c execution/ft_malloc.c \
-			execution/builtin/echo.c
+			execution/builtin/echo.c execution/builtin/tools1.c
 
 POBJ_FILES = $(PRS_FILES:.c=.o)
 EOBJ_FILES = $(EXC_FILES:.c=.o)
