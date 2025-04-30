@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 13:17:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:06:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static void	exec_command(t_cmd *f_cmd, char **paths, char **envp)
 		printf("%s: command not found\n", f_cmd->args[0]);
 }
 
-void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
+void execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 {
-	char	**paths;
-	t_cmd	*tmp;
+	char **paths;
+	t_cmd *tmp;
 
 	if (path_cmd(f_cmd, envp))
 		return ;
@@ -75,7 +75,11 @@ void	execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
 		if (is_builtin(f_cmd, env_list))
 			return ;
 		exec_command(f_cmd, paths, envp);
-		f_cmd = f_cmd->next;
+		if (f_cmd->next)
+			f_cmd = f_cmd->next->next;
+		else
+			f_cmd = f_cmd->next;
 		free(tmp);
 	}
 }
+

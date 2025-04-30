@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 19:32:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:02:14 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ void	infile(const char *filename);
 
 /* Echo Helpers */
 int		open_and_write(t_cmd *cmd, int flag, int index);
+
+//PIPES
+void    pipex(t_cmd *cmd, char **envp);
 
 #endif

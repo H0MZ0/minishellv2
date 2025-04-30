@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 19:31:48 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:31:13 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_builtin(t_cmd *cmd, t_env *envp)
 	else if (!ft_strcmp(cmd->args[0], "env"))
 		return (execute_env(cmd, envp));
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		execute_exit(cmd);
+		return (execute_exit(cmd));
 	return (0);
 }
 

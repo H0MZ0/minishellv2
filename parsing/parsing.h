@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:20:48 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/24 15:51:03 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:55:58 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void free_array(char **arr);
 void print_list_env(t_env **head);
 void print_cmd_list(t_cmd *cmd_list);
 void print_list(t_token *head);
-void pipex(t_cmd *cmd, char **envp);
 void free_cmd(t_cmd *cmd);
 void free_cmd_list(t_cmd *cmd_list);
 void free_token_list(t_token *head);
