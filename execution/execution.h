@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 17:39:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:45:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ int	execute_exit(t_cmd *cmd);
 // char	*extract_value(const char *str);
 // void	add_or_update_env(t_env **env, char *arg);
 int execute_export(t_cmd *cmd, t_env **env);
+t_env *ft_new_env(char *key, char *value);
 
 /* Unset */
 // int     execute_unset(t_cmd *cmd, t_env **envp);
 // void	remove_env_var(t_env **envp, const char *key);
 int	excute_unset(t_cmd *cmd, t_env **env);
+void ft_envadd_back(t_env **env, char *key, char *value);
+int	check_exp(t_cmd *cmd, t_env **env);
 
 /* Built-in Helpers */
 int		is_new_line(char *arg);
