@@ -1,52 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_uns.c                                          :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 17:33:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/01 14:57:57 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	execute_export(t_cmd *cmd, t_env **envp)
+void	ft_env_remove_if(t_env **env, void *data_ref,
+			int (*cmp)(void *, void *), void (*del)(void *))
 {
-	int	i;
+	t_env	*prev;
+	t_env	*curr;
 
-	i = 1;
-	while (cmd->args[i])
+	prev = NULL;
+	curr = *env;
+	while (curr)
 	{
-		if (!is_valid_key(cmd->args[i]))
+		if (cmp(curr->key, data_ref) == 0)
 		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putendl_fd("': not a valid identifier", 2);
+			if (prev)
+				prev->next = curr->next;
+			else
+				*env = curr->next;
+			if (del)
+			{
+				del(curr->key);
+				del(curr->value);
+			}
+			free(curr);
+			return ;
 		}
-		else if (ft_strchr(cmd->args[i], '='))
-			add_or_update_env(envp, cmd->args[i]);
-		i++;
+		prev = curr;
+		curr = curr->next;
 	}
-	return (1);
 }
 
-int	execute_unset(t_cmd *cmd, t_env **envp)
+int	cmp_key(void *a, void *b)
+{
+	return (strncmp((char *)a,
+			(char *)b, ft_strlen((char *)b) + 1));
+}
+
+int	excute_unset(t_cmd *cmd, t_env **env)
 {
 	int	i;
 
 	i = 1;
 	while (cmd->args[i])
 	{
-		if (is_valid_key(cmd->args[i]))
-			remove_env_var(envp, cmd->args[i]);
-		else
-		{
-			ft_putstr_fd("unset: `", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putendl_fd("': not a valid identifier", 2);
-		}
+		ft_env_remove_if(env, cmd->args[i], cmp_key, free);
 		i++;
 	}
 	return (1);

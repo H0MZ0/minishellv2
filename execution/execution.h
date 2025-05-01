@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/30 16:02:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/01 17:39:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ int 	execute_env(t_cmd *cmd, t_env *envp);
 int	execute_exit(t_cmd *cmd);
 
 /* Export */
-int		execute_export(t_cmd *cmd, t_env **envp);
-int		is_valid_key(const char *str);
-t_env	*find_env(t_env *env, const char *key);
-char	*extract_key(const char *str);
-char	*extract_value(const char *str);
-void	add_or_update_env(t_env **env, char *arg);
+// int		execute_export(t_cmd *cmd, t_env **envp);
+// int		is_valid_key(const char *str);
+// t_env	*find_env(t_env *env, const char *key);
+// char	*extract_key(const char *str);
+// char	*extract_value(const char *str);
+// void	add_or_update_env(t_env **env, char *arg);
+int execute_export(t_cmd *cmd, t_env **env);
 
 /* Unset */
-int     execute_unset(t_cmd *cmd, t_env **envp);
-void	remove_env_var(t_env **envp, const char *key);
+// int     execute_unset(t_cmd *cmd, t_env **envp);
+// void	remove_env_var(t_env **envp, const char *key);
+int	excute_unset(t_cmd *cmd, t_env **env);
 
 /* Built-in Helpers */
 int		is_new_line(char *arg);
