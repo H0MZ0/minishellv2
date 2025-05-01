@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:58:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 18:30:45 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:35:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int execute_export(t_cmd *cmd, t_env **env)
 					free(tmp->value);
 					tmp->value = ft_strdup(exp[1]);
 				}
-				free_array(exp);
+				// free_array(exp);
 				break;
 			}
 			tmp = tmp->next;
