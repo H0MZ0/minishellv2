@@ -107,24 +107,33 @@ int is_cmd_empty(t_cmd *cmd)
 
 static void add_arg_to_cmd(t_cmd *cmd, char *arg)
 {
-    // printf("arg is %s\n", arg);
-    arg = remove_quotes(arg);
-    // printf("arg is %s\n", arg);
+    char *cleaned = remove_quotes(arg);
+    if (!cleaned)
+        return;
+
     int old_len = calculate_args(cmd);
     char **args = malloc(sizeof(char *) * (old_len + 2));
     if (!args)
+    {
+        free(cleaned);
         return;
+    }
+
     int i = 0;
     while (i < old_len)
     {
         args[i] = ft_strdup(cmd->args[i]);
         i++;
     }
-    args[i++] = ft_strdup(arg);  
-    args[i] = NULL;              
+
+    args[i++] = ft_strdup(cleaned);
+    args[i] = NULL;
+
     if (cmd->args)
         free_array(cmd->args);
     cmd->args = args;
+
+    free(cleaned);
 }
 
 void add_cmd_to_list(t_cmd **head, t_cmd *new_cmd)
@@ -175,7 +184,6 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
         else if (token->type == HEREDOC)
         {
             cmd->heredoc_delim = remove_quotes(target);
-           
             cmd->heredoc_expand = !is_quote(*token->next->value);
             free(target);
         }
@@ -185,6 +193,7 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
 
     return 1;
 }
+
 t_cmd *build_cmd_list(t_token *tokens)
 {
     t_cmd *cmd_list = NULL;
@@ -206,7 +215,6 @@ t_cmd *build_cmd_list(t_token *tokens)
                 printf("minishell: syntax error near unexpected token `;'\n");
                 free_cmd(current_cmd);
                 free_cmd_list(cmd_list);
-                free_token_list(tokens);
                 return NULL;
             }
             add_cmd_to_list(&cmd_list, current_cmd);
@@ -218,7 +226,6 @@ t_cmd *build_cmd_list(t_token *tokens)
             {
                 free_cmd(current_cmd);
                 free_cmd_list(cmd_list);
-                free_token_list(tokens);
                 return NULL;
             }
         }

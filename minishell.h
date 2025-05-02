@@ -57,6 +57,15 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct s_shell
+{
+	t_env	*env;
+	t_token	*tokens;
+	t_cmd	*cmds;
+	int		last_exit_status;
+}	t_shell;
+
+
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>

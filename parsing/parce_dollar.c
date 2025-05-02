@@ -101,20 +101,33 @@ char *expand_token_value(char *value, t_env *env, int last_exit)
 
 	while ((pos = get_dollar_pos(result)) != -1)
 	{
-		char *var = extract_var_name(result, pos);
-		if (!var)
-			break;
+		if (result[pos + 1] == '?') 
+		{
+			char *var_value = ft_itoa(last_exit);
+			char *expanded = replace_var_in_string(result, pos, 1, var_value); 
 
-		char *var_value = get_env_value(env, var, last_exit);
-		char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value);
+			free(var_value);
+			free(result);
+			result = expanded;
+		}
+		else
+		{
+			char *var = extract_var_name(result, pos);
+			if (!var)
+				break;
 
-		free(var_value);
-		free(var);
-		free(result);
-		result = expanded;
+			char *var_value = get_env_value(env, var, last_exit);
+			char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value);
+
+			free(var_value);
+			free(var);
+			free(result);
+			result = expanded;
+		}
 	}
 	return result;
 }
+
 
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:06:52 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/01 18:35:39 by hakader          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:17:43 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,14 @@ void free_env_list(t_env *env)
         free(env);
         env = tmp;
     }
+}
+
+void free_shell(t_shell *shell)
+{
+	if (!shell)
+		return;
+	free_env_list(shell->env);
+	free_token_list(shell->tokens);
+	free_cmd_list(shell->cmds);
+	free(shell);
 }
