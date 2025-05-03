@@ -6,15 +6,15 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/29 11:02:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:45:40 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_cmd *create_cmd()
+t_cmd *create_cmd(t_list *alloc_list)
 {
-    t_cmd *new_cmd = malloc(sizeof(t_cmd));
+    t_cmd *new_cmd = ft_malloc(sizeof(t_cmd), &alloc_list);
     if (!new_cmd)
         return NULL;
 
@@ -40,11 +40,11 @@ static int calculate_args(t_cmd *cmd)
         i++;
     return i;
 }
-char *remove_quotes(const char *str)
+char *remove_quotes(const char *str, t_list *alloc_list)
 {
     int i = 0, j = 0;
     int in_single_quote = 0, in_double_quote = 0;
-    char *result = malloc(ft_strlen(str) + 1);
+    char *result = ft_malloc((ft_strlen(str) + 1), &alloc_list);
     if (!result)
         return NULL;
 
@@ -105,35 +105,35 @@ int is_cmd_empty(t_cmd *cmd)
     return (!cmd->args && !cmd->infile && !cmd->outfile && !cmd->heredoc_delim);
 }
 
-static void add_arg_to_cmd(t_cmd *cmd, char *arg)
+static void add_arg_to_cmd(t_cmd *cmd, char *arg, t_list *alloc_list)
 {
-    char *cleaned = remove_quotes(arg);
+    char *cleaned = remove_quotes(arg, alloc_list);
     if (!cleaned)
         return;
 
     int old_len = calculate_args(cmd);
-    char **args = malloc(sizeof(char *) * (old_len + 2));
-    if (!args)
-    {
-        free(cleaned);
-        return;
-    }
+    char **args = ft_malloc((sizeof(char *) * (old_len + 2)), &alloc_list);
+    // if (!args)
+    // {
+    //     free(cleaned);
+    //     return;
+    // }
 
     int i = 0;
     while (i < old_len)
     {
-        args[i] = ft_strdup(cmd->args[i]);
+        args[i] = ft_strdup(cmd->args[i], alloc_list);
         i++;
     }
 
-    args[i++] = ft_strdup(cleaned);
+    args[i++] = ft_strdup(cleaned, alloc_list);
     args[i] = NULL;
 
-    if (cmd->args)
-        free_array(cmd->args);
+    // if (cmd->args)
+    //     free_array(cmd->args);
     cmd->args = args;
 
-    free(cleaned);
+    // free(cleaned);
 }
 
 void add_cmd_to_list(t_cmd **head, t_cmd *new_cmd)
@@ -151,13 +151,13 @@ void add_cmd_to_list(t_cmd **head, t_cmd *new_cmd)
     temp->next = new_cmd;
 }
 
-int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
+int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd, t_list *alloc_list)
 {
     t_token *token = *current;
 
     if (token->type == WORD)
     {
-        add_arg_to_cmd(cmd, token->value);
+        add_arg_to_cmd(cmd, token->value, alloc_list);
     }
     else if (token->type == REDIR_IN || token->type == REDIR_OUT || token->type == APPEND || token->type == HEREDOC)
     {
@@ -167,7 +167,7 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
             return 0;
         }
 
-        char *target = ft_strdup(token->next->value);
+        char *target = ft_strdup(token->next->value, alloc_list);
 
         if (token->type == REDIR_IN)
             cmd->infile = target;
@@ -183,7 +183,7 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
         }
         else if (token->type == HEREDOC)
         {
-            cmd->heredoc_delim = remove_quotes(target);
+            cmd->heredoc_delim = remove_quotes(target, alloc_list);
             cmd->heredoc_expand = !is_quote(*token->next->value);
             free(target);
         }
@@ -194,10 +194,10 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd)
     return 1;
 }
 
-t_cmd *build_cmd_list(t_token *tokens)
+t_cmd *build_cmd_list(t_token *tokens, t_list *alloc_list)
 {
     t_cmd *cmd_list = NULL;
-    t_cmd *current_cmd = create_cmd();
+    t_cmd *current_cmd = create_cmd(alloc_list);
     t_token *current = tokens;
 
     while (current)
@@ -206,26 +206,26 @@ t_cmd *build_cmd_list(t_token *tokens)
         {
             current_cmd->has_pipe = 1;
             add_cmd_to_list(&cmd_list, current_cmd);
-            current_cmd = create_cmd();
+            current_cmd = create_cmd(alloc_list);
         }
         else if (current->type == SEMICOLON)
         {
             if (is_cmd_empty(current_cmd))
             {
                 printf("minishell: syntax error near unexpected token `;'\n");
-                free_cmd(current_cmd);
-                free_cmd_list(cmd_list);
+                // free_cmd(current_cmd);
+                // //free_cmd_list(cmd_list);
                 return NULL;
             }
             add_cmd_to_list(&cmd_list, current_cmd);
-            current_cmd = create_cmd();
+            current_cmd = create_cmd(alloc_list);
         }
         else
         {
-            if (!handle_token_redirection_or_arg(&current, current_cmd))
+            if (!handle_token_redirection_or_arg(&current, current_cmd, alloc_list))
             {
-                free_cmd(current_cmd);
-                free_cmd_list(cmd_list);
+                // free_cmd(current_cmd);
+                //free_cmd_list(cmd_list);
                 return NULL;
             }
         }
@@ -234,7 +234,7 @@ t_cmd *build_cmd_list(t_token *tokens)
     }
     if (!is_cmd_empty(current_cmd))
         add_cmd_to_list(&cmd_list, current_cmd);
-    else
-        free_cmd(current_cmd);
+    // else
+    //     free_cmd(current_cmd);
     return cmd_list;
 }

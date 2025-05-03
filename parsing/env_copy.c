@@ -6,19 +6,19 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:08:35 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/29 11:02:03 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:41:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char *key(char *str)
+char *key(char *str, t_list *alloc_list)
 {
     int i = 0;
     while (str[i] && str[i] != '=')
         i++;
 
-    char *key = malloc(i + 1);
+    char *key = ft_malloc((i + 1), &alloc_list);
     if (!key)
         return NULL;
 
@@ -33,7 +33,7 @@ char *key(char *str)
     return key;
 }
 
-char *value(char *str)
+char *value(char *str, t_list *alloc_list)
 {
     int i = 0;
     while (str[i] && str[i] != '=')
@@ -47,7 +47,7 @@ char *value(char *str)
     while (str[i + len])
         len++;
 
-    char *value = malloc(len + 1);
+    char *value = ft_malloc((len + 1), &alloc_list);
     if (!value)
         return NULL;
 
@@ -62,14 +62,14 @@ char *value(char *str)
     return value;
 }
 
-t_env *env_copy(char *content)
+t_env *env_copy(char *content, t_list	*alloc_list)
 {
-    t_env *new_node = malloc(sizeof(t_env));
+    t_env *new_node = ft_malloc(sizeof(t_env), &alloc_list);
     if (!new_node)
         return NULL;
 
-    new_node->key = key(content);
-    new_node->value = value(content);
+    new_node->key = key(content, alloc_list);
+    new_node->value = value(content, alloc_list);
     new_node->next = NULL;
 
     return new_node;

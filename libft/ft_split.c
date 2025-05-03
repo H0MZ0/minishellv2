@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:26:10 by sjoukni           #+#    #+#             */
-/*   Updated: 2024/10/27 15:26:16 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:42:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_len(const char *s, char c, int *start)
 	return (len);
 }
 
-static char	**ft_allocate_words(char const *s, char c, char **ptr, int count)
+static char	**ft_allocate_words(char const *s, char c, char **ptr, int count, t_list *alloc_list)
 {
 	int		start;
 	int		index;
@@ -51,7 +51,7 @@ static char	**ft_allocate_words(char const *s, char c, char **ptr, int count)
 	while (index < count)
 	{
 		word_len = ft_len(s, c, &start);
-		ptr[index] = ft_substr(s, start, word_len);
+		ptr[index] = ft_substr(s, start, word_len, alloc_list);
 		if (!ptr[index])
 		{
 			while (index >= 0)
@@ -69,7 +69,7 @@ static char	**ft_allocate_words(char const *s, char c, char **ptr, int count)
 	return (ptr);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, t_list *alloc_list)
 {
 	char	**ptr;
 	int		count;
@@ -77,8 +77,8 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	count = count_word(s, c);
-	ptr = (char **)malloc((count + 1) * sizeof(char *));
+	ptr = (char **)ft_malloc((count + 1) * sizeof(char *), &alloc_list);
 	if (!ptr)
 		return (NULL);
-	return (ft_allocate_words(s, c, ptr, count));
+	return (ft_allocate_words(s, c, ptr, count, alloc_list));
 }

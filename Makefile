@@ -15,7 +15,7 @@ EXC_FILES = execution/tools_1.c execution/tools_2.c \
 			execution/execution.c \
 			execution/in_out.c execution/builtin/built_in.c \
 			execution/builtin/unset.c execution/builtin/expuns_utils1.c \
-			execution/builtin/expuns_utils2.c execution/ft_malloc.c \
+			execution/builtin/expuns_utils2.c libft/ft_malloc.c \
 			execution/builtin/echo.c execution/builtin/tools1.c \
 			execution/pipe.c execution/builtin/export.c execution/builtin/test.c
 

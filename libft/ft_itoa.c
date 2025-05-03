@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 17:00:08 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/13 18:54:58 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:42:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ static int	ft_len(int n)
 	return (count);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, t_list *alloc_list)
 {
 	int		len;
 	char	*ptr;
 
 	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
+		return (ft_strdup("-2147483648", alloc_list));
 	len = ft_len(n);
-	ptr = (char *)malloc(len + 1);
+	ptr = (char *)ft_malloc((len + 1), &alloc_list);
 	if (ptr == NULL)
 		return (NULL);
 	ptr[len] = '\0';

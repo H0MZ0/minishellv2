@@ -6,28 +6,29 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 17:44:44 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:36:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	is_builtin(t_cmd *cmd, t_env *envp)
+int	is_builtin(t_shell **shell, t_list *alloc_list)
 {
-	if (!ft_strcmp(cmd->args[0], "cd"))
-		return (execute_cd(cmd, &envp));
-	else if (!ft_strcmp(cmd->args[0], "echo"))
-		return (execute_echo(cmd));
-	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		return (execute_pwd(cmd));
-	else if (!ft_strcmp(cmd->args[0], "export"))
-		return (execute_export(cmd, &envp));
-	else if (!ft_strcmp(cmd->args[0], "unset"))
-		return (excute_unset(cmd, &envp));
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		return (execute_env(cmd, envp));
-	else if (!ft_strcmp(cmd->args[0], "exit"))
-		return (execute_exit(cmd));
+	if (!ft_strcmp((*shell)->cmds->args[0], "cd"))
+		return (execute_cd((*shell)->cmds, &(*shell)->env, alloc_list));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "echo"))
+		return (execute_echo((*shell)->cmds));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "pwd"))
+		return (execute_pwd((*shell)->cmds));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "export"))
+		return (execute_export((*shell)->cmds, &(*shell)->env, alloc_list));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "unset"))
+		return (excute_unset((*shell)->cmds, &(*shell)->env,
+				shell, alloc_list));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "env"))
+		return (execute_env((*shell)->cmds, (*shell)->env));
+	else if (!ft_strcmp((*shell)->cmds->args[0], "exit"))
+		return (execute_exit((*shell)->cmds, alloc_list));
 	return (0);
 }
 
@@ -69,7 +70,7 @@ int	execute_env(t_cmd *cmd, t_env *envp)
 	return (1);
 }
 
-int	execute_cd(t_cmd *cmd, t_env **env)
+int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
 {
 	char	*old_pwd;
 	char	*new_pwd;
@@ -82,13 +83,13 @@ int	execute_cd(t_cmd *cmd, t_env **env)
 	if (chdir(cmd->args[1]) == -1)
 	{
 		perror("cd");
-		free(old_pwd);
+		// free(old_pwd);
 		return (1);
 	}
-	update_env(env, "OLDPWD", old_pwd);
-	free(old_pwd);
+	update_env(env, "OLDPWD", old_pwd, alloc_list);
+	// free(old_pwd);
 	new_pwd = getcwd(NULL, 0);
-	update_env(env, "PWD", new_pwd);
+	update_env(env, "PWD", new_pwd, alloc_list);
 	free(new_pwd);
 	return (1);
 }

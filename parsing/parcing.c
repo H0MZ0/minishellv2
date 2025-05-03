@@ -6,19 +6,19 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/29 11:02:13 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:27:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "parsing.h"
 
-t_token *create_token(char *str, t_token_type type)
+t_token *create_token(char *str, t_token_type type, t_list *alloc_list)
 {
-    t_token *new_token = malloc(sizeof(t_token));
+    t_token *new_token = ft_malloc(sizeof(t_token), &alloc_list);
     if (!new_token)
         return NULL;
-    new_token->value = ft_strdup(str);
+    new_token->value = ft_strdup(str, alloc_list);
     new_token->type = type;
     new_token->next = NULL;
     return new_token;
@@ -98,7 +98,7 @@ t_token_type get_token_type(char *str)
     return WORD;
 }
 
-t_token *tokenize_line(char *line)
+t_token *tokenize_line(char *line, t_list *alloc_list)
 {
     int i = 0, len;
     t_token *head = NULL;
@@ -123,14 +123,14 @@ t_token *tokenize_line(char *line)
                 printf("syntax error near `\\'\n");
             else if (len == -4)
                 printf("syntax error near ``'\n");
-            free_token_list(head);
+            // free_token_list(head);
             return NULL;
         }
 
         token_str = strndup(line + i, len);
         type = get_token_type(token_str);
 
-        append_token(&head, create_token(token_str, type));
+        append_token(&head, create_token(token_str, type, alloc_list));
 
         free(token_str);
         i += len;

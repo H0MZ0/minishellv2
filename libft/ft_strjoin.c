@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 14:50:15 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/01/29 13:30:19 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:42:05 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static size_t	ft_slen(const char *str)
 	return (len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2, t_list *alloc_list)
 {
 	size_t	i;
 	size_t	j;
 	char	*result;
 
-	result = malloc(ft_slen(s1) + ft_slen(s2) + 1);
+	result = ft_malloc((ft_slen(s1) + ft_slen(s2) + 1), &alloc_list);
 	if (!result)
 		return (NULL);
 	i = 0;

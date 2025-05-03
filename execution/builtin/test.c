@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:42:18 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 18:42:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:10:19 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ int	is_valid_key(char *s)
 	return (1);
 }
 
-char	*get_key(char *arg)
+char	*get_key(char *arg, t_list *alloc_list)
 {
 	int		i = 0;
 
 	while (arg[i] && arg[i] != '=')
 		i++;
-	return (ft_substr(arg, 0, i));
+	return (ft_substr(arg, 0, i, alloc_list));
 }
 
-char	*get_value(char *arg)
+char	*get_value(char *arg, t_list *alloc_list)
 {
 	char	*equal = ft_strchr(arg, '=');
 	if (!equal)
 		return (NULL);
-	return (ft_strdup(equal + 1));
+	return (ft_strdup(equal + 1, alloc_list));
 }
 
-void	update_or_add(t_env **env, char *key, char *value)
+void	update_or_add(t_env **env, char *key, char *value, t_list *alloc_list)
 {
 	t_env *tmp = *env;
 
@@ -57,16 +57,16 @@ void	update_or_add(t_env **env, char *key, char *value)
 			if (value)
 			{
 				free(tmp->value);
-				tmp->value = ft_strdup(value);
+				tmp->value = ft_strdup(value, alloc_list);
 			}
 			return;
 		}
 		tmp = tmp->next;
 	}
-	ft_envadd_back(env, key, value);
+	ft_envadd_back(env, key, value, alloc_list);
 }
 
-int	execute_export(t_cmd *cmd, t_env **env)
+int	execute_export(t_cmd *cmd, t_env **env, t_list *alloc_list)
 {
 	int		i = 1;
 	char	*key;
@@ -84,9 +84,9 @@ int	execute_export(t_cmd *cmd, t_env **env)
 			i++;
 			continue;
 		}
-		key = get_key(cmd->args[i]);
-		value = get_value(cmd->args[i]); // NULL if no '='
-		update_or_add(env, key, value);
+		key = get_key(cmd->args[i], alloc_list);
+		value = get_value(cmd->args[i], alloc_list); // NULL if no '='
+		update_or_add(env, key, value, alloc_list);
 		free(key);
 		if (value)
 			free(value);

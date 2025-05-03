@@ -6,24 +6,25 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/30 16:06:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:35:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	path_cmd(t_cmd *f_cmd, char **envp)
+int	path_cmd(t_shell **shell)
 {
 	pid_t	pid;
 
-	if (f_cmd->args[0][0] == '/')
+	if ((*shell)->cmds->args[0][0] == '/')
 	{
-		if (access(f_cmd->args[0], X_OK) == 0)
+		if (access((*shell)->cmds->args[0], X_OK) == 0)
 		{
 			pid = fork();
 			if (pid == 0)
 			{
-				execve(f_cmd->args[0], &f_cmd->args[0], envp);
+				execve((*shell)->cmds->args[0],
+						&(*shell)->cmds->args[0], (*shell)->envp);
 			}
 			else
 				waitpid(pid, NULL, 0);
@@ -42,12 +43,12 @@ static void	exec_child(t_cmd *f_cmd, char *cmd, char **envp)
 	execve(cmd, &f_cmd->args[0], envp);
 }
 
-static void	exec_command(t_cmd *f_cmd, char **paths, char **envp)
+static void	exec_command(t_cmd *f_cmd, char **paths, char **envp, t_list *alloc_list)
 {
 	pid_t	pid;
 	char	*cmd;
 
-	cmd = check_cmd(paths, f_cmd->args[0]);
+	cmd = check_cmd(paths, f_cmd->args[0], alloc_list);
 	if (cmd)
 	{
 		pid = fork();
@@ -55,31 +56,33 @@ static void	exec_command(t_cmd *f_cmd, char **paths, char **envp)
 			exec_child(f_cmd, cmd, envp);
 		else
 			waitpid(pid, NULL, 0);
-		free(cmd);
+		// free(cmd);
 	}
 	else
 		printf("%s: command not found\n", f_cmd->args[0]);
 }
 
-void execution_part(t_cmd *f_cmd, t_env *env_list, char **envp)
+void	execution_part(t_shell **shell, t_list *alloc_list)
 {
-	char **paths;
-	t_cmd *tmp;
+	char	**paths;
+	t_cmd	*tmp;
 
-	if (path_cmd(f_cmd, envp))
-		return ;
-	paths = get_paths(env_list);
-	while (f_cmd)
+	paths = get_paths(shell, alloc_list);
+	while ((*shell)->cmds)
 	{
-		tmp = f_cmd;
-		if (is_builtin(f_cmd, env_list))
-			return ;
-		exec_command(f_cmd, paths, envp);
-		if (f_cmd->next)
-			f_cmd = f_cmd->next->next;
+		tmp = (*shell)->cmds;
+		if (path_cmd(shell))
+			(*shell)->cmds = (*shell)->cmds->next;
+		else if (is_builtin(shell, alloc_list))
+			(*shell)->cmds = (*shell)->cmds->next;
 		else
-			f_cmd = f_cmd->next;
-		free(tmp);
+		{
+			exec_command((*shell)->cmds, paths, (*shell)->envp, alloc_list);
+			if ((*shell)->env->next)
+				(*shell)->cmds = (*shell)->cmds->next;
+			else
+				(*shell)->cmds = (*shell)->cmds->next;	
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 18:52:31 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:09:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,21 @@ int	cmp_key(void *a, void *b)
 			(char *)b, ft_strlen((char *)b) + 1));
 }
 
-int	excute_unset(t_cmd *cmd, t_env **env)
+int	excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc_list)
 {
+	(void)shell;
 	char	**check;
 	int	i;
 
 	i = 1;
 	if (cmd->args)
 	{
-		check = ft_split(cmd->args[i], '=');
+		check = ft_split(cmd->args[i], '=', alloc_list);
 		if (!check)
 			return (1);
 		else if (ft_strcmp(check[0], "USER") == 0)
 		{
-			free_array(check);
+			// free_array(check);
 			put_error("can't unset USER");
 			return (1);
 		}

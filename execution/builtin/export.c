@@ -6,26 +6,26 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:58:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/01 18:43:56 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:41:10 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-t_env *ft_new_env(char *key, char *value)
+t_env *ft_new_env(char *key, char *value, t_list *alloc_list)
 {
-	t_env *new = malloc(sizeof(t_env));
+	t_env *new = ft_malloc(sizeof(t_env), &alloc_list);
 	if (!new)
 		return (NULL);
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
+	new->key = ft_strdup(key, alloc_list);
+	new->value = ft_strdup(value, alloc_list);
 	new->next = NULL;
 	return (new);
 }
 
-void ft_envadd_back(t_env **env, char *key, char *value)
+void ft_envadd_back(t_env **env, char *key, char *value, t_list *alloc_list)
 {
-	t_env *new = ft_new_env(key, value);
+	t_env *new = ft_new_env(key, value, alloc_list);
 	t_env *last;
 
 	if (!env || !new)

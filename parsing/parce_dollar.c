@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/29 11:02:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/03 16:40:18 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int get_dollar_pos(char *str)
 }
 
 
-char *extract_var_name(char *str, int pos)
+char *extract_var_name(char *str, int pos, t_list *alloc_list)
 {
 	int start = pos + 1;
 	int len = 0;
 
 	if (str[start] == '?')
-		return (ft_strdup("?")); 
+		return (ft_strdup("?", alloc_list)); 
 
 	while (str[start + len] &&
 		(ft_isalpha(str[start + len]) || ft_isdigit(str[start + len]) || str[start + len] == '_'))
@@ -43,35 +43,36 @@ char *extract_var_name(char *str, int pos)
 
 	if (len == 0)
 		return (NULL);
-	return ft_substr(str, start, len); 
+	return ft_substr(str, start, len, alloc_list); 
 }
 
-char *get_env_value(t_env *env, char *key, int last_exit)
+char *get_env_value(t_env *env, char *key, int last_exit, t_list *alloc_list)
 {
 	t_env *tmp;
 
 	if (!strcmp(key, "?"))
-		return (ft_itoa(last_exit)); 
+		return (ft_itoa(last_exit, alloc_list)); 
 
 	tmp = env;
 	while (tmp)
 	{
 		if (strcmp(tmp->key, key) == 0)
-			return (ft_strdup(tmp->value));
+			return (ft_strdup(tmp->value, alloc_list));
 		tmp = tmp->next;
 	}
-	return (ft_strdup(""));
+	return (ft_strdup("", alloc_list));
 }
 
 
-char *replace_var_in_string(char *src, int var_start, int var_len, char *value)
+char *replace_var_in_string(char *src, int var_start, int var_len,
+							char *value, t_list *alloc_list)
 {
 	int before_len = var_start;
 	int value_len = ft_strlen(value);
 	int after_len = ft_strlen(src + var_start + var_len + 1);
 	int total_len = before_len + value_len + after_len;
 
-	char *new_str = malloc(total_len + 1);
+	char *new_str = ft_malloc((total_len + 1), &alloc_list);
 	if (!new_str)
 		return (NULL);
 
@@ -94,17 +95,17 @@ char *replace_var_in_string(char *src, int var_start, int var_len, char *value)
 	return new_str;
 }
 
-char *expand_token_value(char *value, t_env *env, int last_exit)
+char *expand_token_value(char *value, t_env *env, int last_exit, t_list *alloc_list)
 {
-	char *result = ft_strdup(value);
+	char *result = ft_strdup(value, alloc_list);
 	int pos;
 
 	while ((pos = get_dollar_pos(result)) != -1)
 	{
 		if (result[pos + 1] == '?') 
 		{
-			char *var_value = ft_itoa(last_exit);
-			char *expanded = replace_var_in_string(result, pos, 1, var_value); 
+			char *var_value = ft_itoa(last_exit, alloc_list);
+			char *expanded = replace_var_in_string(result, pos, 1, var_value, alloc_list); 
 
 			free(var_value);
 			free(result);
@@ -112,12 +113,12 @@ char *expand_token_value(char *value, t_env *env, int last_exit)
 		}
 		else
 		{
-			char *var = extract_var_name(result, pos);
+			char *var = extract_var_name(result, pos, alloc_list);
 			if (!var)
 				break;
 
-			char *var_value = get_env_value(env, var, last_exit);
-			char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value);
+			char *var_value = get_env_value(env, var, last_exit, alloc_list);
+			char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value, alloc_list);
 
 			free(var_value);
 			free(var);
