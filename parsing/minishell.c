@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 14:35:57 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:13:26 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_list	*alloc_list = NULL;
 	t_shell	*shell = ft_malloc(sizeof(t_shell), &alloc_list);
-	// printf("ssds\n");
 	if (!shell)
 		return (1);
 	ft_bzero(shell, sizeof(t_shell));

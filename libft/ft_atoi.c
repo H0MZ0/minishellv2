@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 18:13:14 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 19:19:32 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/05 18:12:11 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/05 19:22:13 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	ft_atoi(const char *str)
 {
-	if (lst == NULL)
-		return (NULL);
-	while (lst)
+	long	result;
+
+	int (i), (sign);
+	i = 0;
+	sign = 1;
+	result = 0;
+	if (!str)
+		return (0);
+	if (str[i] == '+' || str[i] == '-')
 	{
-		if (!(lst->next))
-			return (lst);
-		lst = lst->next;
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
 	}
-	return (lst);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - 48);
+		i++;
+	}
+	return (sign * result);
 }

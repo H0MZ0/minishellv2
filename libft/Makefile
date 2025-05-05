@@ -10,23 +10,24 @@ SRCS =  ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
         ft_putstr_fd.c ft_putendl_fd.c ft_isspace.c \
         ft_lstadd_back_bonus.c ft_lstclear_bonus.c \
         ft_lstdelone_bonus.c ft_lstlast_bonus.c \
-        ft_lstnew_bonus.c
+        ft_lstnew_bonus.c ft_atoi.c
 
+HEADER = libft.h
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	@$(AR) $(NAME) $(OBJS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 

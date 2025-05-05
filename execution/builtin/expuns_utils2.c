@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 10:03:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 18:37:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,17 @@ void	env_path(t_env **env_list, t_cmd *cmd)
 
 int	execute_exit(t_cmd *cmd, t_list *alloc_list)
 {
-	if (count_args(cmd->args) > 1)
+	int	status;
+
+	status = 0;
+	if (count_args(cmd->args) > 2)
 	{
 		put_error("exit: too many arguments");
 		return (1);
 	}
+	if (count_args(cmd->args) > 1)
+		status = ft_atoi(cmd->args[1]);
 	free_all(alloc_list);
 	printf("exit\n");
-	exit (1);
+	exit (status);
 }
