@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 19:23:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:55:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	execution_part(t_shell **shell, t_list *alloc_list);
 void	mini_display(void);
 void	print_arr(char **arr);
 void	print_this(t_env **env_list, char *sch);
-void	put_error(char *msg);
 
 /* ======================== BUILTIN COMMANDS ======================== */
 

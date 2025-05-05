@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 18:37:12 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 20:00:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	execute_exit(t_cmd *cmd, t_list *alloc_list)
 		return (1);
 	}
 	if (count_args(cmd->args) > 1)
-		status = ft_atoi(cmd->args[1]);
+		status = ft_atoi(cmd->args[1], alloc_list);
 	free_all(alloc_list);
 	printf("exit\n");
 	exit (status);

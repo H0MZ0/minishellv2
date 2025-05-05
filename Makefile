@@ -24,7 +24,7 @@ LIBFT_SRC = libft/ft_bzero.c libft/ft_calloc.c libft/ft_isalnum.c \
             libft/ft_putstr_fd.c libft/ft_putendl_fd.c libft/ft_isspace.c \
             libft/ft_lstadd_back_bonus.c libft/ft_lstclear_bonus.c \
             libft/ft_lstdelone_bonus.c libft/ft_lstlast_bonus.c \
-            libft/ft_lstnew_bonus.c libft/ft_atoi.c
+            libft/ft_lstnew_bonus.c libft/ft_atoi.c libft/put_error.c
 
 LIBFT_FILES = $(LIBFT_SRC) libft/libft.h
 

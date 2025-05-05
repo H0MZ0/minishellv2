@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 10:02:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:56:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,3 @@ char	*check_cmd(char **paths, char *cmd, t_list *alloc_list)
 	return (NULL);
 }
 
-void	put_error(char *msg)
-{
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
-}

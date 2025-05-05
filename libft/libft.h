@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 19:22:29 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:59:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <stdio.h>
-// # include "../minishell.h"
+
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
+# define EXIT_CMD_NOT_FOUND 127
+# define EXIT_INVALID_ARGS 2
 
 typedef struct s_list
 {
@@ -36,9 +40,9 @@ typedef struct s_split_data
 
 /* PART 1 */
 
-int		ft_atoi(const char *str);
+int		ft_atoi(const char *str, t_list *alloc_list);
 void	ft_bzero(void *s, size_t n);
-void    *ft_calloc(size_t count, size_t size, t_list *alloc_list);
+void	*ft_calloc(size_t count, size_t size, t_list *alloc_list);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -48,6 +52,7 @@ size_t	ft_strlen(const char *s);
 int		ft_isspace(int c);
 int 	is_quote(char c);
 int 	is_operator(char c);
+void	put_error(char *msg);
 
 /* PART 2 */
 
