@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:36:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:20:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	execute_pwd(t_cmd *cmd)
 		free(cwd);
 	}
 	else
+	{
+		free (cmd);
 		perror("pwd");
+	}
 	return (1);
 }
 
@@ -83,14 +86,10 @@ int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
 	if (chdir(cmd->args[1]) == -1)
 	{
 		perror("cd");
-		// free(old_pwd);
 		return (1);
 	}
 	update_env(env, "OLDPWD", old_pwd, alloc_list);
-	// free(old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	update_env(env, "PWD", new_pwd, alloc_list);
-	free(new_pwd);
 	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:01:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:09:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:22:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	update_env(t_env **env, char *key, char *replace, t_list *alloc_list)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
-			free(tmp->value);
 			tmp->value = ft_strdup(replace, alloc_list);
+			free (replace);
 			return ;
 		}
 		tmp = tmp->next;

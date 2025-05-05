@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:09:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:04:59 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,7 @@ int	excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc_list)
 		if (!check)
 			return (1);
 		else if (ft_strcmp(check[0], "USER") == 0)
-		{
-			// free_array(check);
-			put_error("can't unset USER");
-			return (1);
-		}
+			return ((put_error("can't unset USER")), 1);
 	}
 	while (cmd->args[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/03 16:38:44 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:31:50 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }		t_list;
+
+typedef struct s_split_data
+{
+	char	**ptr;
+	int		count;
+	t_list	*alloc_list;
+}	t_split_data;
 
 /* PART 1 */
 

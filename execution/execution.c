@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:35:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:02:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	path_cmd(t_shell **shell)
 			if (pid == 0)
 			{
 				execve((*shell)->cmds->args[0],
-						&(*shell)->cmds->args[0], (*shell)->envp);
+					&(*shell)->cmds->args[0], (*shell)->envp);
 			}
 			else
 				waitpid(pid, NULL, 0);
@@ -43,7 +43,8 @@ static void	exec_child(t_cmd *f_cmd, char *cmd, char **envp)
 	execve(cmd, &f_cmd->args[0], envp);
 }
 
-static void	exec_command(t_cmd *f_cmd, char **paths, char **envp, t_list *alloc_list)
+static void	exec_command(t_cmd *f_cmd, char **paths,
+						char **envp, t_list *alloc_list)
 {
 	pid_t	pid;
 	char	*cmd;
@@ -56,7 +57,6 @@ static void	exec_command(t_cmd *f_cmd, char **paths, char **envp, t_list *alloc_
 			exec_child(f_cmd, cmd, envp);
 		else
 			waitpid(pid, NULL, 0);
-		// free(cmd);
 	}
 	else
 		printf("%s: command not found\n", f_cmd->args[0]);
@@ -81,8 +81,7 @@ void	execution_part(t_shell **shell, t_list *alloc_list)
 			if ((*shell)->env->next)
 				(*shell)->cmds = (*shell)->cmds->next;
 			else
-				(*shell)->cmds = (*shell)->cmds->next;	
+				(*shell)->cmds = (*shell)->cmds->next;
 		}
 	}
 }
-

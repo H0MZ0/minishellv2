@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:05:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:02:52 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*check_cmd(char **paths, char *cmd, t_list *alloc_list)
 		command = ft_strjoin(command, cmd, alloc_list);
 		if (access(command, X_OK) == 0)
 			return (command);
-		// free(command);
 		i++;
 	}
 	return (NULL);
