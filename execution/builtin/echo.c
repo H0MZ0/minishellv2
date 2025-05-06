@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/04/29 13:11:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:54:54 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int	execute_echo(t_cmd *cmd)
 		return (open_and_write(cmd, n_flag, i));
 	while (cmd->args[i])
 	{
+		// if (cmd->args[i] && ft_strcmp(cmd->args[1], "$?") == 0)
+		// {
+		// 	printf("%d\n", exit_status);
+		// 	i++;
+		// }
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");

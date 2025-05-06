@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 19:23:35 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 20:25:48 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ static void	exec_command(t_cmd *f_cmd, char **paths,
 void	execution_part(t_shell **shell, t_list *alloc_list)
 {
 	char	**paths;
-	t_cmd	*tmp;
+	// t_cmd	*tmp;
 
 	paths = get_paths(shell, alloc_list);
 	while ((*shell)->cmds)
 	{
-		tmp = (*shell)->cmds;
+		// tmp = (*shell)->cmds;
 		if (path_cmd(shell))
 			(*shell)->cmds = (*shell)->cmds->next;
 		else if (is_builtin(shell, alloc_list))
