@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 14:20:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 01:27:23 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	is_builtin(t_shell **shell, t_list *alloc_list)
+int	is_builtin_name(const char *name)
+{
+	return (!ft_strcmp(name, "cd") || !ft_strcmp(name, "echo") ||
+			!ft_strcmp(name, "pwd") || !ft_strcmp(name, "export") ||
+			!ft_strcmp(name, "unset") || !ft_strcmp(name, "env") ||
+			!ft_strcmp(name, "exit"));
+}
+
+int	exec_builtin(t_shell **shell, t_list *alloc_list)
 {
 	if (!ft_strcmp((*shell)->cmds->args[0], "cd"))
 		return (execute_cd((*shell)->cmds, &(*shell)->env, alloc_list));
@@ -29,7 +37,7 @@ int	is_builtin(t_shell **shell, t_list *alloc_list)
 		return (execute_env((*shell)->cmds, (*shell)->env));
 	else if (!ft_strcmp((*shell)->cmds->args[0], "exit"))
 		return (execute_exit((*shell)->cmds, alloc_list));
-	return (0);
+	return (1);
 }
 
 int	execute_pwd(t_cmd *cmd)

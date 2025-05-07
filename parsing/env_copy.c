@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:08:35 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/03 16:41:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:49:40 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ char *value(char *str, t_list *alloc_list)
 
 t_env *env_copy(char *content, t_list	*alloc_list)
 {
+    if (!content || !ft_strchr(content, '='))
+        return NULL;
+
     t_env *new_node = ft_malloc(sizeof(t_env), &alloc_list);
     if (!new_node)
         return NULL;

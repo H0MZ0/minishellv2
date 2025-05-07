@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/03 17:27:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 01:25:05 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_token_type get_token_type(char *str)
     return WORD;
 }
 
-t_token *tokenize_line(char *line, t_list *alloc_list)
+t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
 {
     int i = 0, len;
     t_token *head = NULL;
@@ -130,7 +130,18 @@ t_token *tokenize_line(char *line, t_list *alloc_list)
         token_str = strndup(line + i, len);
         type = get_token_type(token_str);
 
-        append_token(&head, create_token(token_str, type, alloc_list));
+        // this like should be work///////
+        if (type == WORD && ft_strchr(token_str, '$'))
+        {
+            char *expanded = expand_token_value(token_str, shell, alloc_list);
+            append_token(&head, create_token(expanded, type, alloc_list));
+            free(expanded);
+        }
+        else
+        {
+            append_token(&head, create_token(token_str, type, alloc_list));
+        }
+
 
         free(token_str);
         i += len;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:58:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 16:41:10 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:39:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ void ft_envadd_back(t_env **env, char *key, char *value, t_list *alloc_list)
 
 int	check_exp(t_cmd *cmd, t_env **env)
 {
-	int	i;
-
-	i = 0;
 	if (!cmd->args[1])
 	{
 		print_list_env(env);
@@ -53,38 +50,3 @@ int	check_exp(t_cmd *cmd, t_env **env)
 	}
 	return (0);
 }
-
-// int execute_export(t_cmd *cmd, t_env **env)
-// {
-// 	int		i = 1;
-// 	char	**exp;
-// 	t_env	*tmp;
-
-// 	if (check_exp(cmd, env))
-// 		return (1);
-// 	while (cmd->args[i])
-// 	{
-// 		exp = ft_split(cmd->args[i], '=');
-// 		tmp = *env;
-// 		while (tmp)
-// 		{
-// 			if (ft_strcmp(tmp->key, exp[0]) == 0)
-// 			{
-// 				if (exp[1])
-// 				{
-// 					free(tmp->value);
-// 					tmp->value = ft_strdup(exp[1]);
-// 				}
-// 				// free_array(exp);
-// 				break;
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 		if (!tmp)
-// 			ft_envadd_back(env, exp[0], exp[1]);
-// 		free_array(exp);
-// 		i++;
-// 	}
-// 	return (1);
-// }
-

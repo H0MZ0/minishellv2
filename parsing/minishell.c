@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 19:13:26 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:13:44 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	// (void)envp;
 
 	char	*line;
 	t_list	*alloc_list = NULL;
@@ -56,14 +55,14 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 		add_history(line);
-		shell->tokens = tokenize_line(line, alloc_list);
+		shell->tokens = tokenize_line(shell, line, alloc_list);
 		if (shell->tokens && check_syntax(shell->tokens))
 		{
 			shell->cmds = build_cmd_list(shell->tokens, alloc_list);
 			if (shell->cmds)
 			{
 				// print_cmd_list(shell->cmds);
-				execution_part(&shell, alloc_list);
+				execution_part(shell, &alloc_list);
 			}
 		}
 

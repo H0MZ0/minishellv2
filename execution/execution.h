@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 19:55:28 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:10:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* ======================== EXECUTION CORE ======================== */
 
-void	execution_part(t_shell **shell, t_list *alloc_list);
+void	execution_part(t_shell *shell, t_list **alloc_list);
 void	mini_display(void);
 void	print_arr(char **arr);
 void	print_this(t_env **env_list, char *sch);
@@ -32,7 +32,7 @@ int		execute_env(t_cmd *cmd, t_env *envp);
 int		execute_exit(t_cmd *cmd, t_list *alloc_list);
 int		execute_export(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc);
-int		is_builtin(t_shell **shell, t_list *alloc_list);
+int		exec_builtin(t_shell **shell, t_list *alloc_list);
 
 /* ======================== BUILTIN HELPERS ======================== */
 
@@ -69,6 +69,8 @@ int		open_and_write(t_cmd *cmd, int flag, int index);
 
 /* ======================== PIPES ======================== */
 
-void	pipex(t_cmd *cmd, char **envp);
+void pipex(t_shell **shell, t_list *alloc_list);
+
+int	is_builtin_name(const char *name);
 
 #endif

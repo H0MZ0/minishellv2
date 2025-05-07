@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/03 16:40:18 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/07 01:19:50 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,15 @@ char *extract_var_name(char *str, int pos, t_list *alloc_list)
 	return ft_substr(str, start, len, alloc_list); 
 }
 
-char *get_env_value(t_env *env, char *key, int last_exit, t_list *alloc_list)
+// char *get_env_value(t_env *env, char *key, int last_exit, t_list *alloc_list)
+char *get_env_value(t_shell *shell, char *key, t_list *alloc_list)
 {
 	t_env *tmp;
 
 	if (!strcmp(key, "?"))
-		return (ft_itoa(last_exit, alloc_list)); 
+		return (ft_itoa(shell->exit_status, alloc_list)); 
 
-	tmp = env;
+	tmp = shell->env;
 	while (tmp)
 	{
 		if (strcmp(tmp->key, key) == 0)
@@ -95,7 +96,8 @@ char *replace_var_in_string(char *src, int var_start, int var_len,
 	return new_str;
 }
 
-char *expand_token_value(char *value, t_env *env, int last_exit, t_list *alloc_list)
+// char *expand_token_value(char *value, t_env *env, int last_exit, t_list *alloc_list)
+char *expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 {
 	char *result = ft_strdup(value, alloc_list);
 	int pos;
@@ -104,7 +106,7 @@ char *expand_token_value(char *value, t_env *env, int last_exit, t_list *alloc_l
 	{
 		if (result[pos + 1] == '?') 
 		{
-			char *var_value = ft_itoa(last_exit, alloc_list);
+			char *var_value = ft_itoa(shell->exit_status, alloc_list);
 			char *expanded = replace_var_in_string(result, pos, 1, var_value, alloc_list); 
 
 			free(var_value);
@@ -117,7 +119,7 @@ char *expand_token_value(char *value, t_env *env, int last_exit, t_list *alloc_l
 			if (!var)
 				break;
 
-			char *var_value = get_env_value(env, var, last_exit, alloc_list);
+			char *var_value = get_env_value(shell, var, alloc_list);
 			char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value, alloc_list);
 
 			free(var_value);
