@@ -1,0 +1,3 @@
+[36mminishell$ [0mecho line1 | tee pipe_test_out.txt
+line1
+[36mminishell$ [0m
