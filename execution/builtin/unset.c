@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 10:04:59 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:53:08 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,28 @@ int	cmp_key(void *a, void *b)
 			(char *)b, ft_strlen((char *)b) + 1));
 }
 
-int	excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc_list)
+int	excute_unset(t_shell **shell, t_list *alloc_list)
 {
 	(void)shell;
 	char	**check;
 	int	i;
 
 	i = 1;
-	if (cmd->args)
+	if ((*shell)->cmds->args)
 	{
-		check = ft_split(cmd->args[i], '=', alloc_list);
+		check = ft_split((*shell)->cmds->args[i], '=', alloc_list);
 		if (!check)
 			return (1);
 		else if (ft_strcmp(check[0], "USER") == 0)
+		{
+			(*shell)->exit_status = 1;
 			return ((put_error("can't unset USER")), 1);
+		}
 	}
-	while (cmd->args[i])
+	while ((*shell)->cmds->args[i])
 	{
-		ft_env_remove_if(env, cmd->args[i], cmp_key, free);
+		ft_env_remove_if(&((*shell)->env), (*shell)->cmds->args[i],
+						cmp_key, free);
 		i++;
 	}
 	return (1);

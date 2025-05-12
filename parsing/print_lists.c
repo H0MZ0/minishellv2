@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:13:18 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/04/20 16:31:03 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:03:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_list_env(t_env **head)
 
     while (tmp)
     {
-        printf("key: %s | value: %s\n", tmp->key, tmp->value);
+        printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
         tmp = tmp->next;
     }
 }
@@ -32,7 +32,6 @@ void print_cmd_list(t_cmd *cmd_list)
     {
         printf("🔹 CMD %d:\n", cmd_num++);
 
-        // Print args
         printf("  args    = ");
         if (cmd_list->args)
         {

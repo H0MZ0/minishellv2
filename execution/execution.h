@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/12 16:17:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:49:19 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);
 int		execute_exit(t_shell *shell, t_list *alloc_list);
 int     execute_export(t_shell **shell, t_list *alloc_list);
-int		excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc);
+int		excute_unset(t_shell **shell, t_list *alloc);
 int		exec_builtin(t_shell **shell, t_list *alloc_list);
 
 /* ======================== BUILTIN HELPERS ======================== */
