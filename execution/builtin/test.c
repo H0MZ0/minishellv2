@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:42:18 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/03 17:10:19 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:27:58 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,39 @@ void	update_or_add(t_env **env, char *key, char *value, t_list *alloc_list)
 	ft_envadd_back(env, key, value, alloc_list);
 }
 
-int	execute_export(t_cmd *cmd, t_env **env, t_list *alloc_list)
+void	non_valide(t_shell **shell, char *identifier)
+{
+	ft_putstr_fd("export: `", 2);
+	ft_putstr_fd(identifier, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	(*shell)->exit_status = 1;
+}
+
+int	execute_export(t_shell **shell, t_list *alloc_list)
 {
 	int		i = 1;
 	char	*key;
 	char	*value;
 
-	if (check_exp(cmd, env))
+	if (check_exp((*shell)))
 		return (1);
-	while (cmd->args[i])
+	while ((*shell)->cmds->args[i])
 	{
-		if (!is_valid_key(cmd->args[i]))
+		if (!is_valid_key((*shell)->cmds->args[i]))
 		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(cmd->args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			non_valide(shell, (*shell)->cmds->args[i]);
 			i++;
 			continue;
 		}
-		key = get_key(cmd->args[i], alloc_list);
-		value = get_value(cmd->args[i], alloc_list); // NULL if no '='
-		update_or_add(env, key, value, alloc_list);
+		key = get_key((*shell)->cmds->args[i], alloc_list);
+		value = get_value((*shell)->cmds->args[i], alloc_list);
+		update_or_add(&((*shell)->env), key, value, alloc_list);
 		free(key);
 		if (value)
 			free(value);
 		i++;
 	}
+	if ((*shell)->exit_status != 1)
+		(*shell)->exit_status = 0;
 	return (1);
 }

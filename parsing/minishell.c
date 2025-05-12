@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/07 13:21:59 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:38:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	main(int ac, char **av, char **envp)
 			append_env(&shell->env, node);
 		i++;
 	}
-	// mini_display();
+	mini_display();
 	while (1)
 	{
-		set_prompt_signals();
+		set_prompt_signals(shell);
 		line = readline(CYAN "minishell$ " RESET);
 		if (!line)
 		// {

@@ -1,3 +1,0 @@
-[36mminishell$ [0mecho one two three | tr ' ' '\n' | wc -l
-3
-[36mminishell$ [0m

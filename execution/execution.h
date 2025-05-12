@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/10 11:53:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:17:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int		execute_pwd(t_cmd *cmd);
 int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);
 int		execute_exit(t_shell *shell, t_list *alloc_list);
-int		execute_export(t_cmd *cmd, t_env **env, t_list *alloc_list);
+int     execute_export(t_shell **shell, t_list *alloc_list);
 int		excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc);
 int		exec_builtin(t_shell **shell, t_list *alloc_list);
 
 /* ======================== BUILTIN HELPERS ======================== */
 
-int		check_exp(t_cmd *cmd, t_env **env);
+int		check_exp(t_shell *shell);
 int		is_new_line(char *arg);
 void	env_path(t_env **env_list, t_cmd *cmd);
 void	update_env(t_env **env, char *key, char *val, t_list *alloc);

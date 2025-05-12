@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/08 18:46:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:38:59 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 		if (pid == 0)
 			exec_child(shell, cmd);
 		else
-		update_exit_status(shell, pid);
+			update_exit_status(shell, pid);
 	}
 	else
 		set_cmd_not_found(shell, shell->cmds->args[0]);
@@ -104,7 +104,6 @@ void execution_part(t_shell *shell, t_list **alloc_list)
 				shell->cmds = shell->cmds->next;
 			continue;
 		}
-
 		exec_command(shell, paths, alloc_list);
 		shell->cmds = shell->cmds->next;
 	}

@@ -1,3 +1,0 @@
-[36mminishell$ [0mecho '42\nhello\n42' > infile.txt && cat infile.txt | grep 42 | wc -l
-0
-[36mminishell$ [0m

@@ -3,6 +3,7 @@
         "libft.h": "c",
         "minishell.h": "c",
         "types.h": "c",
-        "execution.h": "c"
+        "execution.h": "c",
+        "parsing.h": "c"
     }
 }

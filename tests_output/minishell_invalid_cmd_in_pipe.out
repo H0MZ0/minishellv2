@@ -1,3 +1,0 @@
-[36mminishell$ [0mecho test | notacommand | wc
-      0       0       0
-[36mminishell$ [0m
