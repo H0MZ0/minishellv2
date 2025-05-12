@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/07 13:09:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/08 18:46:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ int	path_cmd(t_shell **shell)
 					&(*shell)->cmds->args[0], (*shell)->envp);
 			}
 			else
-				waitpid(pid, NULL, 0);
+				update_exit_status((*shell), pid);
 		}
 		return (1);
 	}
 	return (0);
 }
 
-// static void	exec_child(t_cmd *f_cmd, char *cmd, char **envp)
 static void	exec_child(t_shell *shell, char *cmd)
 {
 	if (shell->cmds->infile != NULL)
@@ -43,57 +42,12 @@ static void	exec_child(t_shell *shell, char *cmd)
 		outfile(shell->cmds->outfile);
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
-	//free_all
-	// exit(1);
 }
-
-// static void	exec_command(t_cmd *f_cmd, char **paths,
-// 						char **envp, t_list *alloc_list)
-// {
-// 	pid_t	pid;
-// 	char	*cmd;
-
-// 	cmd = check_cmd(paths, f_cmd->args[0], alloc_list);
-// 	if (cmd)
-// 	{
-// 		pid = fork();
-// 		if (pid == 0)
-// 			exec_child(f_cmd, cmd, envp);
-// 		else
-// 			waitpid(pid, NULL, 0);
-// 	}
-// 	else
-// 		printf("%s: command not found\n", f_cmd->args[0]);
-// }
-
-// void	execution_part(t_shell **shell, t_list *alloc_list)
-// {
-// 	char	**paths;
-
-// 	paths = get_paths(shell, alloc_list);
-// 	while ((*shell)->cmds)
-// 	{
-// 		if (path_cmd(shell))
-// 			(*shell)->cmds = (*shell)->cmds->next;
-// 		else if (is_builtin(shell, alloc_list))
-// 			(*shell)->cmds = (*shell)->cmds->next;
-// 		else
-// 		{
-// 			exec_command((*shell)->cmds, paths, (*shell)->envp, alloc_list);
-// 			if ((*shell)->env->next)
-// 				(*shell)->cmds = (*shell)->cmds->next;
-// 			else
-// 				(*shell)->cmds = (*shell)->cmds->next;
-// 		}
-// 	}
-// }
 
 static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 {
 	pid_t	pid;
 	char	*cmd;
-	// t_list	*shel = *()
-
 
 	if (is_builtin_name(shell->cmds->args[0]))
 	{
@@ -109,7 +63,7 @@ static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 				exit(exec_builtin(&shell, (*alloc_list)));
 			}
 			else
-				waitpid(pid, NULL, 0);
+				update_exit_status(shell, pid);
 		}
 		else
 		{
@@ -125,13 +79,12 @@ static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 		if (pid == 0)
 			exec_child(shell, cmd);
 		else
-			waitpid(pid, NULL, 0);
+		update_exit_status(shell, pid);
 	}
 	else
-		printf("%s: command not found\n", shell->cmds->args[0]);
+		set_cmd_not_found(shell, shell->cmds->args[0]);
 }
 
-// void execution_part(t_cmd *f_cmd, t_env *env_list, char **envp, t_list **alloc_list)
 void execution_part(t_shell *shell, t_list **alloc_list)
 {
 	char **paths;

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/07 11:10:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/10 11:53:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
 int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);
-int		execute_exit(t_cmd *cmd, t_list *alloc_list);
+int		execute_exit(t_shell *shell, t_list *alloc_list);
 int		execute_export(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		excute_unset(t_cmd *cmd, t_env **env, t_shell **shell, t_list *alloc);
 int		exec_builtin(t_shell **shell, t_list *alloc_list);
@@ -72,5 +72,7 @@ int		open_and_write(t_cmd *cmd, int flag, int index);
 void pipex(t_shell **shell, t_list *alloc_list);
 
 int	is_builtin_name(const char *name);
+void	update_exit_status(t_shell *shell, pid_t pid);
+void	set_cmd_not_found(t_shell *shell, char *cmd);
 
 #endif

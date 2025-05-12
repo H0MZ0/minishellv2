@@ -13,7 +13,7 @@ SRC = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c parsing/hande
       execution/builtin/unset.c execution/builtin/expuns_utils1.c \
       execution/builtin/expuns_utils2.c execution/builtin/echo.c \
       execution/builtin/tools1.c execution/builtin/export.c execution/builtin/test.c \
-      libft/ft_malloc.c
+      libft/ft_malloc.c execution/exit_status.c
 
 OBJ = $(SRC:.c=.o)
 

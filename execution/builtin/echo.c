@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/06 10:54:54 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/09 10:58:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-int	execute_echo(t_cmd *cmd)
+int	execute_echo(t_cmd	*cmd)
 {
 	int (i), (n_flag);
 	i = 1;
@@ -26,11 +26,6 @@ int	execute_echo(t_cmd *cmd)
 		return (open_and_write(cmd, n_flag, i));
 	while (cmd->args[i])
 	{
-		// if (cmd->args[i] && ft_strcmp(cmd->args[1], "$?") == 0)
-		// {
-		// 	printf("%d\n", exit_status);
-		// 	i++;
-		// }
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
@@ -38,7 +33,7 @@ int	execute_echo(t_cmd *cmd)
 	}
 	if (!n_flag)
 		printf("\n");
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	open_and_write(t_cmd *cmd, int flag, int i)
@@ -49,7 +44,7 @@ int	open_and_write(t_cmd *cmd, int flag, int i)
 	if (fd == -1)
 	{
 		perror("fd");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	while (cmd->args[i])
 	{
@@ -61,5 +56,5 @@ int	open_and_write(t_cmd *cmd, int flag, int i)
 	if (!flag)
 		write (fd, "\n", 1);
 	close(fd);
-	return (1);
+	return (EXIT_SUCCESS);
 }

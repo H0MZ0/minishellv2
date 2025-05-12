@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expuns_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 20:00:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/10 11:56:47 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,18 @@ void	env_path(t_env **env_list, t_cmd *cmd)
 		print_this(env_list, "HOME");
 }
 
-int	execute_exit(t_cmd *cmd, t_list *alloc_list)
+int	execute_exit(t_shell *shell, t_list *alloc_list)
 {
 	int	status;
 
-	status = 0;
-	if (count_args(cmd->args) > 2)
+	status = shell->exit_status;
+	if (count_args(shell->cmds->args) > 2)
 	{
 		put_error("exit: too many arguments");
 		return (1);
 	}
-	if (count_args(cmd->args) > 1)
-		status = ft_atoi(cmd->args[1], alloc_list);
+	if (count_args(shell->cmds->args) > 1)
+	status = ft_atoi(shell->cmds->args[1], alloc_list);
 	free_all(alloc_list);
 	printf("exit\n");
 	exit (status);
