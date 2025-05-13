@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:13:18 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/12 17:03:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:48:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_list_env(t_env **head)
 
     while (tmp)
     {
-        printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
         tmp = tmp->next;
     }
 }
@@ -43,18 +43,48 @@ void print_cmd_list(t_cmd *cmd_list)
             printf("(none)");
         printf("\n");
 
-        // Print redirections
-        printf("  infile  = %s\n", cmd_list->infile ? cmd_list->infile : "(none)");
-        printf("  outfile = %s\n", cmd_list->outfile ? cmd_list->outfile : "(none)");
-        printf("  append  = %d\n", cmd_list->append);
+        printf("  infiles  = ");
+        if (cmd_list->infiles)
+        {
+            i = 0;
+            while (cmd_list->infiles[i])
+                printf("\"%s\" ", cmd_list->infiles[i++]);
+        }
+        else
+            printf("(none)");
+        printf("\n");
+
+        // Print outfiles and append flags
+        printf("  outfiles = ");
+        if (cmd_list->outfiles)
+        {
+            i = 0;
+            while (cmd_list->outfiles[i])
+                printf("\"%s\" ", cmd_list->outfiles[i++]);
+        }
+        else
+            printf("(none)");
+        printf("\n");
+
+        printf("  append flags = ");
+        int *flags = cmd_list->append_flags;
+        for (int i = 0; flags && flags[i] != -1; i++)
+            printf("%d ", flags[i]);
+
+        // else
+        //     printf("(none)");
+        printf("\n");
+
+        // Other fields
         printf("  pipe    = %s\n", cmd_list->has_pipe ? "true" : "false");
-        printf("  herdok  = %s\n", cmd_list->heredoc_delim);
-        printf("  herdok num = %d\n", cmd_list->heredoc_expand);
+        printf("  heredoc = %s\n", cmd_list->heredoc_delim ? cmd_list->heredoc_delim : "(null)");
+        printf("  heredoc expand = %d\n", cmd_list->heredoc_expand);
         printf("\n");
 
         cmd_list = cmd_list->next;
     }
 }
+
 
 void print_list(t_token *head)
 {

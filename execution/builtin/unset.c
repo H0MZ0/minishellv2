@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:53:42 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/12 16:53:08 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:34:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int	excute_unset(t_shell **shell, t_list *alloc_list)
 						cmp_key, free);
 		i++;
 	}
-	return (1);
+	(*shell)->exit_status = 0;
+	return (EXIT_FAILURE);
 }

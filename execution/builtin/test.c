@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:42:18 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/12 16:27:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:32:39 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	is_valid_key(char *s)
 		if (s[i] == '=')
 			break;
 		if (!ft_isalnum(s[i]) && s[i] != '_')
-			return (0);
+			return (EXIT_SUCCESS);
 		i++;
 	}
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 char	*get_key(char *arg, t_list *alloc_list)

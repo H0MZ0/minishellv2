@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/08 18:50:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:59:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	put_error(char *msg);
 char	*ft_substr(char const *s, unsigned int start, size_t len, t_list *alloc_list);
 char    *ft_strdup(const char *str, t_list *alloc_list);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_putstr_fd(const char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c, t_list *alloc);
 char    *ft_itoa(int n, t_list *alloc_list);
 

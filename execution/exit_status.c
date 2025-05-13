@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:55 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/08 18:47:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:59:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_cmd_not_found(t_shell *shell, char *cmd)
 	shell->exit_status = 127;
 }
 
-void	set_permission_denied(t_shell *shell, const char *cmd)
+void	set_permission_denied(t_shell *shell, char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
@@ -39,7 +39,7 @@ void	set_permission_denied(t_shell *shell, const char *cmd)
 	shell->exit_status = 126;
 }
 
-void	set_syntax_error(t_shell *shell, const char *token)
+void	set_syntax_error(t_shell *shell, char *token)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(token, 2);

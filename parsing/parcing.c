@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/07 01:25:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 13:31:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
                 printf("syntax error near `\\'\n");
             else if (len == -4)
                 printf("syntax error near ``'\n");
-            // free_token_list(head);
             return NULL;
         }
 
@@ -135,18 +134,11 @@ t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
         {
             char *expanded = expand_token_value(token_str, shell, alloc_list);
             append_token(&head, create_token(expanded, type, alloc_list));
-            free(expanded);
         }
         else
-        {
             append_token(&head, create_token(token_str, type, alloc_list));
-        }
-
-
         free(token_str);
         i += len;
     }
-    return head;
+    return (head);
 }
-
-

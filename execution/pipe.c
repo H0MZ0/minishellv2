@@ -3,47 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/07 13:12:56 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:37:59 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+// #include <sys/wait.h>
 
 void handle_redirections(t_cmd *cmd)
 {
-	int	fd;
-	int	flags;
+	int fd = -1;
+	int i = 0;
 
-	if (cmd->infile)
+	while (cmd->infiles && cmd->infiles[i])
 	{
-		fd = open(cmd->infile, O_RDONLY);
+		fd = open(cmd->infiles[i], O_RDONLY);
 		if (fd < 0)
 		{
-			perror(cmd->infile);
+			perror(cmd->infiles[i]);
 			exit(EXIT_FAILURE);
 		}
+		i++;
+	}
+	if (fd != -1)
+	{
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
-	if (cmd->outfile)
+	fd = -1;
+	i = 0;
+	while (cmd->outfiles && cmd->outfiles[i])
 	{
-		flags = O_WRONLY | O_CREAT;
-		flags |= cmd->append ? O_APPEND : O_TRUNC;
-		fd = open(cmd->outfile, flags, 0644);
+		int flags = O_WRONLY | O_CREAT;
+		if (cmd->append_flags && cmd->append_flags[i] == 1)
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
+
+		fd = open(cmd->outfiles[i], flags, 0644);
 		if (fd < 0)
 		{
-			perror(cmd->outfile);
+			perror(cmd->outfiles[i]);
 			exit(EXIT_FAILURE);
 		}
+		i++;
+	}
+	if (fd != -1)
+	{
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
 }
 
-void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
+
+void exec_pipeline_cmd(t_shell *shell, char **paths, int in_fd,
 						int out_fd, t_list *alloc_list)
 {
 	char *cmd_path;
@@ -51,21 +67,21 @@ void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
 	set_child_signals();
 	dup2(in_fd, STDIN_FILENO);
 	dup2(out_fd, STDOUT_FILENO);
-	handle_redirections(cmd);
+	handle_redirections(shell->cmds);
 
-	if (!cmd->args || !cmd->args[0])
+	if (!shell->cmds->args || !shell->cmds->args[0])
 		exit(EXIT_SUCCESS);
 
-	if (is_builtin_name(cmd->args[0]))
+	if (is_builtin_name(shell->cmds->args[0]))
 		exit(exec_builtin(&shell, alloc_list));
 
-	cmd_path = check_cmd(paths, cmd->args[0], alloc_list);
+	cmd_path = check_cmd(paths, shell->cmds->args[0], alloc_list);
 	if (!cmd_path)
 	{
-		fprintf(stderr, "%s: command not found\n", cmd->args[0]);
+		fprintf(stderr, "%s: command not found\n", shell->cmds->args[0]);
 		exit(127);
 	}
-	execve(cmd_path, cmd->args, shell->envp);
+	execve(cmd_path, shell->cmds->args, shell->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
@@ -90,7 +106,7 @@ void pipex(t_shell **shell, t_list *alloc_list)
 		if (pid == 0)
 		{
 			close(pipe_fd[0]);
-			exec_pipeline_cmd(*shell, current, paths, prev_fd, pipe_fd[1], alloc_list);
+			exec_pipeline_cmd((*shell), paths, prev_fd, pipe_fd[1], alloc_list);
 		}
 		close(pipe_fd[1]);
 		if (prev_fd != STDIN_FILENO)
@@ -103,10 +119,15 @@ void pipex(t_shell **shell, t_list *alloc_list)
 	{
 		pid = fork();
 		if (pid == 0)
-			exec_pipeline_cmd(*shell, current, paths, prev_fd, STDOUT_FILENO, alloc_list);
+			 exec_pipeline_cmd((*shell), paths, prev_fd, STDOUT_FILENO, alloc_list);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 	}
+	// int status, exit_code;
+	// waitpid(pid, &status, 0);
+	// if (WIFEXITED)
+	// 	exit_code = WEXITSTATUS(status);
 	while (wait(NULL) > 0)
 		;
+	// free_array(paths);
 }

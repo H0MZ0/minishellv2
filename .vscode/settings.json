@@ -4,6 +4,6 @@
         "minishell.h": "c",
         "types.h": "c",
         "execution.h": "c",
-        "parsing.h": "c"
+        "wait.h": "c"
     }
 }

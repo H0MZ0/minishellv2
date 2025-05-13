@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/12 16:38:28 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:25:27 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,16 @@ int	main(int ac, char **av, char **envp)
 		set_prompt_signals(shell);
 		line = readline(CYAN "minishell$ " RESET);
 		if (!line)
-		// {
-			// free(line);
-			// free_shell(shell);
-			exit(0);
-		// }
-		else if (is_empty(line))
-		{
-			free(line);
-		}
-		add_history(line);
+			exit (shell->exit_status);
+		else if (!(is_empty(line)))
+			add_history(line);
 		shell->tokens = tokenize_line(shell, line, alloc_list);
 		if (shell->tokens && check_syntax(shell->tokens))
 		{
 			shell->cmds = build_cmd_list(shell->tokens, alloc_list);
 			if (shell->cmds)
 			{
-				// print_cmd_list(shell->cmds);
+				// print_cmd_	list(shell->cmds);
 				execution_part(shell, &alloc_list);
 			}
 		}

@@ -37,9 +37,9 @@ typedef enum e_token_type
 {
 	WORD,
 	PIPE,
-	REDIR_OUT,
 	REDIR_IN,
 	APPEND,
+	REDIR_OUT,
 	HEREDOC,
 	SEMICOLON
 } t_token_type;
@@ -48,9 +48,9 @@ typedef enum e_token_type
 typedef struct s_cmd
 {
 	char				**args;
-	char			*infile;
-	char			*outfile;
-	int				append;
+	char **infiles;
+	char **outfiles;
+	int   *append_flags;
 	int				has_pipe;
 	char			*heredoc_delim;
 	int  			heredoc_expand;

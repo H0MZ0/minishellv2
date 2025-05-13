@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/05 19:56:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:38:52 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	ft_strcmp(const char *str1, const char *str2)
 
 	i = 0;
 	if (!str1 || !str2)
-		return (1);
+		return (EXIT_FAILURE);
 	while (str1[i] || str2[i])
 	{
 		if (str1[i] != str2[i])
 			return (str1[i] - str2[i]);
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 char	**get_paths(t_shell **shell, t_list *alloc_list)

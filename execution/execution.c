@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/12 16:38:59 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:15:51 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,25 @@ int	path_cmd(t_shell **shell)
 			else
 				update_exit_status((*shell), pid);
 		}
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
+
 
 static void	exec_child(t_shell *shell, char *cmd)
 {
-	if (shell->cmds->infile != NULL)
-		infile(shell->cmds->infile);
-	if (shell->cmds->outfile != NULL)
-		outfile(shell->cmds->outfile);
+	if (shell->cmds->infiles)
+		open_all_infiles(shell->cmds->infiles);
+	if (shell->cmds->outfiles)
+		open_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags);
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 }
 
-static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
+int	if_builtin(t_shell *shell, t_list *alloc_list)
 {
 	pid_t	pid;
-	char	*cmd;
 
 	if (is_builtin_name(shell->cmds->args[0]))
 	{
@@ -56,22 +56,108 @@ static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 			pid = fork();
 			if (pid == 0)
 			{
-				if (shell->cmds->infile)
-					infile(shell->cmds->infile);
-				if (shell->cmds->outfile)
-					outfile(shell->cmds->outfile);
-				exit(exec_builtin(&shell, (*alloc_list)));
+				if (shell->cmds->infiles)
+					open_all_infiles(shell->cmds->infiles);
+				if (shell->cmds->outfiles)
+					open_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags);
+
+				exit(exec_builtin(&shell, alloc_list));
 			}
 			else
 				update_exit_status(shell, pid);
 		}
 		else
-		{
-			exec_builtin(&shell, (*alloc_list));
-		}
-		return;
+			exec_builtin(&shell, alloc_list);
+		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
+}
 
+int	if_path(t_shell *shell)
+{
+	pid_t	pid;
+	t_cmd	*cmd;
+
+	cmd = shell->cmds;
+	while (cmd)
+	{
+		if (cmd->args && cmd->args[0] && access(cmd->args[0], X_OK) == 0)
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				execve(cmd->args[0], cmd->args, shell->envp);
+				exit(EXIT_FAILURE);
+			}
+			else
+				update_exit_status(shell, pid);
+			return (1);
+		}
+		cmd = cmd->next;
+	}
+	return (0);
+}
+
+void open_all_infiles(char **infiles)
+{
+	int fd = -1;
+	int i = 0;
+
+	while (infiles && infiles[i])
+	{
+		fd = open(infiles[i], O_RDONLY);
+		if (fd < 0)
+		{
+			perror(infiles[i]);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	if (fd != -1)
+	{
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+}
+
+void open_all_outfiles(char **outfiles, int *append_flags)
+{
+	int fd = -1;
+	int i = 0;
+	int flags;
+
+	while (outfiles && outfiles[i])
+	{
+		flags = O_WRONLY | O_CREAT;
+		if (append_flags[i])
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
+
+		fd = open(outfiles[i], flags, 0644);
+		if (fd < 0)
+		{
+			perror(outfiles[i]);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	if (fd != -1)
+	{
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+}
+
+static void exec_command(t_shell *shell, char **paths, t_list **alloc_list)
+{
+	pid_t	pid;
+	char	*cmd;
+
+	if (if_path(shell))
+		return;
+	if (if_builtin(shell, (*alloc_list)))
+		return ;
 	cmd = check_cmd(paths, shell->cmds->args[0], (*alloc_list));
 	if (cmd)
 	{
@@ -104,6 +190,7 @@ void execution_part(t_shell *shell, t_list **alloc_list)
 				shell->cmds = shell->cmds->next;
 			continue;
 		}
+
 		exec_command(shell, paths, alloc_list);
 		shell->cmds = shell->cmds->next;
 	}

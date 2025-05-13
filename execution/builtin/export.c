@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:58:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/12 16:15:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:52:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,12 @@ void ft_envadd_back(t_env **env, char *key, char *value, t_list *alloc_list)
 	last->next = new;
 }
 
-// int	check_exp(t_cmd *cmd, t_env **env)
 int	check_exp(t_shell *shell)
 {
 	if (!shell->cmds->args[1])
 	{
 		print_list_env(&(shell->env));
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
