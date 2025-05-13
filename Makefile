@@ -1,6 +1,6 @@
 
 NAME = minishell
-CC = cc
+CC = cc -g -g3 -fsanitize=address
 # CFLAGS = -Wall -Wextra -Werror
 
 LIBFT_DIR = libft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 15:24:33 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:14:13 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 {
 	pid_t	pid;
 
+	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
+	{
+		shell->exit_status = EXIT_INVALID_ARGS;
+		ft_putstr_fd("No such file or directory\n", 2);
+		return (EXIT_FAILURE);
+	}
 	if (is_builtin_name(shell->cmds->args[0]))
 	{
 		if (shell->cmds->has_pipe)

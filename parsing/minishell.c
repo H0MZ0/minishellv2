@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 15:13:51 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:05:50 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int ac, char **av, char **envp)
 			shell->cmds = build_cmd_list(shell->tokens, alloc_list);
 			if (shell->cmds)
 			{
-				print_cmd_list(shell->cmds);
+				// print_cmd_list(shell->cmds);
 				execution_part(shell, &alloc_list);
 			}
 		}

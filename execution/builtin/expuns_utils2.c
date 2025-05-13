@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 02:48:45 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 11:05:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:46:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	execute_exit(t_shell *shell, t_list *alloc_list)
 {
 	int	status;
 
-	printf("Exit status: %d\n", shell->exit_status);
+	// printf("Exit status: %d\n", shell->exit_status);
 	status = shell->exit_status;
 	if (count_args(shell->cmds->args) > 2)
 	{
@@ -73,6 +73,6 @@ int	execute_exit(t_shell *shell, t_list *alloc_list)
 	if (count_args(shell->cmds->args) > 1)
 	status = ft_atoi(shell->cmds->args[1], alloc_list);
 	free_all(alloc_list);
-	// printf("exit\n");
+	printf("exit\n");
 	exit (status);
 }

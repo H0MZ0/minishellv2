@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:46:03 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 10:43:50 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:14:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	print_error(char *message)
 {
 	ft_putstr_fd("syntax error: ", 2);
 	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
 	return (EXIT_SUCCESS);
 }
 

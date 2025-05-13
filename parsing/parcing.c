@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 15:59:48 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:29:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,31 @@ t_token_type get_token_type(char *str)
     return WORD;
 }
 
+t_token *return_syntax(t_shell *shell, int len)
+{
+    if (len == -1)
+    {
+        printf("syntax error: unclosed quote\n");
+        shell->exit_status = 258;
+    }
+    else if (len == -2)
+    {
+        printf("syntax error near `;;'\n");
+        shell->exit_status = 2;
+    }
+    else if (len == -3)
+    {
+        printf("syntax error near `\\'\n");
+        shell->exit_status = 258;
+    }
+    else if (len == -4)
+    {
+        printf("syntax error near ``'\n");
+        shell->exit_status = 258;
+    }
+    return (NULL);
+}
+
 t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
 {
     int i = 0, len;
@@ -113,18 +138,9 @@ t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
             break;
 
         len = get_token_length(line, i);
+        //syntax error exit code
         if (len < 0)
-        {
-            if (len == -1)
-                printf("syntax error: unclosed quote\n");
-            else if (len == -2)
-                printf("syntax error near `;;'\n");
-            else if (len == -3)
-                printf("syntax error near `\\'\n");
-            else if (len == -4)
-                printf("syntax error near ``'\n");
-            return NULL;
-        }
+            return (return_syntax(shell, len));
 
         token_str = strndup(line + i, len);
         type = get_token_type(token_str);
