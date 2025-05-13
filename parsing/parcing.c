@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 13:31:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:59:48 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,7 @@ t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
 
         token_str = strndup(line + i, len);
         type = get_token_type(token_str);
-
-        // this like should be work///////
+        
         if (type == WORD && ft_strchr(token_str, '$'))
         {
             char *expanded = expand_token_value(token_str, shell, alloc_list);

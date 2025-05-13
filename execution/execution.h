@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 11:16:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:02:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	free_all(t_list *alloc_list);
 
 void	infile(const char *filename);
 void	outfile(const char *filename);
-
+void	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list);
 /* ======================== ECHO HELPERS ======================== */
 
 int		open_and_write(t_cmd *cmd, int flag, int index);

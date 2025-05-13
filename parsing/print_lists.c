@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:13:18 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 10:48:34 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:13:21 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void print_cmd_list(t_cmd *cmd_list)
         printf("  pipe    = %s\n", cmd_list->has_pipe ? "true" : "false");
         printf("  heredoc = %s\n", cmd_list->heredoc_delim ? cmd_list->heredoc_delim : "(null)");
         printf("  heredoc expand = %d\n", cmd_list->heredoc_expand);
+        printf("  heredoc fd = %d\n", cmd_list->heredoc_fd);
         printf("\n");
 
         cmd_list = cmd_list->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/07 01:17:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:09:19 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ typedef struct s_cmd
 	char **infiles;
 	char **outfiles;
 	int   *append_flags;
-	int				has_pipe;
-	char			*heredoc_delim;
-	int  			heredoc_expand;
+	int	 has_pipe;
+	char *heredoc_delim;
+	int  heredoc_expand;
+	int  heredoc_fd;
 	struct s_cmd	*next;
 }	t_cmd;
 

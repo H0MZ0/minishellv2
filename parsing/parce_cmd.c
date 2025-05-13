@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/03 17:45:40 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:59:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd *create_cmd(t_list *alloc_list)
 	new_cmd->next = NULL;
 	new_cmd->heredoc_delim = NULL;
 	new_cmd->heredoc_expand = 0;
+	new_cmd->heredoc_fd = 0;
 	return new_cmd;
 }
 
@@ -154,7 +155,7 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd, t_list *alloc
 			return 0;
 		}
 		char *target = ft_strdup(token->next->value, alloc_list);
-
+		printf("terget %s", target);
 		if (token->type == REDIR_IN)
 			cmd->infiles = append_str_array(cmd->infiles, target, alloc_list);
 		else if (token->type == REDIR_OUT || token->type == APPEND)

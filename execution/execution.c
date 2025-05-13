@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 11:15:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:24:33 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ static void	exec_child(t_shell *shell, char *cmd)
 		open_all_infiles(shell->cmds->infiles);
 	if (shell->cmds->outfiles)
 		open_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags);
+	if (shell->cmds->heredoc_delim)
+	{
+		dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
+		close(shell->cmds->heredoc_fd);
+	}
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 }
@@ -60,7 +65,11 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 					open_all_infiles(shell->cmds->infiles);
 				if (shell->cmds->outfiles)
 					open_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags);
-
+				// if (shell->cmds->heredoc_delim)
+				// {
+				// 	dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
+				// 	close(shell->cmds->heredoc_fd);
+				// }
 				exit(exec_builtin(&shell, alloc_list));
 			}
 			else
@@ -181,6 +190,9 @@ void execution_part(t_shell *shell, t_list **alloc_list)
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{
+		if (shell->cmds->heredoc_delim)
+			read_heredoc(shell->cmds, shell, *alloc_list);
+
 		if (shell->cmds->has_pipe)
 		{
 			pipex(&shell, (*alloc_list));
@@ -195,3 +207,4 @@ void execution_part(t_shell *shell, t_list **alloc_list)
 		shell->cmds = shell->cmds->next;
 	}
 }
+
