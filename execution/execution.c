@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/14 09:27:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:18:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,7 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 		{
 			pid = fork();
 			if (pid == 0)
-			{
-				if (shell->cmds->infiles)
-					open_all_infiles(shell->cmds->infiles);
-				if (shell->cmds->outfiles)
-					open_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags);
-				// if (shell->cmds->heredoc_delim)
-				// {
-				// 	dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
-				// 	close(shell->cmds->heredoc_fd);
-				// }
 				exit(exec_builtin(&shell, alloc_list));
-			}
 			else
 				update_exit_status(shell, pid);
 		}
