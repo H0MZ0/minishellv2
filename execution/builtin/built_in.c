@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 20:08:15 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/14 09:07:24 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	execute_env(t_cmd *cmd, t_env *envp)
 {
 	t_env	*tmp;
 
-	// tmp = envp;w: command not found
+	tmp = envp;
 	if (count_args(cmd->args) > 1)
 	{
 		put_error("env: too many arguments");

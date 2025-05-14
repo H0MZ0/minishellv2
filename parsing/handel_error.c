@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:46:03 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 18:14:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:01:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,43 @@ int	print_error(char *message)
 	return (EXIT_SUCCESS);
 }
 
-int check_syntax(t_token *token_list)
+int return_syntaxx(t_shell *shell, int len)
 {
-    t_token *current = token_list;
+    if (len == -1)
+        print_error("near unexpected token `|`");
+    else if (len == -2)
+        print_error("missing filename after redirection");
+    else if (len == -3)
+        print_error("unexpected end of input after `|`");
+    shell->exit_status = 2;
+    return (0);
+}
+
+int check_syntax(t_shell *shell)
+{
+    t_token *current = shell->tokens;
     t_token *prev = NULL;
 
     if (!current)
-        return 0;
+        return (0);
     if (current->type == PIPE)
-        return (print_error("near unexpected token `|`"));
+        return (return_syntaxx(shell, -1));
     while (current)
     {
         if (prev && prev->type == PIPE && current->type == PIPE)
-            return (print_error("near unexpected token `|`"));
+            return (return_syntaxx(shell, -1));
 
         if (is_redirection(current->type))
         {
             if (!current->next || current->next->type != WORD)
-                return (print_error ("missing filename after redirection"));
+                return (return_syntaxx (shell, -2));
         }
 
         prev = current;
         current = current->next;
     }
     if (prev && prev->type == PIPE)
-        return (print_error ("unexpected end of input after `|`"));
-
+        return (return_syntaxx (shell, -3));
     return (EXIT_FAILURE);
 }
 

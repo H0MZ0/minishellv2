@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 15:02:20 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/14 09:25:18 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void	update_exit_status(t_shell *shell, pid_t pid);
 void	set_cmd_not_found(t_shell *shell, char *cmd);
 void open_all_infiles(char **infiles);
 void open_all_outfiles(char **outfiles, int *append_flags);
+int	io_error(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 18:29:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:10:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,22 +102,22 @@ t_token *return_syntax(t_shell *shell, int len)
 {
     if (len == -1)
     {
-        printf("syntax error: unclosed quote\n");
+        print_error("unclosed quote");
         shell->exit_status = 258;
     }
     else if (len == -2)
     {
-        printf("syntax error near `;;'\n");
+        print_error("near `;;'");
         shell->exit_status = 2;
     }
     else if (len == -3)
     {
-        printf("syntax error near `\\'\n");
+        print_error("near `\\'");
         shell->exit_status = 258;
     }
     else if (len == -4)
     {
-        printf("syntax error near ``'\n");
+        print_error("near ``'");
         shell->exit_status = 258;
     }
     return (NULL);
@@ -138,13 +138,10 @@ t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
             break;
 
         len = get_token_length(line, i);
-        //syntax error exit code
         if (len < 0)
             return (return_syntax(shell, len));
-
         token_str = strndup(line + i, len);
         type = get_token_type(token_str);
-        
         if (type == WORD && ft_strchr(token_str, '$'))
         {
             char *expanded = expand_token_value(token_str, shell, alloc_list);
