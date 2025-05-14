@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 19:59:22 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/14 18:29:33 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <stdio.h>
+# include <limits.h>
+
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
@@ -40,7 +42,7 @@ typedef struct s_split_data
 
 /* PART 1 */
 
-int		ft_atoi(const char *str, t_list *alloc_list);
+long	ft_atoi(const char *str, t_list *alloc_list);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size, t_list *alloc_list);
 int		ft_isalnum(int c);
