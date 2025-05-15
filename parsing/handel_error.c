@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:46:03 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/14 10:01:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:50:36 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int is_redirection(t_token_type type)
 }
 int	print_error(char *message)
 {
-	ft_putstr_fd("syntax error: ", 2);
+	ft_putstr_fd("minishell : syntax error ", 2);
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
 	return (EXIT_SUCCESS);
