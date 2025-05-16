@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/14 18:29:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:07:44 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int		ft_isspace(int c);
 int 	is_quote(char c);
 int 	is_operator(char c);
 void	put_error(char *msg);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* PART 2 */
 

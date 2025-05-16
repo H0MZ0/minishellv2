@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 09:19:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 17:37:59 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/16 16:40:54 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/16 17:38:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "libft.h"
 
-int	io_error(t_shell *shell)
+void	put_error(char *msg)
 {
-	ft_putstr_fd("No such file or directory\n", 2);
-	shell->exit_status = EXIT_INVALID_ARGS;
-	return (EXIT_FAILURE);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 }
+

@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 09:19:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 17:37:59 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/16 16:47:29 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/16 16:47:45 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "libft.h"
 
-int	io_error(t_shell *shell)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	ft_putstr_fd("No such file or directory\n", 2);
-	shell->exit_status = EXIT_INVALID_ARGS;
-	return (EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	if (!str1 || !str2)
+		return (EXIT_FAILURE);
+	while (str1[i] || str2[i])
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }
