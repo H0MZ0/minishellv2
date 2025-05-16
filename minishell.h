@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:03 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:57:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
-// t_shell	*shell;
+// t_shell	shell;
 
 # include <sys/types.h>
 # include <sys/wait.h>

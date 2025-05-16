@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/14 10:21:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:58:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	main(int ac, char **av, char **envp)
 			shell->cmds = build_cmd_list(shell->tokens, alloc_list);
 			if (shell->cmds)
 			{
-				// print_cmd_list(shell->cmds);
-				execution_part(shell, &alloc_list);
+				print_cmd_list(shell->cmds);
+				// execution_part(shell, &alloc_list);
 			}
 		}
 		shell->tokens = NULL;
