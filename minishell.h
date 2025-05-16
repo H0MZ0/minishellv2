@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 15:09:19 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:19:06 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # define EXIT_FAILURE 1
 # define EXIT_CMD_NOT_FOUND 127
 # define EXIT_INVALID_ARGS 2
+
+
+extern volatile __sig_atomic_t g_signal_interrupted;
 
 typedef struct s_env
 {
@@ -44,18 +47,25 @@ typedef enum e_token_type
 	SEMICOLON
 } t_token_type;
 
+typedef struct s_heredoc_tmp
+{
+	char	*delim;
+	int		expand;
+}	t_heredoc_tmp;
 
 typedef struct s_cmd
 {
 	char				**args;
-	char **infiles;
-	char **outfiles;
-	int   *append_flags;
-	int	 has_pipe;
-	char *heredoc_delim;
-	int  heredoc_expand;
-	int  heredoc_fd;
-	struct s_cmd	*next;
+	char				**infiles;
+	char				**outfiles;
+	int					*append_flags;
+	int					has_pipe;
+	t_heredoc_tmp		*heredocs;
+	int					heredoc_count;
+	char				*heredoc_delim;
+	int					heredoc_expand;
+	int					heredoc_fd;
+	struct s_cmd		*next;
 }	t_cmd;
 
 typedef struct s_shell

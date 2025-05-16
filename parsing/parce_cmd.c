@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/12 16:54:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/14 10:23:38 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/16 16:21:24 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/16 16:21:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,16 @@ void add_cmd_to_list(t_cmd **head, t_cmd *new_cmd)
 	}
 }
 
+t_heredoc_tmp	*realloc_array_heredocs(t_heredoc_tmp *old, int new_count, t_list *alloc_list)
+{
+	t_heredoc_tmp *new_array = ft_malloc(sizeof(t_heredoc_tmp) * new_count, &alloc_list);
+	if (!old)
+		return new_array;
+	for (int i = 0; i < new_count - 1; ++i)
+		new_array[i] = old[i];
+	return new_array;
+}
+
 int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd, t_list *alloc_list)
 {
 	t_token *token = *current;
@@ -174,8 +184,13 @@ int handle_token_redirection_or_arg(t_token **current, t_cmd *cmd, t_list *alloc
 
 		else if (token->type == HEREDOC)
 		{
-			cmd->heredoc_delim = remove_quotes(target, alloc_list);
-			cmd->heredoc_expand = !is_quote(*token->next->value);
+			// printf("terget is%s\n", target);
+			char *delim = remove_quotes(target, alloc_list);
+			int expand = !is_quote(*token->next->value);
+			cmd->heredocs = realloc_array_heredocs(cmd->heredocs, cmd->heredoc_count + 1, alloc_list);
+			cmd->heredocs[cmd->heredoc_count].delim = delim;
+			cmd->heredocs[cmd->heredoc_count].expand = expand;
+			cmd->heredoc_count++;
 		}
 		*current = token->next;
 	}

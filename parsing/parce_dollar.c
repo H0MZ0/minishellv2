@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/13 12:37:16 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:16:26 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,6 @@ char *expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 		{
 			char *var_value = ft_itoa(shell->exit_status, alloc_list);
 			char *expanded = replace_var_in_string(result, pos, 1, var_value, alloc_list); 
-
-			// free(var_value);
-			// free(result);
 			result = expanded;
 		}
 		else
@@ -119,10 +116,6 @@ char *expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 
 			char *var_value = get_env_value(shell, var, alloc_list);
 			char *expanded = replace_var_in_string(result, pos, ft_strlen(var), var_value, alloc_list);
-
-			// free(var_value);
-			// free(var);
-			// free(result);
 			result = expanded;
 		}
 	}

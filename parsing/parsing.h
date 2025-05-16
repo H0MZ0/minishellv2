@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:20:48 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/14 09:53:47 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:30:27 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	print_list(t_token *head);
 void    set_prompt_signals(t_shell *shell);
 void	set_child_signals(void);
 void    set_heredoc_signals(t_shell *shell);
+void	sigint_heredoc_handler(int sig);
 int	print_error(char *message);
 
 
