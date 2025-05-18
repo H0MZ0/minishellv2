@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/16 19:09:24 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/18 16:56:44 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ int	main(int ac, char **av, char **envp)
 			append_env(&shell->env, node);
 		i++;
 	}
-	mini_display();
+	// mini_display();
 	while (1)
 	{
 		set_prompt_signals(shell);
 		line = readline(CYAN "minishell$ " RESET);
 		if (!line)
-			exit (shell->exit_status);
+		{
+			int status = shell->exit_status;
+			exit(status);         
+		}
 		else if (!(is_empty(line)))
-			add_history(line);
+			add_history(line);	
 		shell->tokens = tokenize_line(shell, line, alloc_list);
 		if (shell->tokens && check_syntax(shell))
 		{

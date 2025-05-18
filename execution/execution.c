@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 17:44:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:40:14 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	path_cmd(t_shell **shell)
 	return (EXIT_SUCCESS);
 }
 
-static void	exec_child(t_shell *shell, char *cmd)
+static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 {
 	int	error;
 
@@ -50,13 +50,18 @@ static void	exec_child(t_shell *shell, char *cmd)
 		error |= open_all_outfiles(shell->cmds->outfiles,
 				shell->cmds->append_flags);
 	if (error)
+	{
+		free_all(alloc_list);
 		exit(EXIT_FAILURE);
+	}
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
+	free_all(alloc_list);
 	exit(EXIT_FAILURE);
 }
 
-int	if_path(t_shell *shell)
+
+int	if_path(t_shell *shell, t_list **alloc_list)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
@@ -70,6 +75,7 @@ int	if_path(t_shell *shell)
 			if (pid == 0)
 			{
 				execve(cmd->args[0], cmd->args, shell->envp);
+				free_all(alloc_list);
 				exit(EXIT_FAILURE);
 			}
 			else
@@ -85,8 +91,16 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 {
 	pid_t	pid;
 	char	*cmd;
+	struct stat	st;
 
-	if (if_path(shell))
+	if (!shell->cmds->args[0] || !*shell->cmds->args[0])
+	{
+		shell->exit_status = 0;
+		return;
+	}
+	if (stat(shell->cmds->args[0], &st) == 0 && S_ISDIR(st.st_mode))
+		return (is_dir(shell));
+	if (if_path(shell, alloc_list))
 		return ;
 	if (if_builtin(shell, (*alloc_list)))
 		return ;
@@ -95,7 +109,7 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 	{
 		pid = fork();
 		if (pid == 0)
-			exec_child(shell, cmd);
+			exec_child(shell, cmd, alloc_list);
 		else
 			update_exit_status(shell, pid);
 	}
@@ -115,7 +129,7 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 		if (shell->cmds->heredocs)
 		{
 			if (!read_heredoc(shell->cmds, shell, *alloc_list))
-				return (sigint_heredoc_handler(shell->exit_status));
+				return ;
 		}
 		if (shell->cmds->has_pipe)
 		{

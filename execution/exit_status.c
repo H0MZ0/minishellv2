@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:55 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/13 10:59:12 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:41:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,19 @@ void	set_syntax_error(t_shell *shell, char *token)
 	ft_putstr_fd(token, 2);
 	ft_putstr_fd("'\n", 2);
 	shell->exit_status = 258;
+}
+
+void	cd_error(t_shell *shell, char *token, int code)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(token, 2);
+	ft_putstr_fd("\n", 2);
+	shell->exit_status = code;
+}
+
+void	is_dir(t_shell *shell)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("Is a directory\n", 2);
+	shell->exit_status = 126;
 }

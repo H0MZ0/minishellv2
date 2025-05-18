@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 18:12:11 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 19:03:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/16 23:17:10 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exit_error(const char *str, t_list *alloc_list)
 	write(2, "exit: ", ft_strlen("exit: "));
 	write(2, str, ft_strlen(str));
 	put_error(": numeric argument required");
-	free_all(alloc_list);
+	free_all(&alloc_list);
 	exit(EXIT_INVALID_ARGS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:11:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 19:12:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/18 16:45:47 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	execute_exit(t_shell *shell, t_list *alloc_list)
 		put_error("exit: too many arguments");
 		status = 1;
 	}
-	free_all(alloc_list);
 	printf("exit\n");
-	printf("%ld", status);
+	free_all(&alloc_list);
 	exit (status);
 }

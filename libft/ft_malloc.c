@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:53:14 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 19:03:02 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/17 16:36:44 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,18 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*node;
 
-	if (lst == NULL)
+	if (!lst || !new)
 		return ;
-	node = ft_lstlast(*lst);
-	if (*lst)
-		node->next = new;
-	else
+	if (*lst == NULL)
 		*lst = new;
+	else
+	{
+		node = ft_lstlast(*lst);
+		if (node)
+			node->next = new;
+	}
 }
+
 
 void	*ft_malloc(size_t size, t_list **alloc_list)
 {
@@ -49,6 +53,8 @@ void	*ft_malloc(size_t size, t_list **alloc_list)
 		perror("malloc");
 		return (NULL);
 	}
+	if (!alloc_list)
+		return (ptr); 
 	new_node = ft_lstnew(ptr);
 	if (!new_node)
 	{
@@ -59,12 +65,15 @@ void	*ft_malloc(size_t size, t_list **alloc_list)
 	return (ptr);
 }
 
-void	free_all(t_list *alloc_list)
+
+void	free_all(t_list **alloc_list)
 {
 	t_list	*current_node;
 	t_list	*next_node;
 
-	current_node = alloc_list;
+	if (!alloc_list)
+		return ;
+	current_node = *alloc_list;
 	while (current_node)
 	{
 		next_node = current_node->next;
@@ -72,4 +81,6 @@ void	free_all(t_list *alloc_list)
 		free(current_node);
 		current_node = next_node;
 	}
+	*alloc_list = NULL;
 }
+
