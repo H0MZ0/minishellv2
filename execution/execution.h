@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/18 17:40:35 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:19:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	print_this(t_env **env_list, char *sch);
 
 /* ======================== BUILTIN COMMANDS ======================== */
 
-void	execute_cd(t_shell *shell, t_list *alloc_list);
+int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
 int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);
-int		execute_exit(t_shell *shell, t_list *alloc_list);
+void	execute_exit(t_shell *shell, t_list *alloc_list);
 int		execute_export(t_shell **shell, t_list *alloc_list);
 int		excute_unset(t_shell **shell, t_list *alloc);
 int		exec_builtin(t_shell **shell, t_list *alloc_list);
@@ -81,7 +81,5 @@ int		is_valid_key(char *s);
 void	non_valide(t_shell **shell, char *identifier);
 char	*get_key(char *arg, t_list *alloc_list);
 char	*get_value(char *arg, t_list *alloc_list);
-void	cd_error(t_shell *shell, char *token, int code);
-void	is_dir(t_shell *shell);
 
 #endif

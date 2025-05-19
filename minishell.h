@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/18 17:30:23 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:53:15 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_shell
 # include "execution/execution.h"
 # include <signal.h>
 # include <sys/stat.h>
-
+# include <errno.h>
 # define RESET		"\x1b[0m"
 # define BLACK		"\x1b[30m"
 # define RED		"\x1b[31m"

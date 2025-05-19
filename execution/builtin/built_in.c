@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/18 17:16:08 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:19:10 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 				else if (shell->cmds->outfiles)
 					open_all_outfiles(shell->cmds->outfiles,
 						shell->cmds->append_flags);
+				// free_all(&alloc_list);
 				exit(exec_builtin(&shell, alloc_list));
 			}
 			else
@@ -51,7 +52,8 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 int	exec_builtin(t_shell **shell, t_list *alloc_list)
 {
 	if (!ft_strcmp((*shell)->cmds->args[0], "cd"))
-		execute_cd((*shell), alloc_list);
+		(*shell)->exit_status = execute_cd((*shell)->cmds,
+				&(*shell)->env, alloc_list);
 	else if (!ft_strcmp((*shell)->cmds->args[0], "echo"))
 		(*shell)->exit_status = execute_echo((*shell)->cmds);
 	else if (!ft_strcmp((*shell)->cmds->args[0], "pwd"))
@@ -63,6 +65,6 @@ int	exec_builtin(t_shell **shell, t_list *alloc_list)
 	else if (!ft_strcmp((*shell)->cmds->args[0], "env"))
 		(*shell)->exit_status = execute_env((*shell)->cmds, (*shell)->env);
 	else if (!ft_strcmp((*shell)->cmds->args[0], "exit"))
-		return (execute_exit((*shell), alloc_list));
+		execute_exit((*shell), alloc_list);
 	return ((*shell)->exit_status);
 }

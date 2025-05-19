@@ -6,31 +6,32 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/18 17:22:04 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:10:20 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execution.h"
 
-// int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
-void	execute_cd(t_shell *shell, t_list *alloc_list)
+int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 
-	if (count_args(shell->cmds->args) > 2)
-		return (cd_error(shell, "too many arguments", 1));
-	if (!shell->cmds->args[1])
-		return (cd_error(shell, "please type relative or absolute path", 2));
+	if (count_args(cmd->args) > 2)
+		return ((put_error("cd: too many arguments")), 1);
+	if (!cmd->args[1])
+	{
+		put_error("please type relative or absolute path");
+		return (EXIT_FAILURE);
+	}
 	old_pwd = getcwd(NULL, 0);
-	if (chdir(shell->cmds->args[1]) == -1)
+	if (chdir(cmd->args[1]) == -1)
 	{
 		perror("cd");
-		shell->exit_status = EXIT_FAILURE;
-		return ;
+		return (EXIT_FAILURE);
 	}
-	update_env(&shell->env, "OLDPWD", old_pwd, alloc_list);
+	update_env(env, "OLDPWD", old_pwd, alloc_list);
 	new_pwd = getcwd(NULL, 0);
-	update_env(&shell->env, "PWD", new_pwd, alloc_list);
-	shell->exit_status = EXIT_SUCCESS;
+	update_env(env, "PWD", new_pwd, alloc_list);
+	return (EXIT_SUCCESS);
 }

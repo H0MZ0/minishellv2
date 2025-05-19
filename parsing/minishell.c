@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/18 16:56:44 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:38:56 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-
 	char	*line;
 	t_list	*alloc_list = NULL;
 	t_shell	*shell = ft_malloc(sizeof(t_shell), &alloc_list);
@@ -47,16 +46,18 @@ int	main(int ac, char **av, char **envp)
 		if (!line)
 		{
 			int status = shell->exit_status;
+			free_all(&alloc_list); 
 			exit(status);         
 		}
 		else if (!(is_empty(line)))
-			add_history(line);	
+			add_history(line);
 		shell->tokens = tokenize_line(shell, line, alloc_list);
 		if (shell->tokens && check_syntax(shell))
 		{
 			shell->cmds = build_cmd_list(shell->tokens, alloc_list);
 			if (shell->cmds)
 			{
+				// printf("here\n");
 				// print_cmd_list(shell->cmds);
 				execution_part(shell, &alloc_list);
 			}

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:55 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/18 17:41:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:43:41 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,16 @@ void	set_cmd_not_found(t_shell *shell, char *cmd)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (errno == EACCES)
+	{
+		ft_putstr_fd(": Permission denied\n", 2);
+		shell->exit_status = 126;
+		return ;
+	}
+	else if (strchr(cmd, '/'))
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else
+		ft_putstr_fd(": command not found\n", 2);
 	shell->exit_status = 127;
 }
 
@@ -45,19 +54,4 @@ void	set_syntax_error(t_shell *shell, char *token)
 	ft_putstr_fd(token, 2);
 	ft_putstr_fd("'\n", 2);
 	shell->exit_status = 258;
-}
-
-void	cd_error(t_shell *shell, char *token, int code)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(token, 2);
-	ft_putstr_fd("\n", 2);
-	shell->exit_status = code;
-}
-
-void	is_dir(t_shell *shell)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd("Is a directory\n", 2);
-	shell->exit_status = 126;
 }

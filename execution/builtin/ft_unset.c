@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:59:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/16 18:04:09 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:45:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_env_remove_if(t_env **env, void *data_ref,
 {
 	t_env	*prev;
 	t_env	*curr;
-
+	(void)del; 
 	prev = NULL;
 	curr = *env;
 	while (curr)
@@ -34,12 +34,12 @@ void	ft_env_remove_if(t_env **env, void *data_ref,
 				prev->next = curr->next;
 			else
 				*env = curr->next;
-			if (del)
-			{
-				del(curr->key);
-				del(curr->value);
-			}
-			free(curr);
+			// if (del)
+			// {
+			// 	del(curr->key);
+			// 	del(curr->value);
+			// }
+			// free(curr);
 			return ;
 		}
 		prev = curr;
@@ -58,11 +58,11 @@ int	excute_unset(t_shell **shell, t_list *alloc_list)
 		check = ft_split((*shell)->cmds->args[i], '=', alloc_list);
 		if (!check)
 			return (1);
-		else if (ft_strcmp(check[0], "USER") == 0)
-		{
-			(*shell)->exit_status = 1;
-			return ((put_error("can't unset USER")), 1);
-		}
+		// else if (ft_strcmp(check[0], "USER") == 0)
+		// {
+		// 	(*shell)->exit_status = 1;
+		// 	return ((put_error("can't unset LORD")), 1);
+		// }
 	}
 	while ((*shell)->cmds->args[i])
 	{
