@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/19 20:55:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:49:45 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	int	error;
 	
 	error = 0;
+	set_child_signals();
 	if (shell->cmds->heredoc_delim)
 	{
 		dup2(shell->cmds->heredoc_fd, STDIN_FILENO);

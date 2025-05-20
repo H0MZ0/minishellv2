@@ -6,20 +6,23 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:47:09 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/19 12:17:00 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:58:40 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 static t_shell *shell_context = NULL;
+int g_interrupted = 0;
 
 void	sigint_prompt_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	printf("\n%d\n", g_interrupted);
 	rl_replace_line("", 0);
-	rl_on_new_line();
+	if(g_interrupted == 0)
+		rl_on_new_line();
 	rl_redisplay();
 	if (shell_context)
 		shell_context->exit_status = 130;
@@ -49,6 +52,8 @@ void	set_heredoc_signals(t_shell *shell)
 
 void	set_child_signals(void)
 {
+	g_interrupted = 1;
+	printf("%d\n", g_interrupted);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
