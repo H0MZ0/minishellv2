@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/19 12:29:27 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:16:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void handle_redirections(t_cmd *cmd)
 		int tmp_fd = open(cmd->outfiles[i], flags, 0644);
 		if (tmp_fd < 0)
 		{
-			perror(cmd->outfiles[i]);
+			// perror(cmd->outfiles[i]);
 			exit(EXIT_FAILURE);
 		}
 		if (cmd->outfiles[i + 1] == NULL)
@@ -116,6 +116,7 @@ void pipex(t_shell **shell, t_list *alloc_list)
 		pid = fork();
 		if (pid == 0)
 		{
+			// write(2, "hola\n", 5);
 			close(pipe_fd[0]);
 			exec_pipeline_cmd(*shell, current, paths, prev_fd, pipe_fd[1], alloc_list);
 		}
@@ -128,6 +129,9 @@ void pipex(t_shell **shell, t_list *alloc_list)
 
 	if (current)
 	{
+		// for (int i = 0; current->args[i]; i++)
+		// 	printf("%s\n", current->args[i]);
+		// printf("lolo\n");
 		pid = fork();
 		if (pid == 0)
 			exec_pipeline_cmd(*shell, current, paths, prev_fd, STDOUT_FILENO, alloc_list);
