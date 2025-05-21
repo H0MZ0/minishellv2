@@ -13,23 +13,24 @@
 
 #include "execution.h"
 
-
-void handle_redirections(t_cmd *cmd)
+static void	handle_infiles(t_cmd *cmd, t_list *alloc_list)
 {
-	int fd;
-	int i;
+	int		fd;
+	int		tmp_fd;
+	int		i;
 
 	fd = -1;
 	i = 0;
 	while (cmd->infiles && cmd->infiles[i])
 	{
-		int tmp_fd = open(cmd->infiles[i], O_RDONLY);
+		tmp_fd = open(cmd->infiles[i], O_RDONLY);
 		if (tmp_fd < 0)
 		{
 			perror(cmd->infiles[i]);
+			free_all(&alloc_list);
 			exit(EXIT_FAILURE);
 		}
-		if (cmd->infiles[i + 1] == NULL)
+		if (!cmd->infiles[i + 1])
 			fd = tmp_fd;
 		else
 			close(tmp_fd);
@@ -40,24 +41,29 @@ void handle_redirections(t_cmd *cmd)
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
+}
+
+static void	handle_outfiles(t_cmd *cmd, t_list *alloc_list)
+{
+	int	(fd), (tmp_fd), (flags), (i);
 
 	fd = -1;
 	i = 0;
 	while (cmd->outfiles && cmd->outfiles[i])
 	{
-		int flags = O_WRONLY | O_CREAT;
+		flags = O_WRONLY | O_CREAT;
 		if (cmd->append_flags && cmd->append_flags[i] == 1)
 			flags |= O_APPEND;
 		else
 			flags |= O_TRUNC;
-
-		int tmp_fd = open(cmd->outfiles[i], flags, 0644);
+		tmp_fd = open(cmd->outfiles[i], flags, 0644);
 		if (tmp_fd < 0)
 		{
 			perror(cmd->outfiles[i]);
+			free_all(&alloc_list);
 			exit(EXIT_FAILURE);
 		}
-		if (cmd->outfiles[i + 1] == NULL)
+		if (!cmd->outfiles[i + 1])
 			fd = tmp_fd;
 		else
 			close(tmp_fd);
@@ -70,6 +76,13 @@ void handle_redirections(t_cmd *cmd)
 	}
 }
 
+
+void	handle_redirections(t_cmd *cmd, t_list *alloc_list)
+{
+	handle_infiles(cmd, alloc_list);
+	handle_outfiles(cmd, alloc_list);
+}
+
 void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
 						int out_fd, t_list *alloc_list)
 {
@@ -78,7 +91,7 @@ void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
 	set_child_signals();
 	dup2(in_fd, STDIN_FILENO);
 	dup2(out_fd, STDOUT_FILENO);
-	handle_redirections(cmd);
+	handle_redirections(cmd, alloc_list);
 
 	if (!cmd->args || !cmd->args[0])
 		exit(EXIT_SUCCESS);

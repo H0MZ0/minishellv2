@@ -1,0 +1,13 @@
+a
+b
+c
+execution
+libft
+Makefile
+minishell
+minishell.h
+minishell_tester
+o
+parsing
+problemes
+readline.supp

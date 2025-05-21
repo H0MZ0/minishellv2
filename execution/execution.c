@@ -39,7 +39,9 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	int	error;
 	
 	error = 0;
-	set_child_signals();
+	//set_child_signals();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (shell->cmds->heredoc_delim)
 	{
 		dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
@@ -133,8 +135,8 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 {
 	char	**paths;
 
-	// if (!shell->cmds)
-	// 	return ;
+	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0]) //for leaks
+		return ;
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{
