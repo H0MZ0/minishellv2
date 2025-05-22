@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:38:55 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/19 20:43:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:06:33 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 void	update_exit_status(t_shell *shell, pid_t pid)
 {
-	int	status;
-
+	int (status), (i);
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	// set_prompt_signals();
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		shell->exit_status = 128 + WTERMSIG(status);
-
-	int 	i = 0;
-	// count num of cmd and loop untill find exit status more than 130 and break
+	i = 0;
 }
 
 void	set_cmd_not_found(t_shell *shell, char *cmd)

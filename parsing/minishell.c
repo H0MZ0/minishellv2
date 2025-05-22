@@ -66,7 +66,7 @@ int	main(int ac, char **av, char **envp)
 			if (shell->cmds)
 			{
 				// printf("here\n");
-				print_cmd_list(shell->cmds);
+				// print_cmd_list(shell->cmds);
 				execution_part(shell, &alloc_list);
 			}
 		}

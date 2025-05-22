@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/20 15:30:20 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:23:58 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,26 @@ int open_infile(char **infiles)
 	return (0);
 }
 
-int	execute_echo(t_cmd *cmd)
+int	execute_echo(t_shell *shell)
 {
 	int	i, n_flag;
 
 	i = 1;
 	n_flag = 0;
-
-	if (cmd->infiles && open_infile(cmd->infiles))
-	{
-		return 1;
-	}
-	while (cmd->args[i] && is_new_line(cmd->args[i]))
+	if (shell->cmds->infiles && open_infile(shell->cmds->infiles))
+		return (EXIT_FAILURE);
+	while (shell->cmds->args[i] && is_new_line(shell->cmds->args[i]))
 	{
 		n_flag = 1;
 		i++;
 	}
-	if (cmd->outfiles)
-		return (open_and_write(cmd, n_flag, i));
+	if (shell->cmds->outfiles)
+		return (open_and_write(shell->cmds, n_flag, i));
 
-	while (cmd->args[i])
+	while (shell->cmds->args[i])
 	{
-		printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
+		printf("%s", shell->cmds->args[i]);
+		if (shell->cmds->args[i + 1])
 			printf(" ");
 		i++;
 	}

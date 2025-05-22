@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/19 21:19:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:05:38 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_this(t_env **env_list, char *sch);
 
 int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
-int		execute_echo(t_cmd *cmd);
+int		execute_echo(t_shell *shell);
 int		execute_env(t_cmd *cmd, t_env *envp);
 void	execute_exit(t_shell *shell, t_list *alloc_list);
 int		execute_export(t_shell **shell, t_list *alloc_list);
@@ -60,7 +60,6 @@ void	free_all(t_list **alloc_list);
 
 /* ======================== REDIRECTIONS ======================== */
 
-
 int		read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list);
 /* ======================== ECHO HELPERS ======================== */
 
@@ -81,5 +80,7 @@ int		is_valid_key(char *s);
 void	non_valide(t_shell **shell, char *identifier);
 char	*get_key(char *arg, t_list *alloc_list);
 char	*get_value(char *arg, t_list *alloc_list);
+void	err_dir(t_shell *shell);
+void	err_dir(t_shell *shell);
 
 #endif

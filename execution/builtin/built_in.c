@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/19 21:19:10 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:18:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_builtin(t_shell **shell, t_list *alloc_list)
 		(*shell)->exit_status = execute_cd((*shell)->cmds,
 				&(*shell)->env, alloc_list);
 	else if (!ft_strcmp((*shell)->cmds->args[0], "echo"))
-		(*shell)->exit_status = execute_echo((*shell)->cmds);
+		(*shell)->exit_status = execute_echo((*shell));
 	else if (!ft_strcmp((*shell)->cmds->args[0], "pwd"))
 		(*shell)->exit_status = execute_pwd((*shell)->cmds);
 	else if (!ft_strcmp((*shell)->cmds->args[0], "export"))
