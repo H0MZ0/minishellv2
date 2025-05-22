@@ -44,7 +44,7 @@ void	set_heredoc_signals(t_shell *shell)
 {
 	shell_context = shell;
 	signal(SIGINT, sigint_heredoc_handler);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 }
 
 void	set_child_signals(void)

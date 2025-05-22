@@ -19,20 +19,21 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 	pid_t	pid;
 	int		status;
 	char	*line;
+	int i = 0;
 
-	for (int i = 0; i < cmd->heredoc_count; ++i)
+	while (i < cmd->heredoc_count)
 	{
 		if (pipe(pipe_fd) == -1)
 			return (perror("pipe"), 0);
-
+		set_heredoc_signals(shell);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), 0);
 
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_IGN);
+			// signal(SIGINT, SIG_DFL);
+			// signal(SIGQUIT, SIG_IGN);
 			close(pipe_fd[0]);
 
 			while (1)
@@ -54,15 +55,16 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 			exit(0);
 		}
 
-		signal(SIGINT, SIG_IGN);
+		// signal(SIGINT, SIG_IGN);
 		waitpid(pid, &status, 0);
-		signal(SIGINT, SIG_DFL);
+		// signal(SIGINT, SIG_DFL);
 		close(pipe_fd[1]);
 
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		{
 			shell->exit_status = 130;
 			close(pipe_fd[0]);
+			cmd->heredoc_fd = -1;
 			return (0);
 		}
 
@@ -74,6 +76,7 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 		}
 		else
 			close(pipe_fd[0]);
+		i++;
 	}
 	return (1);
 }

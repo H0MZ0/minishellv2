@@ -44,6 +44,8 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	signal(SIGQUIT, SIG_DFL);
 	if (shell->cmds->heredoc_delim)
 	{
+		if (shell->cmds->heredoc_fd == -1)
+			exit(shell->exit_status); 
 		dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
 		close(shell->cmds->heredoc_fd);
 	}

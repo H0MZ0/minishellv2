@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signal(SIGINT, sigint_prompt_handler);
-		line = readline("minishell$ ");
+		line = readline(CYAN "minishell$ " RESET);
 		signal(SIGINT, sigint_prompt_handlera);
 		if (!line)
 		{
