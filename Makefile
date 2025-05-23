@@ -16,7 +16,8 @@ SRC = parsing/minishell.c parsing/parcing.c parsing/parce_dollar.c \
       execution/builtin/ft_exit.c execution/builtin/ft_export.c \
       execution/builtin/ft_export_helpers.c execution/builtin/ft_unset.c \
       execution/builtin/ft_cd.c execution/builtin/ft_env.c \
-      execution/builtin/ft_pwd.c libft/ft_malloc.c libft/ft_strcmp.c
+      execution/builtin/ft_pwd.c libft/ft_malloc.c libft/ft_strcmp.c \
+      execution/test.c
 
 
 OBJ = $(SRC:.c=.o)
