@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/22 22:05:38 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/23 11:33:54 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	print_this(t_env **env_list, char *sch);
 
 int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
-int		execute_echo(t_shell *shell);
+int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);
 void	execute_exit(t_shell *shell, t_list *alloc_list);
 int		execute_export(t_shell **shell, t_list *alloc_list);
 int		excute_unset(t_shell **shell, t_list *alloc);
-int		exec_builtin(t_shell **shell, t_list *alloc_list);
+int 	exec_builtin(t_shell **shell, t_cmd *cmd, t_list *alloc_list);
 
 /* ======================== BUILTIN HELPERS ======================== */
 
@@ -72,8 +72,8 @@ void	pipex(t_shell **shell, t_list *alloc_list);
 int		is_builtin_name(const char *name);
 void	update_exit_status(t_shell *shell, pid_t pid);
 void	set_cmd_not_found(t_shell *shell, char *cmd);
-int		open_all_infiles(char **infiles);
-int		open_all_outfiles(char **outfiles, int *append_flags);
+int		open_all_infiles(t_shell *shell);
+int		open_all_outfiles(t_shell *shell);
 int		io_error(t_shell *shell);
 int		if_builtin(t_shell *shell, t_list *alloc_list);
 int		is_valid_key(char *s);

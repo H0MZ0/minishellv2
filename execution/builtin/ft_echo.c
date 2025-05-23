@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/22 21:23:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/23 11:23:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ int	is_new_line(char *arg)
 
 int	handle_outfiles(t_cmd *cmd, int *fd)
 {
-	int	j;
-	int	flags;
-	int	temp_fd;
-
+	int (j), (flags), (temp_fd);
 	j = 0;
-
 	while (cmd->outfiles && cmd->outfiles[j])
 	{
 		flags = O_WRONLY | O_CREAT;
@@ -46,7 +42,7 @@ int	handle_outfiles(t_cmd *cmd, int *fd)
 		temp_fd = open(cmd->outfiles[j], flags, 0644);
 		if (temp_fd == -1)
 		{
-			printf("hh\n");
+			ft_putstr_fd ("minishell: ", 2);
 			perror(cmd->outfiles[j]);
 			return (0);
 		}
@@ -88,6 +84,7 @@ int	open_and_write(t_cmd *cmd, int flag, int i)
 	close(fd);
 	return (EXIT_SUCCESS);
 }
+
 int open_infile(char **infiles)
 {
 	int	fd;
@@ -102,6 +99,7 @@ int open_infile(char **infiles)
 		fd = open(infiles[i], O_RDONLY);
 		if (fd < 0)
 		{
+			ft_putstr_fd ("minishell: ", 2);
 			perror(infiles[i]);
 			return (1);
 		}
@@ -110,31 +108,31 @@ int open_infile(char **infiles)
 	return (0);
 }
 
-int	execute_echo(t_shell *shell)
+int	execute_echo(t_cmd *cmd)
 {
 	int	i, n_flag;
 
 	i = 1;
 	n_flag = 0;
-	if (shell->cmds->infiles && open_infile(shell->cmds->infiles))
+	if (cmd->infiles && open_infile(cmd->infiles))
 		return (EXIT_FAILURE);
-	while (shell->cmds->args[i] && is_new_line(shell->cmds->args[i]))
+	while (cmd->args[i] && is_new_line(cmd->args[i]))
 	{
 		n_flag = 1;
 		i++;
 	}
-	if (shell->cmds->outfiles)
-		return (open_and_write(shell->cmds, n_flag, i));
+	if (cmd->outfiles)
+		return (open_and_write(cmd, n_flag, i));
 
-	while (shell->cmds->args[i])
+	while (cmd->args[i])
 	{
-		printf("%s", shell->cmds->args[i]);
-		if (shell->cmds->args[i + 1])
-			printf(" ");
+		write (1, cmd->args[i], ft_strlen(cmd->args[i]));
+		if (cmd->args[i + 1])
+			write (1, " ", 1);
 		i++;
 	}
 	if (!n_flag)
-		printf("\n");
+		write (1, "\n", 1);
 
 	return (EXIT_SUCCESS);
 }
