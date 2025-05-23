@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 10:40:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/23 12:36:50 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	}
 	else if (shell->cmds->infiles)
 		error |= open_all_infiles(shell);
+	if (error)
+		exit(EXIT_FAILURE);
 	if (shell->cmds->outfiles)
 		error |= open_all_outfiles(shell);
 	if (error)
