@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:59:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 16:16:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/25 18:10:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	update_or_add(t_env **env, char *key, char *value, t_list *alloc_list)
 		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			if (value)
-			{
-				free(tmp->value);
 				tmp->value = ft_strdup(value, alloc_list);
-			}
 			return ;
 		}
 		tmp = tmp->next;
