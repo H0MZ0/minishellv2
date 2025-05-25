@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:20:48 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/19 11:46:24 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/25 18:17:37 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_isspace(int c);
 // Utility and freeing
 void	append_env(t_env **head, t_env *new_node);
 // void	free_array(char **arr);
-void	print_list_env(t_env **head);
+void	print_list_env(t_env **head, t_list *alloc_list);
 void	print_cmd_list(t_cmd *cmd_list);
 void	print_list(t_token *head);
 // void	pipex(t_cmd *cmd, char **envp);

@@ -3,25 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   print_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:13:18 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/17 16:02:48 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/25 18:17:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void print_list_env(t_env **head)
+void	print_list_env(t_env **head, t_list *alloc_list)
 {
-    t_env *tmp = *head;
+	t_env	*sorted = copy_env(*head, alloc_list);
+	t_env	*i = sorted;
+	t_env	*j;
 
-    while (tmp)
-    {
-		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-        tmp = tmp->next;
-    }
+	while (i)
+	{
+		j = i->next;
+		while (j)
+		{
+			if (ft_strcmp(i->key, j->key) > 0)
+				swap_env(i, j);
+			j = j->next;
+		}
+		i = i->next;
+	}
+	while (sorted)
+	{
+		if (sorted->value)
+			printf("declare -x %s=\"%s\"\n", sorted->key, sorted->value);
+		else
+			printf("declare -x %s\n", sorted->key);
+		sorted = sorted->next;
+	}
 }
+
 
 void print_cmd_list(t_cmd *cmd_list)
 {

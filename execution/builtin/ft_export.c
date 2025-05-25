@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:59:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/25 18:10:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/25 18:30:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ void	update_or_add(t_env **env, char *key, char *value, t_list *alloc_list)
 
 char	**convert_env_list_to_array(t_env *env, t_list *alloc_list)
 {
-	int		i = 0;
-	t_env	*tmp = env;
+	int		i;
+	t_env	*tmp;
 	char	**envp;
 	char	*entry;
 
+	i = 0;
+	tmp = env;
 	while (tmp)
 	{
 		i++;
@@ -77,20 +79,17 @@ char	**convert_env_list_to_array(t_env *env, t_list *alloc_list)
 	envp = ft_malloc(sizeof(char *) * (i + 1), &alloc_list);
 	if (!envp)
 		return (NULL);
-
 	tmp = env;
 	i = 0;
 	while (tmp)
 	{
 		entry = ft_strjoin(tmp->key, "=", alloc_list);
-		envp[i] = ft_strjoin(entry, tmp->value, alloc_list);
-		i++;
+		envp[i++] = ft_strjoin(entry, tmp->value, alloc_list);
 		tmp = tmp->next;
 	}
 	envp[i] = NULL;
 	return (envp);
 }
-
 
 int	execute_export(t_shell **shell, t_list *alloc_list)
 {
@@ -98,7 +97,7 @@ int	execute_export(t_shell **shell, t_list *alloc_list)
 	char	*key;
 	char	*value;
 
-	if (check_exp((*shell)))
+	if (check_exp(*shell, alloc_list))
 		return (EXIT_FAILURE);
 	i = 1;
 	while ((*shell)->cmds->args[i])

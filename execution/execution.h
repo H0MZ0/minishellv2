@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 16:15:38 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/25 18:34:30 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		exec_builtin(t_shell **shell, t_cmd *cmd, t_list *alloc_list);
 
 /* ======================== BUILTIN HELPERS ======================== */
 
-int		check_exp(t_shell *shell);
+int     check_exp(t_shell *shell, t_list *alloc_list);
 int		is_new_line(char *arg);
 void	env_path(t_env **env_list, t_cmd *cmd);
 void	update_env(t_env **env, char *key, char *val, t_list *alloc);
@@ -83,4 +83,7 @@ char	*get_value(char *arg, t_list *alloc_list);
 void	err_dir(t_shell *shell);
 void	err_dir(t_shell *shell);
 int		err_write(void);
+void	swap_env(t_env *a, t_env *b);
+t_env	*copy_env(t_env *env, t_list *alloc_list);
+char	*get_key(char *arg, t_list *alloc_list);
 #endif

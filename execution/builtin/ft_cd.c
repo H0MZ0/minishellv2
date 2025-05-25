@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/22 21:31:48 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:55:37 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@ int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
 
 	if (count_args(cmd->args) > 2)
 		return ((put_error("cd: too many arguments")), 1);
+	if (ft_strcmp(cmd->args[1], "~") == 0)
+	{
+		if (chdir(getenv("HOME")) == -1)
+			return (perror ("home"), EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+	}
 	if (!cmd->args[1])
 	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("cd: ", 2);
 		put_error("please type relative or absolute path");
 		return (EXIT_FAILURE);
 	}
