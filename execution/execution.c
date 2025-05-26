@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/25 21:24:00 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:51:31 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,25 +110,6 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 	else
 		set_cmd_not_found(shell, shell->cmds->args[0]);
 }
-
-void	open_out(t_shell *shell)
-{
-	int	fd;
-
-	if (shell->cmds->outfiles && shell->cmds->outfiles[0])
-	{
-		fd = open(shell->cmds->outfiles[0], O_CREAT, 0664);
-		if (fd < 0)
-		{
-			perror("failed to open file");
-			shell->exit_status = 1;
-			return ;
-		}
-		close(fd);
-	}
-	shell->exit_status = 0;
-}
-
 
 void	execution_part(t_shell *shell, t_list **alloc_list)
 {

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:06:12 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 10:43:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:51:42 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,22 @@ int	open_all_outfiles(t_shell *shell)
 		i++;
 	}
 	return (error);
+}
+
+void	open_out(t_shell *shell)
+{
+	int	fd;
+
+	if (shell->cmds->outfiles && shell->cmds->outfiles[0])
+	{
+		fd = open(shell->cmds->outfiles[0], O_CREAT, 0664);
+		if (fd < 0)
+		{
+			perror("failed to open file");
+			shell->exit_status = 1;
+			return ;
+		}
+		close(fd);
+	}
+	shell->exit_status = 0;
 }

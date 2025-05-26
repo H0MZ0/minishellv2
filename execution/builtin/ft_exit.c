@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:11:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 10:11:37 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:00:43 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	execute_exit(t_shell *shell, t_list *alloc_list)
 	long	status;
 
 	status = (long)shell->exit_status;
+	if (check_options(shell->cmds, "exit"))
+	{
+		shell->exit_status = 1;
+		return ;
+	}
 	if (shell->cmds->args[1])
 		status = ft_atoi(shell->cmds->args[1], alloc_list);
 	if (count_args(shell->cmds->args) > 2)

@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   check_options.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 16:57:57 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/26 17:46:10 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/26 17:43:05 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/26 18:01:39 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execution.h"
+#include "execution.h"
 
-int	execute_pwd(t_cmd *cmd)
+int	check_options(t_cmd *cmd, char *msg)
 {
-	char	*cwd;
+	int		i;
 
-	if (check_options(cmd, "pwd"))
-		return (EXIT_FAILURE);
-	cwd = getcwd(NULL, 0);
-	if (cwd)
+	i = 0;
+	while (cmd->args[i])
 	{
-		ft_putendl_fd(cwd, 1);
-		free(cwd);
-	}
-	else
-	{
-		free (cmd);
-		perror("pwd");
-		return (EXIT_FAILURE);
+		if (cmd->args[i][0] == '-')
+		{
+			if (cmd->args[i][1])
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(msg, 2);
+				ft_putendl_fd(": no options allowed", 2);
+				return (EXIT_FAILURE);
+			}
+			return (EXIT_SUCCESS);
+		}
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }
