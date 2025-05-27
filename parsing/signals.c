@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:47:09 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/20 20:58:40 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:16:53 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	sigint_heredoc_handler(int sig)
 {
 	(void)sig;
 	// write(1, "\n", 1);
-	// if (shell_context)
-	// 	shell_context->exit_status = 130;
+	if (shell_context)
+		shell_context->exit_status = 130;
 }
 
 void	set_prompt_signals(t_shell *shell)
