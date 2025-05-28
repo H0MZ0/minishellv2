@@ -6,33 +6,11 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 16:58:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:29:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-int	path_cmd(t_shell **shell)
-{
-	pid_t	pid;
-
-	if ((*shell)->cmds->args[0][0] == '/')
-	{
-		if (access((*shell)->cmds->args[0], X_OK) == 0)
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				execve((*shell)->cmds->args[0],
-					&(*shell)->cmds->args[0], (*shell)->envp);
-			}
-			else
-				update_exit_status((*shell), pid);
-		}
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
 
 static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 {
@@ -48,16 +26,6 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	}
 	else if (shell->cmds->infiles || shell->cmds->outfiles )
 		in_out(shell);
-	// 	error |= open_all_infiles(shell);
-	// if (error)
-	// 	exit(EXIT_FAILURE);
-	// if (shell->cmds->outfiles)
-		// error |= open_all_outfiles(shell);
-	// if (error)
-	// {
-	// 	shell->cmds = shell->cmds->next;
-	// 	exit(EXIT_FAILURE);
-	// }
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 	exit(EXIT_FAILURE);
