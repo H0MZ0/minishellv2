@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 10:51:33 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:00:05 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cmd
 	char				**infiles;
 	char				**outfiles;
 	int					*append_flags;
+	char                **rediriction;
 	int					has_pipe;
 	t_heredoc_tmp		*heredocs;
 	int					heredoc_count;
@@ -107,7 +108,5 @@ typedef struct s_shell
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define WHITE		"\x1b[37m"
-
-
 
 #endif

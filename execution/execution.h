@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 12:28:29 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:19:51 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execution_part(t_shell *shell, t_list **alloc_list);
 
 int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
-int		execute_echo(t_cmd *cmd);
+int		execute_echo(t_shell *shell);
 int		execute_env(t_cmd *cmd, t_env *envp);
 void	execute_exit(t_shell *shell, t_list *alloc_list);
 int		execute_export(t_shell **shell, t_list *alloc_list);
@@ -89,5 +89,11 @@ void	open_out(t_shell *shell);
 int		check_options(t_cmd *cmd, char *msg);
 int	check_all_infiles(char **infiles);
 int	check_all_outfiles(char **outfiles, int *append_flags);
+void print_cmd_list(t_cmd *cmd_list);
+void	print_list_env(t_env **head, t_list *alloc_list);
+int	infiless(char *infile);
+void	in_out(t_shell *shell);
+int	oi_err(char *err);
+int	inn_out(t_shell *shell);
 
 #endif

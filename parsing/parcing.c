@@ -3,197 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:36:31 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/26 19:06:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:39:26 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "parsing.h"
 
-t_token *create_token(char *str, t_token_type type, t_list *alloc_list)
+static void	update_last_token_and_heredoc(t_token *head,
+											t_token **last_token,
+											int *prev_is_heredoc)
 {
-	t_token *new_token = ft_malloc(sizeof(t_token), &alloc_list);
-	if (!new_token)
-		return NULL;
-	new_token->value = ft_strdup(str, alloc_list);
-	new_token->type = type;
-	new_token->next = NULL;
-	return new_token;
+	*last_token = head;
+	while (*last_token && (*last_token)->next)
+		*last_token = (*last_token)->next;
+	*prev_is_heredoc = (*last_token && (*last_token)->type == HEREDOC);
+}
+int	is_redirect_type(t_token_type type)
+{
+	return (type == APPEND || type == REDIR_OUT || type == REDIR_IN);
 }
 
-void append_token(t_token **head, t_token *new)
+int	is_ambiguous_redirect(t_token *last_token, char *expanded_value)
 {
-	if (!*head)
-	{
-		*head = new;
-		return;
-	}
-	t_token *temp = *head;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-}
+	if (!last_token || !is_redirect_type(last_token->type))
+		return (0);
 
-int get_token_length(char *line, int i)
-{
-	int start;
-	int in_single_quote = 0;
-	int in_double_quote = 0;
-
-	while (line[i] && ft_isspace(line[i]))
-		i++;
-	start = i;
-
-	if (line[i] == ';')
-	{
-		if (line[i + 1] == ';')
-			return -2;
-		return 1;
-	}
-	if (is_operator(line[i]))
-	{
-		if (is_operator(line[i + 1]) && line[i] == line[i + 1] && line[i] != '|')
-			return 2;
-		return 1;
-	}
-
-	while (line[i])
-	{
-		if (line[i] == '`')
-			return -4;
-		if (line[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote, i++;
-		else if (line[i] == '"' && !in_single_quote)
-			in_double_quote = !in_double_quote, i++;
-		else if (line[i] == '\\')
-		{
-			if (!line[i + 1])
-				return -3;
-			i += 2;
-		}
-		else
-		{
-			if (!in_single_quote && !in_double_quote &&
-				(line[i] == ';' || ft_isspace(line[i]) || is_operator(line[i])))
-				break;
-			i++;
-		}
-	}
-	if (in_single_quote || in_double_quote)
-		return -1;
-	return i - start;
-}
-
-t_token_type get_token_type(char *str)
-{
-	if (!strcmp(str, "|")) return PIPE;
-	if (!strcmp(str, ">")) return REDIR_OUT;
-	if (!strcmp(str, ">>")) return APPEND;
-	if (!strcmp(str, "<")) return REDIR_IN;
-	if (!strcmp(str, "<<")) return HEREDOC;
-	if (!strcmp(str, ";")) return SEMICOLON;
-	return WORD;
-}
-
-t_token *return_syntax(t_shell *shell, int len)
-{
-	if (len == -1)
-		print_error("unclosed quote");
-	else if (len == -2)
-		print_error("near `;;'");
-	else if (len == -3)
-		print_error("near `\\'");
-	else if (len == -4)
-		print_error("near ``'");
-	shell->exit_status = 2;
-	return (NULL);
-}
-int should_expand_dollar(char *str)
-{
+	if (!expanded_value || expanded_value[0] == '\0')
+		return (1);
 	int i = 0;
-	int in_single = 0;
-	int in_double = 0;
-
-	while (str[i])
+	while (expanded_value[i])
 	{
-		if (str[i] == '\'' && !in_double)
-			in_single = !in_single;
-		else if (str[i] == '"' && !in_single)
-			in_double = !in_double;
-		else if (str[i] == '$' && !in_single)
-			return (1); 
+		if (ft_isspace(expanded_value[i]))
+			return (1);
 		i++;
 	}
-	return (0); 
+	return (0);
 }
-t_token *split_expanded(char *str, t_list *alloc_list)
-{
-	char **parts = ft_split(str, ' ', alloc_list);
-	if (!parts)
-		return NULL;
 
-	t_token *head = NULL;
-	for (int i = 0; parts[i]; i++)
+static int	handle_expansion_and_continue(
+	char *token_str, t_shell *shell, t_token **head, t_list *alloc_list,
+	t_token *last_token)
+{
+	char	*expanded;
+	t_token	*expanded_tokens;
+	// printf("%s\n", token_str);
+	expanded = expand_token_value(token_str, shell, alloc_list);
+	if (is_ambiguous_redirect(last_token, expanded))
 	{
-		t_token *new_token = create_token(parts[i], WORD, alloc_list);
-		if (!new_token)
-		{
-			return NULL;
-		}
-		append_token(&head, new_token);
+		ft_putstr_fd( "minishell: ambiguous redirect\n", 2);
+		shell->exit_status = 1;
+		return (0); 
 	}
-
-	return head;
+	expanded_tokens = split_expanded(expanded, alloc_list);
+	if (!*head)
+		*head = expanded_tokens;
+	else
+		append_token(head, expanded_tokens);
+	return (1);
 }
 
-t_token *tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
+
+t_token	*tokenize_line(t_shell *shell, char *line, t_list *alloc_list)
 {
-	int i = 0, len;
-	t_token *head = NULL;
-	char *token_str;
-	t_token_type type;
-	int is_quete = 0;
+	int				i;
+	t_token			*head;
+	t_token			*last_token;
+	t_token			*current_token;
+	char			*token_str;
+	t_token_type	type;
+	int				len;
+	int				prev_is_heredoc;
+
+	i = 0;
+	head = NULL;
 	while (line[i])
 	{
 		while (ft_isspace(line[i]))
 			i++;
 		if (!line[i])
-			break;
-
+			break ;
 		len = get_token_length(line, i);
 		if (len < 0)
 			return (return_syntax(shell, len));
 		token_str = ft_strndup(line + i, len, alloc_list);
 		type = get_token_type(token_str);
-		t_token *current_token;
-
-		t_token *last_token = head;
-		while (last_token && last_token->next)
-			last_token = last_token->next;
-
-		int prev_is_heredoc = (last_token && last_token->type == HEREDOC);
-
-		if (type == WORD && !prev_is_heredoc && should_expand_dollar(token_str))
+		update_last_token_and_heredoc(head, &last_token, &prev_is_heredoc);
+		if (type == WORD && !prev_is_heredoc)
 		{
 			char *expanded = expand_token_value(token_str, shell, alloc_list);
+			if (is_ambiguous_redirect(last_token, expanded))
+			{
+				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+				shell->exit_status = 1;
+				return NULL;
+			}
 			t_token *expanded_tokens = split_expanded(expanded, alloc_list);
-			if (!head)
+			if (expanded_tokens)
+			{
+				if (!head)
 				head = expanded_tokens;
-			else
+				else
 				append_token(&head, expanded_tokens);
+			}
 			i += len;
 			continue;
 		}
-		else
-		{
-			current_token = create_token(token_str, type, alloc_list);
-		}
-
+		
+		current_token = create_token(token_str, type, alloc_list);
 		append_token(&head, current_token);
 		i += len;
 	}
-	return head;
+	return (head);
 }

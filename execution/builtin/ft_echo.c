@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 16:15:42 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:44:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,19 @@ int	is_new_line(char *arg)
 	return (EXIT_FAILURE);
 }
 
-int	handle_outfiles(t_cmd *cmd, int *fd)
+int	handle_outfiles(t_cmd *cmd, int *fd, t_shell *shell)
 {
 	int (j), (flags), (temp_fd);
 	j = 0;
 	while (cmd->outfiles && cmd->outfiles[j])
 	{
-		flags = O_WRONLY | O_CREAT;
-		if (cmd->append_flags[j] == 1)
-			flags |= O_APPEND;
-		else
-			flags |= O_TRUNC;
-		temp_fd = open(cmd->outfiles[j], flags, 0644);
+		// flags = O_WRONLY | O_CREAT;
+		// if (cmd->append_flags[j] == 1)
+		// 	flags |= O_APPEND;
+		// else
+		// 	flags |= O_TRUNC;
+		// temp_fd = open(cmd->outfiles[j], flags, 0644);
+		in_out(shell);
 		if (temp_fd == -1)
 		{
 			ft_putstr_fd ("minishell: ", 2);
@@ -55,12 +56,12 @@ int	handle_outfiles(t_cmd *cmd, int *fd)
 	return (0);
 }
 
-int	open_and_write(t_cmd *cmd, int flag, int i)
+int	open_and_write(t_cmd *cmd, int flag, int i, t_shell *shell)
 {
 	int	fd;
 
 	fd = -1;
-	if (handle_outfiles(cmd, &fd))
+	if (handle_outfiles(cmd, &fd, shell))
 		return (1);
 	if (fd == -1)
 		return (EXIT_FAILURE);
@@ -98,28 +99,35 @@ int	open_infile(char **infiles)
 	return (0);
 }
 
-int	execute_echo(t_cmd *cmd)
+int	execute_echo(t_shell *shell)
 {
-	int (i), (n_flag);
-	i = 1;
-	n_flag = 0;
-	if (cmd->infiles && open_infile(cmd->infiles))
-		return (EXIT_FAILURE);
+	t_cmd	*cmd = shell->cmds;
+	int		i = 1;
+	int		n_flag = 0;
+
+	if (inn_out(shell))
+	{
+		ft_putendl_fd("here", 1);
+		return (1);
+	}
 	while (cmd->args[i] && is_new_line(cmd->args[i]))
 	{
 		n_flag = 1;
 		i++;
 	}
-	if (cmd->outfiles)
-		return (open_and_write(cmd, n_flag, i));
+
 	while (cmd->args[i])
 	{
-		write (1, cmd->args[i], ft_strlen(cmd->args[i]));
+		write(1, cmd->args[i], ft_strlen(cmd->args[i]));
 		if (cmd->args[i + 1])
-			write (1, " ", 1);
+			write(1, " ", 1);
 		i++;
 	}
+
 	if (!n_flag)
-		write (1, "\n", 1);
+		write(1, "\n", 1);
+
 	return (EXIT_SUCCESS);
 }
+
+

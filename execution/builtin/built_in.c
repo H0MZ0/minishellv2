@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/23 11:23:43 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:34:46 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,30 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 
 	if (is_builtin_name(shell->cmds->args[0]))
 	{
+				// ft_putendl_fd("horo\n", 1);
 		if (shell->cmds->has_pipe)
 		{
 			pid = fork();
 			if (pid == 0)
 			{
-				if (shell->cmds->infiles)
-					open_all_infiles(shell);
-				else if (shell->cmds->outfiles)
-					open_all_outfiles(shell);
+				// if (shell->cmds->infiles)
+				// 	open_all_infiles(shell);
+				// else if (shell->cmds->outfiles)
+				// 	open_all_outfiles(shell);
+				if (shell->cmds->infiles || shell->cmds->outfiles )
+				{
+
+					in_out(shell);
+
+				}
 				exit(exec_builtin(&shell, (*shell).cmds, alloc_list));
 			}
 			else
 				update_exit_status(shell, pid);
 		}
-		else
-			exec_builtin(&shell, (*shell).cmds, alloc_list);
+		else{
+					// ft_putendl_fd("here\n", 1);
+			exec_builtin(&shell, (*shell).cmds, alloc_list);}
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -53,7 +61,7 @@ int	exec_builtin(t_shell **shell, t_cmd *cmd, t_list *alloc_list)
 		(*shell)->exit_status = execute_cd(cmd,
 				&(*shell)->env, alloc_list);
 	else if (!ft_strcmp(cmd->args[0], "echo"))
-		(*shell)->exit_status = execute_echo(cmd);
+		(*shell)->exit_status = execute_echo((*shell));
 	else if (!ft_strcmp(cmd->args[0], "pwd"))
 		(*shell)->exit_status = execute_pwd(cmd);
 	else if (!ft_strcmp(cmd->args[0], "export"))

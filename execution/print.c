@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_lists.c                                      :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 19:13:18 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/25 18:17:28 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/28 14:40:15 by hakader           #+#    #+#             */
+/*   Updated: 2025/05/28 15:05:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "execution.h"
 
 void	print_list_env(t_env **head, t_list *alloc_list)
 {
@@ -38,7 +38,6 @@ void	print_list_env(t_env **head, t_list *alloc_list)
 		sorted = sorted->next;
 	}
 }
-
 
 void print_cmd_list(t_cmd *cmd_list)
 {
@@ -94,7 +93,16 @@ void print_cmd_list(t_cmd *cmd_list)
 
         // Pipe flag
         printf("  pipe    = %s\n", cmd_list->has_pipe ? "true" : "false");
-
+          printf("  redirection  = ");
+        if (cmd_list->rediriction)
+        {
+            i = 0;
+            while (cmd_list->rediriction[i])
+                printf("\"%s\" ", cmd_list->rediriction[i++]);
+        }
+        else
+            printf("(none)");
+        printf("\n");
         // Heredoc list (if you stored them in heredocs array)
         if (cmd_list->heredoc_count > 0)
         {
