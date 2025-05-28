@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/27 14:22:57 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:44:22 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,6 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	exit(EXIT_FAILURE);
 }
 
-int	if_path(t_shell *shell, t_list **alloc_list)
-{
-	pid_t	pid;
-	t_cmd	*cmd;
-
-	cmd = shell->cmds;
-	while (cmd)
-	{
-		if (cmd->args && cmd->args[0] && access(cmd->args[0], X_OK) == 0)
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				execve(cmd->args[0], cmd->args, shell->envp);
-				exit(EXIT_FAILURE);
-			}
-			else
-				update_exit_status(shell, pid);
-			return (1);
-		}
-		cmd = cmd->next;
-	}
-	return (0);
-}
-
 static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 {
 	pid_t		pid;
@@ -116,7 +91,14 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 	char	**paths;
 
 	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
-		return (open_out(shell));
+	{
+		if (shell->cmds->infiles)
+			if (!check_all_infiles(shell->cmds->infiles))
+				return ;
+		if (shell->cmds->outfiles)
+			if (!check_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags))
+				return ;
+	}
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{

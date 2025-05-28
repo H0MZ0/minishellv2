@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/26 17:44:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:28:29 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ t_env	*copy_env(t_env *env, t_list *alloc_list);
 char	*get_key(char *arg, t_list *alloc_list);
 void	open_out(t_shell *shell);
 int		check_options(t_cmd *cmd, char *msg);
+int	check_all_infiles(char **infiles);
+int	check_all_outfiles(char **outfiles, int *append_flags);
 
 #endif
