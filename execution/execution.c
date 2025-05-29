@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 20:29:32 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:45:58 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 		close(shell->cmds->heredoc_fd);
 	}
 	else if (shell->cmds->infiles || shell->cmds->outfiles )
-		in_out(shell);
+		if(in_out(shell))
+			return ;
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 	exit(EXIT_FAILURE);
@@ -61,12 +62,8 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 
 	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
 	{
-		if (shell->cmds->infiles)
-			if (!check_all_infiles(shell->cmds->infiles))
-				return ;
-		if (shell->cmds->outfiles)
-			if (!check_all_outfiles(shell->cmds->outfiles, shell->cmds->append_flags))
-				return ;
+		if (in_out(shell))
+			return ;
 	}
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
