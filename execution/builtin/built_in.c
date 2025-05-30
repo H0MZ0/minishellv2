@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 19:25:46 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:10:19 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 int	exec_builtin(t_shell **shell, t_cmd *cmd, t_list *alloc_list)
 {
 	if (!cmd->args)
-		return((*shell)->exit_status);
+		return ((*shell)->exit_status);
 	if (!ft_strcmp(cmd->args[0], "cd"))
-		(*shell)->exit_status = execute_cd(cmd,
+		(*shell)->exit_status = execute_cd((*shell), cmd,
 				&(*shell)->env, alloc_list);
 	else if (!ft_strcmp(cmd->args[0], "echo"))
 		(*shell)->exit_status = execute_echo(cmd);
