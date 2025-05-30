@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 19:05:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:46:11 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	}
 	else if (shell->cmds->infiles || shell->cmds->outfiles)
 		if (in_out(shell))
-			return ;
+			exit (shell->exit_status);
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 	exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:46:03 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/29 15:53:23 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:45:51 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	return_syntaxx(t_shell *shell, int len)
 	shell->exit_status = 2;
 	return (0);
 }
-
 
 int	check_syntax(t_shell *shell)
 {
@@ -89,7 +88,7 @@ t_token	*return_syntax(t_shell *shell, int len)
 		print_error("near ``'");
 		shell->exit_status = 2;
 	}
-	else if(len == -6)
+	else if (len == -6)
 		return_syntaxx(shell, -1);
 	return (NULL);
 }

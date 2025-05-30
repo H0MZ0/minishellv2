@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:25:46 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/28 10:43:59 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:30:24 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ t_token	*split_expanded(char *str, t_list *alloc_list)
 	i = 0;
 	while (parts[i])
 	{
-		if (parts[i][0] == '\0') 
+		if (parts[i][0] == '\0')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		new_token = create_token(parts[i], WORD, alloc_list);
 		if (!new_token)
@@ -61,7 +61,6 @@ t_token	*split_expanded(char *str, t_list *alloc_list)
 	}
 	return (head);
 }
-
 
 void	fill_unquoted(char *result, const char *str, int *in_single,
 		int *in_double)
@@ -105,22 +104,4 @@ char	*remove_quotes(const char *str, t_list *alloc_list)
 		return (NULL);
 	fill_unquoted(result, str, &in_single, &in_double);
 	return (result);
-}
-
-t_heredoc_tmp	*alloc_array(t_heredoc_tmp *old, int new_count,
-		t_list *alloc_list)
-{
-	t_heredoc_tmp	*new_array;
-	int				i;
-
-	new_array = ft_malloc(sizeof(t_heredoc_tmp) * new_count, &alloc_list);
-	i = 0;
-	if (!old)
-		return (new_array);
-	while (i < new_count - 1)
-	{
-		new_array[i] = old[i];
-		i++;
-	}
-	return (new_array);
 }

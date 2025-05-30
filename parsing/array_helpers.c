@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:56:41 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/26 16:38:35 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:28:31 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,20 @@ int	*append_int_array(int *arr, int value, t_list *alloc_list)
 	return (new_arr);
 }
 
-int	is_cmd_empty(t_cmd *cmd)
+t_heredoc_tmp	*alloc_array(t_heredoc_tmp *old, int new_count,
+	t_list *alloc_list)
 {
-	return (!cmd->args && !cmd->infiles && !cmd->outfiles
-		&& !cmd->heredoc_delim);
+	t_heredoc_tmp	*new_array;
+	int				i;
+
+	new_array = ft_malloc(sizeof(t_heredoc_tmp) * new_count, &alloc_list);
+	i = 0;
+	if (!old)
+		return (new_array);
+	while (i < new_count - 1)
+	{
+		new_array[i] = old[i];
+		i++;
+	}
+	return (new_array);
 }

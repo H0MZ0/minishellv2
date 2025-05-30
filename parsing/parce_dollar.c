@@ -6,46 +6,11 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/29 15:40:56 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:26:53 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	get_dollar_pos(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i])
-	{
-		if (str[i] == '$')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	*extract_var_name(char *str, int pos, t_list *alloc_list)
-{
-	int	start;
-	int	len;
-
-	start = pos + 1;
-	len = 0;
-	if (str[start] == '?')
-		return (ft_strdup("?", alloc_list));
-	while (str[start + len]
-		&& (ft_isalpha(str[start + len])
-			|| ft_isdigit(str[start + len])
-			|| str[start + len] == '_'))
-		len++;
-	if (len == 0)
-		return (NULL);
-	return (ft_substr(str, start, len, alloc_list));
-}
 
 char	*get_env_value(t_shell *shell, char *key, t_list *alloc_list)
 {
@@ -63,39 +28,6 @@ char	*get_env_value(t_shell *shell, char *key, t_list *alloc_list)
 	return (0);
 }
 
-char	*replace_var_in_string(char *src, int var_start, int var_len,
-		char *value, t_list *alloc_list)
-{
-	int		(before_len);
-	int		(value_len);
-	int		(after_len);
-	int		total_len;
-	char	*new_str;
-	int		i;
-	int		j;
-
-	before_len = var_start;
-	value_len = ft_strlen(value);
-	after_len = ft_strlen(src + var_start + var_len + 1);
-	total_len = before_len + value_len + after_len;
-	new_str = ft_malloc((total_len + 1), &alloc_list);
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	while (i < before_len)
-	{
-		new_str[i] = src[i];
-		i++;
-	}
-	j = 0;
-	while (j < value_len)
-		new_str[i++] = value[j++];
-	j = var_start + var_len + 1;
-	while (src[j])
-		new_str[i++] = src[j++];
-	new_str[i] = '\0';
-	return (new_str);
-}
 
 char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 {
@@ -105,6 +37,7 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 	char	*var_value;
 	char	*tmp;
 	int		start;
+	int		any_expanded = 0;
 
 	while (value[i])
 	{
@@ -119,8 +52,7 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 			else if (ft_isalpha(value[i]) || value[i] == '_')
 			{
 				int var_len = 0;
-				while (value[i + var_len] &&
-					(ft_isalnum(value[i + var_len]) || value[i + var_len] == '_'))
+				while (value[i + var_len] && (ft_isalnum(value[i + var_len]) || value[i + var_len] == '_'))
 					var_len++;
 
 				var_name = ft_substr(value, i, var_len, alloc_list);
@@ -129,10 +61,18 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 					var_value = ft_strdup("", alloc_list);
 				i += var_len;
 			}
+			else if (ft_isdigit(value[i]))
+			{
+				i++; 
+				var_value = ft_strdup("", alloc_list);
+			}
 			else
 			{
 				var_value = ft_strdup("$", alloc_list);
 			}
+
+			if (var_value[0] != '\0')
+				any_expanded = 1;
 
 			tmp = ft_strjoin(result, var_value, alloc_list);
 			result = tmp;

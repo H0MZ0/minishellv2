@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:20:48 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/29 15:41:36 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:47:03 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				*append_int_array(int *arr, int value, t_list *alloc_list);
 int				handle_token_redirection_or_arg(t_token **current, t_cmd *cmd,
 					t_list *alloc_list, t_shell *shell);
 
+int				handle_redirection(t_token **current, t_cmd *cmd, t_list *alloc_list, t_shell *shell);
 void			append_env(t_env **head, t_env *new_node);
 
 void			set_prompt_signals(t_shell *shell);
@@ -68,5 +69,5 @@ void			sigint_prompt_handler(int sig);
 void			set_child_signals(void);
 int				print_error(char *message);
 void			sigint_prompt_handlera(int sig);
-
+int				handle_heredoc(t_cmd *cmd, char *target, char *raw_value, t_list *alloc_list);
 #endif

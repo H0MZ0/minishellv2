@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "cstdlib": "c",
-        "execution.h": "c"
+        "execution.h": "c",
+        "parsing.h": "c"
     }
 }

@@ -6,13 +6,13 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:21:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 12:41:07 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:48:19 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	handle_semicolon_case(t_cmd **cmd_list, t_cmd **current_cmd)
+static int handle_semicolon_case(t_cmd **cmd_list, t_cmd **current_cmd)
 {
 	if (is_cmd_empty(*current_cmd))
 	{
@@ -23,18 +23,18 @@ static int	handle_semicolon_case(t_cmd **cmd_list, t_cmd **current_cmd)
 	return (1);
 }
 
-static void	handle_pipe_case(t_cmd **cmd_list, t_cmd **current_cmd,
-		t_list *alloc_list)
+static void handle_pipe_case(t_cmd **cmd_list, t_cmd **current_cmd,
+							 t_list *alloc_list)
 {
 	(*current_cmd)->has_pipe = 1;
 	add_cmd_to_list(cmd_list, *current_cmd);
 	*current_cmd = create_cmd(alloc_list);
 }
 
-static int	handle_token_case(t_token **current, t_cmd **cmd_list,
-		t_cmd **current_cmd, t_list *alloc_list, t_shell *shell)
+static int handle_token_case(t_token **current, t_cmd **cmd_list,
+							 t_cmd **current_cmd, t_list *alloc_list, t_shell *shell)
 {
-	t_token	*token;
+	t_token *token;
 
 	token = *current;
 	if (token->type == PIPE)
@@ -55,11 +55,11 @@ static int	handle_token_case(t_token **current, t_cmd **cmd_list,
 	return (1);
 }
 
-t_cmd	*build_cmd_list(t_token *tokens, t_list *alloc_list, t_shell *shell)
+t_cmd *build_cmd_list(t_token *tokens, t_list *alloc_list, t_shell *shell)
 {
-	t_cmd	*cmd_list;
-	t_cmd	*current_cmd;
-	t_token	*current;
+	t_cmd *cmd_list;
+	t_cmd *current_cmd;
+	t_token *current;
 
 	cmd_list = NULL;
 	current_cmd = create_cmd(alloc_list);
