@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:37:50 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 16:46:38 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:41:39 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	outfiless(t_shell *shell, char *outfile, int j)
 	if (fd < 0)
 	{
 		shell->exit_status = EXIT_FAILURE;
-		return (oi_err(outfile));
+		return (oi_err(shell, outfile));
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -42,44 +42,67 @@ int	infiless(t_shell *shell, char *infile)
 	if (fd < 0)
 	{
 		shell->exit_status = EXIT_FAILURE;
-		return (oi_err(infile));
+		return (oi_err(shell, infile));
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (EXIT_SUCCESS);
 }
 
+static int	handle_infile(t_shell *shell, t_cmd *cmd, char *redir)
+{
+	int	j;
+
+	j = 0;
+	while (cmd->infiles && cmd->infiles[j])
+	{
+		if (ft_strcmp(redir, cmd->infiles[j]) == 0)
+		{
+			if (infiless(shell, cmd->infiles[j]))
+				return (1);
+			return (2);
+		}
+		j++;
+	}
+	return (0);
+}
+
+static int	handle_outfile(t_shell *shell, t_cmd *cmd, char *redir)
+{
+	int	j;
+
+	j = 0;
+	while (cmd->outfiles && cmd->outfiles[j])
+	{
+		if (ft_strcmp(redir, cmd->outfiles[j]) == 0)
+		{
+			if (outfiless(shell, cmd->outfiles[j], j))
+				return (1);
+			return (2);
+		}
+		j++;
+	}
+	return (0);
+}
+
 int	in_out(t_shell *shell)
 {
-	int		i, j;
-	int		found;
-	t_cmd	*cmd = shell->cmds;
+	int		i;
+	int		result;
+	t_cmd	*cmd;
 
+	cmd = shell->cmds;
 	i = 0;
 	while (cmd->rediriction[i])
 	{
-		found = 0;
-		j = 0;
-		while (!found && cmd->infiles && cmd->infiles[j])
+		result = handle_infile(shell, cmd, cmd->rediriction[i]);
+		if (result == 1)
+			return (1);
+		if (result == 0)
 		{
-			if (ft_strcmp(cmd->rediriction[i], cmd->infiles[j]) == 0)
-			{
-				if (infiless(shell, cmd->infiles[j]))
-					return (1);
-				found = 1;
-			}
-			j++;
-		}
-		j = 0;
-		while (!found && cmd->outfiles && cmd->outfiles[j])
-		{
-			if (ft_strcmp(cmd->rediriction[i], cmd->outfiles[j]) == 0)
-			{
-				if (outfiless(shell, cmd->outfiles[j], j))
-					return (1);
-				found = 1;
-			}
-			j++;
+			result = handle_outfile(shell, cmd, cmd->rediriction[i]);
+			if (result == 1)
+				return (1);
 		}
 		i++;
 	}

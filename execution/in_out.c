@@ -6,16 +6,19 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:06:12 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 16:37:17 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:55:08 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	oi_err(char *err)
+int	oi_err(t_shell *shell, char *err)
 {
+	shell->exit_status = EXIT_FAILURE;
 	ft_putstr_fd("minishell: ", 2);
-	perror(err);
+	ft_putstr_fd(err, 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
 	return (EXIT_FAILURE);
 }
 
@@ -33,14 +36,7 @@ int	check_all_infiles(t_shell *shell, char **infiles)
 	{
 		fd = open(infiles[i], O_RDONLY);
 		if (fd < 0)
-		{
-			shell->exit_status = EXIT_FAILURE;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(infiles[i], 2);
-			ft_putstr_fd(": ", 2);
-			perror("");
-			return (EXIT_FAILURE);
-		}
+			return (oi_err(shell, infiles[i]));
 		close(fd);
 		i++;
 	}
@@ -63,14 +59,7 @@ int	check_all_outfiles(t_shell *shell, char **outfiles, int *append_flags)
 			flags |= O_TRUNC;
 		fd = open(outfiles[i], flags, 0644);
 		if (fd < 0)
-		{
-			shell->exit_status = EXIT_FAILURE;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(outfiles[i], 2);
-			ft_putstr_fd(": ", 2);
-			perror("");
-			return (EXIT_FAILURE);
-		}
+			return (oi_err(shell, outfiles[i]));
 		close(fd);
 		i++;
 	}

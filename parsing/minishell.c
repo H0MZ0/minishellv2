@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/29 16:58:07 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 14:43:06 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ static void	handle_exit(char *line, t_shell *shell, t_list **alloc_list)
 static void	process_line(char *line, t_shell *shell, t_list **alloc_list)
 {
 	if (!(line[0] == '\0'))
-		add_history(line);
+	add_history(line);
 	shell->tokens = tokenize_line(shell, line, *alloc_list);
+	// printf("len = %d\n", shell->tokens->len);
 	if (shell->tokens && check_syntax(shell))
 	{
 		shell->cmds = build_cmd_list(shell->tokens, *alloc_list, shell);
 		if (shell->cmds)
 		{
-			print_cmd_list(shell->cmds);
+			// print_cmd_list(shell->cmds);
 			execution_part(shell, alloc_list);
 		}
 	}
+	shell->skip_syntax_error = 0;
 	shell->tokens = NULL;
 	shell->cmds = NULL;
 }
@@ -76,7 +78,10 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		set_prompt_signals(shell);
-		line = readline(CYAN "minishell$ " RESET);
+		if (shell->exit_status == 0)
+			line = readline(CYAN "💃minishell$ " RESET);
+		else
+			line = readline(RED "🤬minishell$ " RESET);
 		signal(SIGINT, sigint_prompt_handlera);
 		handle_exit(line, shell, &alloc_list);
 		process_line(line, shell, &alloc_list);

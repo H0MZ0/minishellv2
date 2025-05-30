@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:01:14 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/28 10:25:26 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:58:51 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL); // allow Ctrl+C to work in child
+			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_IGN);
 			close(pipe_fd[0]);
 

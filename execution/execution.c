@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 17:45:58 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 19:05:07 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 		dup2(shell->cmds->heredoc_fd, STDIN_FILENO);
 		close(shell->cmds->heredoc_fd);
 	}
-	else if (shell->cmds->infiles || shell->cmds->outfiles )
-		if(in_out(shell))
+	else if (shell->cmds->infiles || shell->cmds->outfiles)
+		if (in_out(shell))
 			return ;
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
@@ -60,11 +60,9 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 {
 	char	**paths;
 
-	if (!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
-	{
-		if (in_out(shell))
-			return ;
-	}
+	if ((!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
+		&& check_inout(shell))
+		return ;
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{

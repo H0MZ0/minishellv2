@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 15:57:14 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:24:11 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	execute_echo(t_cmd *cmd)
 		n_flag = 1;
 		i++;
 	}
-
 	while (cmd->args[i])
 	{
 		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i]));
@@ -50,6 +49,5 @@ int	execute_echo(t_cmd *cmd)
 	}
 	if (!n_flag)
 		write(STDOUT_FILENO, "\n", 1);
-
 	return (EXIT_SUCCESS);
 }

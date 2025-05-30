@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 15:00:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 14:38:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_token
 {
 	char			*value;
 	int				type;
+	// int 			len;
 	struct s_token	*next;
 }	t_token;
 
@@ -68,6 +69,7 @@ typedef struct s_cmd
 	int					heredoc_expand;
 	int					heredoc_fd;
 	int					input_error;
+	int 				len;
 	struct s_cmd		*next;
 }	t_cmd;
 
@@ -76,11 +78,10 @@ typedef struct s_shell
 	t_env	*env;
 	t_token	*tokens;
 	t_cmd	*cmds;
+	int skip_syntax_error;
 	char	**envp;
 	int		exit_status;
 }	t_shell;
-
-// t_shell	shell;
 
 # include <sys/types.h>
 # include <sys/wait.h>
