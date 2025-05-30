@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 18:49:31 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:27:06 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	process_line(char *line, t_shell *shell, t_list **alloc_list)
 		shell->cmds = build_cmd_list(shell->tokens, *alloc_list, shell);
 		if (shell->cmds)
 		{
-			print_cmd_list(shell->cmds);
+			// print_cmd_list(shell->cmds);
 			execution_part(shell, alloc_list);
 		}
 	}

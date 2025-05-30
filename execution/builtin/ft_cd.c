@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/26 16:17:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:22:26 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
 	char	*new_pwd;
 
 	if (count_args(cmd->args) > 2)
-		return ((ft_putendl_fd("cd: too many arguments", 2)), 1);
+		return ((ft_putendl_fd("cd: too many arguments", 2)), 2);
 	if (!cmd->args[1])
 		return (err_cdd(), EXIT_FAILURE);
 	old_pwd = getcwd(NULL, 0);

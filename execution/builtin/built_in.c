@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 16:25:13 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:25:46 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	with_pipe(t_shell *shell, t_list *alloc_list)
 
 int	if_builtin(t_shell *shell, t_list *alloc_list)
 {
-	if (!is_builtin_name(shell->cmds->args[0]))
+	if (shell->cmds->args && !is_builtin_name(shell->cmds->args[0]))
 		return (0);
 	if (shell->cmds->has_pipe)
 		with_pipe(shell, alloc_list);
@@ -62,6 +62,8 @@ int	if_builtin(t_shell *shell, t_list *alloc_list)
 
 int	exec_builtin(t_shell **shell, t_cmd *cmd, t_list *alloc_list)
 {
+	if (!cmd->args)
+		return((*shell)->exit_status);
 	if (!ft_strcmp(cmd->args[0], "cd"))
 		(*shell)->exit_status = execute_cd(cmd,
 				&(*shell)->env, alloc_list);

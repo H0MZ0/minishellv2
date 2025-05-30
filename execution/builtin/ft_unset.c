@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:59:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/26 17:53:39 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:25:32 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	excute_unset(t_shell **shell, t_list *alloc_list)
 	i = 1;
 	if (check_options((*shell)->cmds, "unset"))
 	{
-		(*shell)->exit_status = EXIT_FAILURE;
-		return (EXIT_FAILURE);
+		(*shell)->exit_status = EXIT_INVALID_ARGS;
+		return (ft_putendl_fd("exit: to may args", 2), 1);
 	}
 	if ((*shell)->cmds->args)
 	{

@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:21:24 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 15:48:19 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:34:00 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int handle_semicolon_case(t_cmd **cmd_list, t_cmd **current_cmd)
 {
-	if (is_cmd_empty(*current_cmd))
+	if (cmd_list)
 	{
 		print_error("near unexpected token `;'");
 		return (0);
@@ -66,11 +66,15 @@ t_cmd *build_cmd_list(t_token *tokens, t_list *alloc_list, t_shell *shell)
 	current = tokens;
 	while (current)
 	{
+		// printf("%s\n", current->value);
 		if (!handle_token_case(&current, &cmd_list, &current_cmd, alloc_list, shell))
 			return (NULL);
 		current = current->next;
 	}
-	if (!is_cmd_empty(current_cmd))
+	if (!shell->cmds)
+	{
+		// printf("HERE\n");
 		add_cmd_to_list(&cmd_list, current_cmd);
+	}
 	return (cmd_list);
 }

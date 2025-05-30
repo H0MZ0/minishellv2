@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:01:14 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/29 18:58:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:31:23 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 				}
 				if (cmd->heredocs[i].expand)
 					line = expand_token_value(line, shell, alloc_list);
-
+					
 				write(pipe_fd[1], line, ft_strlen(line));
 				write(pipe_fd[1], "\n", 1);
+				clear_history();
 				free(line);
 			}
 			close(pipe_fd[1]);

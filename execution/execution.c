@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 15:46:11 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:20:43 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 	char		*cmd;
 	struct stat	sa;
 
-	if (stat(shell->cmds->args[0], &sa) == 0 && S_ISDIR(sa.st_mode)
+	if (shell->cmds->args && stat(shell->cmds->args[0], &sa) == 0 && S_ISDIR(sa.st_mode)
 		&& strchr(shell->cmds->args[0], '/'))
 		return (err_dir(shell));
 	if (if_builtin(shell, (*alloc_list)))
@@ -60,9 +60,9 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 {
 	char	**paths;
 
-	if ((!shell->cmds || !shell->cmds->args || !shell->cmds->args[0])
-		&& check_inout(shell))
-		return ;
+	// if ((!shell->cmds )
+	// 	&& check_inout(shell))
+		// return ;
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{

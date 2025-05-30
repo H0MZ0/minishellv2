@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:59:09 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/25 18:30:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:27:34 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ int	execute_export(t_shell **shell, t_list *alloc_list)
 	char	*value;
 
 	if (check_exp(*shell, alloc_list))
+	{
+		ft_putendl_fd("export: to may args", 2);
+		(*shell)->exit_status = 2;
 		return (EXIT_FAILURE);
+	}
 	i = 1;
 	while ((*shell)->cmds->args[i])
 	{
