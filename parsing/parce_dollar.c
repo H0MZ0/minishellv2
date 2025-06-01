@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 16:26:53 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:55:21 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,20 @@ char	*get_env_value(t_shell *shell, char *key, t_list *alloc_list)
 	return (0);
 }
 
-
 char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 {
-	int		i = 0;
-	char	*result = ft_strdup("", alloc_list);
+	int		i;
+	char	*result;
 	char	*var_name;
 	char	*var_value;
 	char	*tmp;
 	int		start;
-	int		any_expanded = 0;
+	int		any_expanded;
+	int		var_len;
 
+	i = 0;
+	result = ft_strdup("", alloc_list);
+	any_expanded = 0;
 	while (value[i])
 	{
 		if (value[i] == '$')
@@ -51,10 +54,10 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 			}
 			else if (ft_isalpha(value[i]) || value[i] == '_')
 			{
-				int var_len = 0;
-				while (value[i + var_len] && (ft_isalnum(value[i + var_len]) || value[i + var_len] == '_'))
+				var_len = 0;
+				while (value[i + var_len] && (ft_isalnum(value[i + var_len])
+						|| value[i + var_len] == '_'))
 					var_len++;
-
 				var_name = ft_substr(value, i, var_len, alloc_list);
 				var_value = get_env_value(shell, var_name, alloc_list);
 				if (!var_value)
@@ -63,31 +66,28 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 			}
 			else if (ft_isdigit(value[i]))
 			{
-				i++; 
+				i++;
 				var_value = ft_strdup("", alloc_list);
 			}
 			else
 			{
 				var_value = ft_strdup("$", alloc_list);
 			}
-
 			if (var_value[0] != '\0')
 				any_expanded = 1;
-
 			tmp = ft_strjoin(result, var_value, alloc_list);
 			result = tmp;
 		}
 		else
 		{
-			char buf[2] = { value[i], 0 };
+			char buf[2] = {value[i], 0};
 			tmp = ft_strjoin(result, buf, alloc_list);
 			result = tmp;
 			i++;
 		}
 	}
-	return result;
+	return (result);
 }
-
 
 // static char	*expand_exit_status(char *result, int pos,
 // 	t_shell *shell, t_list *alloc_list)
@@ -131,4 +131,3 @@ char	*expand_token_value(char *value, t_shell *shell, t_list *alloc_list)
 // 	}
 // 	return (result);
 // }
-

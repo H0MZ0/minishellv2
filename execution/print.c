@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:40:15 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/28 15:05:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/31 16:04:07 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ void	print_list_env(t_env **head, t_list *alloc_list)
 		sorted = sorted->next;
 	}
 }
+
+const char *redir_type_str(int type)
+{
+    if (type == 0) return "<";
+    if (type == 1) return ">";
+    if (type == 2) return ">>";
+    if (type == 3) return "<<";
+    return "?";
+}
+
 
 void print_cmd_list(t_cmd *cmd_list)
 {
@@ -99,6 +109,13 @@ void print_cmd_list(t_cmd *cmd_list)
             i = 0;
             while (cmd_list->rediriction[i])
                 printf("\"%s\" ", cmd_list->rediriction[i++]);
+        }
+        // rediriction_ag
+        printf("\n  redirection_ag  = ");
+        if (cmd_list->rediriction_ag)
+        {
+            for (i = 0; cmd_list->rediriction_ag[i] != -1; i++)
+                printf("\"%s\" ", redir_type_str(cmd_list->rediriction_ag[i]));
         }
         else
             printf("(none)");

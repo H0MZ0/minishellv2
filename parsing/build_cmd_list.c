@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:49:25 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 20:30:32 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:43:55 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,3 @@ void	add_cmd_to_list(t_cmd **head, t_cmd *new_cmd)
 		temp->next = new_cmd;
 	}
 }
-

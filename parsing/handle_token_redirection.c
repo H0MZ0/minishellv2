@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:01:44 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 19:07:27 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:45:32 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	handle_heredoc(
 {
 	char	*delim;
 	int		expand;
+
 	delim = remove_quotes(target, alloc_list);
 	expand = is_quote(raw_value);
 	cmd->heredocs = alloc_array(cmd->heredocs, cmd->heredoc_count + 1,

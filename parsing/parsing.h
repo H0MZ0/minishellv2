@@ -32,7 +32,8 @@ t_token			*tokenize_line(t_shell *shell, char *line, t_list *alloc_list);
 char			*expand_token_value(char *value, t_shell *shell,
 					t_list *alloc_list);
 int				check_syntax(t_shell *shell);
-t_cmd			*build_cmd_list(t_token *tokens, t_list *alloc_list, t_shell *shell);
+t_cmd			*build_cmd_list(t_token *tokens, t_list *alloc_list,
+					t_shell *shell);
 t_env			*env_copy(char *content, t_list *alloc_list);
 int				ft_isspace(int c);
 t_token_type	get_token_type(char *str);
@@ -61,7 +62,8 @@ int				*append_int_array(int *arr, int value, t_list *alloc_list);
 int				handle_token_redirection_or_arg(t_token **current, t_cmd *cmd,
 					t_list *alloc_list, t_shell *shell);
 
-int				handle_redirection(t_token **current, t_cmd *cmd, t_list *alloc_list, t_shell *shell);
+int				handle_redirection(t_token **current, t_cmd *cmd,
+					t_list *alloc_list, t_shell *shell);
 void			append_env(t_env **head, t_env *new_node);
 
 void			set_prompt_signals(t_shell *shell);
@@ -69,5 +71,6 @@ void			sigint_prompt_handler(int sig);
 void			set_child_signals(void);
 int				print_error(char *message);
 void			sigint_prompt_handlera(int sig);
-int				handle_heredoc(t_cmd *cmd, char *target, char *raw_value, t_list *alloc_list);
+int				handle_heredoc(t_cmd *cmd, char *target, char *raw_value,
+					t_list *alloc_list);
 #endif
