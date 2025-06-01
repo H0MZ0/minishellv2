@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/01 15:32:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:08:34 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@
 // 		wait_for_children(pid, shell);
 // 	}
 // }
+#include "execution.h"
 
 int handle_redirections(t_cmd *cmd, t_list *alloc_list)
 {
@@ -204,41 +205,52 @@ int handle_redirections(t_cmd *cmd, t_list *alloc_list)
 	int out_fd = -1;
 	int tmp_fd;
 
-	while (cmd->rediriction[i] && cmd->rediriction_ag[i])
+	if (!cmd->rediriction)
+		return 0;
+
+	while (cmd->rediriction[i])
 	{
 		char *file = cmd->rediriction[i];
+		if (!file || file[0] == '\0')
+		{
+			fprintf(stderr, "Invalid redirection file\n");
+			return 1;
+		}
 
-		if (cmd->rediriction_ag[i] == 0) // <
+		int type = cmd->rediriction_ag[i]; 
+
+		if (type == 0) 
 		{
 			tmp_fd = open(file, O_RDONLY);
 			if (tmp_fd < 0)
 			{
+				
 				perror(file);
-				return (1);
+				return 1;
 			}
 			if (in_fd != -1)
 				close(in_fd);
 			in_fd = tmp_fd;
 		}
-		else if (cmd->rediriction_ag[i] == 1) // >
+		else if (type == 1) 
 		{
 			tmp_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (tmp_fd < 0)
 			{
 				perror(file);
-				return (1);
+				return 1;
 			}
 			if (out_fd != -1)
 				close(out_fd);
 			out_fd = tmp_fd;
 		}
-		else if (cmd->rediriction_ag[i] == 2) // >>
+		else if (type == 2) 
 		{
 			tmp_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (tmp_fd < 0)
 			{
 				perror(file);
-				return (1);
+				return 1;
 			}
 			if (out_fd != -1)
 				close(out_fd);
@@ -246,6 +258,7 @@ int handle_redirections(t_cmd *cmd, t_list *alloc_list)
 		}
 		i++;
 	}
+
 	if (in_fd != -1)
 	{
 		dup2(in_fd, STDIN_FILENO);
@@ -256,8 +269,11 @@ int handle_redirections(t_cmd *cmd, t_list *alloc_list)
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
 	}
-	return (0);
+	return 0;
 }
+
+
+
 
 void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
 						int out_fd, t_list *alloc_list)
@@ -269,7 +285,6 @@ void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
     int redir_failed = handle_redirections(cmd, alloc_list);
     if (redir_failed)
 	    exit(EXIT_FAILURE); 
-
 
 	if (!cmd->args || !cmd->args[0])
 	{
