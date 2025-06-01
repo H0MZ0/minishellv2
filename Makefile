@@ -18,9 +18,9 @@ SRC2 = execution/tools_1.c execution/tools_2.c \
        execution/builtin/ft_exit.c execution/builtin/ft_export.c \
        execution/builtin/ft_export_helpers.c execution/builtin/ft_unset.c \
        execution/builtin/ft_cd.c execution/builtin/ft_env.c \
-       execution/builtin/ft_pwd.c execution/test.c \
+       execution/builtin/ft_pwd.c \
        execution/builtin/ft_export_helpers2.c execution/check_options.c \
-       execution/print.c execution/testddd.c
+       execution/print.c execution/in_out2.c
 
 EXTRA = libft/ft_malloc.c libft/ft_strcmp.c
 

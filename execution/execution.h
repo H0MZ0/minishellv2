@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 18:53:54 by hakader          ###   ########.fr       */
+/*   Updated: 2025/05/30 22:03:23 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execution_part(t_shell *shell, t_list **alloc_list);
 
 /* ======================== BUILTIN COMMANDS ======================== */
 
-int		execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list);
+int		execute_cd(t_shell *shell, t_cmd *cmd, t_env **env, t_list *alloc_list);
 int		execute_pwd(t_cmd *cmd);
 int		execute_echo(t_cmd *cmd);
 int		execute_env(t_cmd *cmd, t_env *envp);

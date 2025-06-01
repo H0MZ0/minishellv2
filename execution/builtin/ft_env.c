@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:09:35 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 20:25:48 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:51:25 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_env(t_cmd *cmd, t_env *envp)
 	if (count_args(cmd->args) > 1)
 	{
 		put_error("minishell: env: you have (no arguments / no options)");
-		return (EXIT_INVALID_ARGS);
+		return (EXIT_FAILURE);
 	}
 	while (tmp)
 	{

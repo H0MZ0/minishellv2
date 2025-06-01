@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:57:57 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 20:23:11 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:46:18 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_pwd(t_cmd *cmd)
 	char	*cwd;
 
 	if (check_options(cmd, "pwd"))
-		return ((ft_putendl_fd("pwd: too many arguments", 2)), 2);
+		return (EXIT_FAILURE);
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{

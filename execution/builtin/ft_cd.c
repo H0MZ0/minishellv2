@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 20:22:26 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:10:00 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,21 @@ void	err_cdd(void)
 	ft_putendl_fd("please type relative or absolute path", 2);
 }
 
-int	execute_cd(t_cmd *cmd, t_env **env, t_list *alloc_list)
+int	err_cddd(void)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("cd: ", 2);
+	ft_putendl_fd("too many arguments", 2);
+	return (EXIT_FAILURE);
+}
+
+int	execute_cd(t_shell *shell, t_cmd *cmd, t_env **env, t_list *alloc_list)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 
-	if (count_args(cmd->args) > 2)
-		return ((ft_putendl_fd("cd: too many arguments", 2)), 2);
+	if (count_args(shell->cmds->args) > 2)
+		return (err_cddd());
 	if (!cmd->args[1])
 		return (err_cdd(), EXIT_FAILURE);
 	old_pwd = getcwd(NULL, 0);
