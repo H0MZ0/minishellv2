@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:20:48 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 16:47:03 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:52 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+int				handle_ambiguous_redirect(t_token *last, char *expanded,
+					t_shell *shell);
+int				handle_expansion(t_expand_ctx *ctx);
+char			*get_env_value(t_shell *shell, char *key, t_list *alloc_list);
 t_token			*tokenize_line(t_shell *shell, char *line, t_list *alloc_list);
 char			*expand_token_value(char *value, t_shell *shell,
 					t_list *alloc_list);
@@ -45,7 +49,6 @@ t_token			*split_expanded(char *str, t_list *alloc_list);
 char			*remove_quotes(const char *str, t_list *alloc_list);
 t_heredoc_tmp	*alloc_array(t_heredoc_tmp *old, int new_count,
 					t_list *alloc_list);
-int				is_cmd_empty(t_cmd *cmd);
 int				get_token_length(char *line, int i);
 int				is_token_end(char c, int in_squote, int in_dquote);
 int				handle_quotes(char *line, int *i, int *squote, int *dquote);
@@ -58,14 +61,14 @@ void			add_cmd_to_list(t_cmd **head, t_cmd *new_cmd);
 char			**append_str_array(char **arr, char *new_str,
 					t_list *alloc_list);
 int				get_int_array_length(int *arr);
-int				*append_int_array(int *arr, int value, t_list *alloc_list);
+int				*append_arr(int *arr, int value, t_list *alloc_list);
 int				handle_token_redirection_or_arg(t_token **current, t_cmd *cmd,
 					t_list *alloc_list, t_shell *shell);
-
+int				is_redirect_type(t_token_type type);
+int				is_ambiguous(t_token *last_token, char *expanded_value);
 int				handle_redirection(t_token **current, t_cmd *cmd,
 					t_list *alloc_list, t_shell *shell);
 void			append_env(t_env **head, t_env *new_node);
-
 void			set_prompt_signals(t_shell *shell);
 void			sigint_prompt_handler(int sig);
 void			set_child_signals(void);

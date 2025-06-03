@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:01:44 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 20:45:32 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:52 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,29 @@ int	handle_token_redirection_or_arg(t_token **current, t_cmd *cmd,
 		|| token->type == APPEND || token->type == HEREDOC)
 		return (handle_redirection(current, cmd, alloc_list, shell));
 	return (1);
+}
+
+int	handle_ambiguous_redirect(t_token *last, char *expanded, t_shell *shell)
+{
+	if (is_ambiguous(last, expanded))
+	{
+		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+		shell->exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	handle_expansion(t_expand_ctx *ctx)
+{
+	char	*expanded;
+	t_token	*expanded_tokens;
+
+	expanded = expand_token_value(ctx->token_str, ctx->shell, ctx->alloc_list);
+	if (handle_ambiguous_redirect(ctx->last, expanded, ctx->shell))
+		return (1);
+	expanded_tokens = split_expanded(expanded, ctx->alloc_list);
+	if (expanded_tokens)
+		append_token(ctx->head, expanded_tokens);
+	return (0);
 }

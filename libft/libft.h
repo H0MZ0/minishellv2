@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/22 21:44:45 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 20:45:28 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef struct s_split_data
 	t_list			*alloc_list;
 }					t_split_data;
 
+typedef struct s_split
+{
+	int		count;
+	char	**ptr;
+}	t_split;
+
 /* PART 1 */
 
 long				ft_atoi(const char *str, t_list *alloc_list);
@@ -56,7 +62,7 @@ int					is_quote(char *str);
 int					is_operator(char c);
 void				ft_putstr_fdput_error(char *msg);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-char 				*ft_strndup(const char *s, size_t n, t_list *alloc_list);
+char				*ft_strndup(const char *s, size_t n, t_list *alloc_list);
 
 /* PART 2 */
 

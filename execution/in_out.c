@@ -5,63 +5,106 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:06:12 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 18:55:08 by hakader          ###   ########.fr       */
+/*   Created: 2025/05/30 21:55:41 by hakader           #+#    #+#             */
+/*   Updated: 2025/06/02 16:46:50 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	oi_err(t_shell *shell, char *err)
+int	outfiless(t_shell *shell, char *outfile, int j)
 {
-	shell->exit_status = EXIT_FAILURE;
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(err, 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
-	return (EXIT_FAILURE);
-}
+	int	fd;
+	int	flags;
 
-int	check_all_infiles(t_shell *shell, char **infiles)
-{
-	int		i;
-	int		fd;
-	int		in_backup;
-	int		out_backup;
-
-	i = 0;
-	in_backup = dup(STDIN_FILENO);
-	out_backup = dup(STDOUT_FILENO);
-	while (infiles && infiles[i])
+	fd = -1;
+	flags = O_WRONLY | O_CREAT;
+	if (shell->cmds->append_flags[j])
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+	fd = open(outfile, flags, 0644);
+	if (fd < 0)
 	{
-		fd = open(infiles[i], O_RDONLY);
-		if (fd < 0)
-			return (oi_err(shell, infiles[i]));
-		close(fd);
-		i++;
+		shell->exit_status = EXIT_FAILURE;
+		return (oi_err(shell, outfile));
 	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 	return (EXIT_SUCCESS);
 }
 
-int	check_all_outfiles(t_shell *shell, char **outfiles, int *append_flags)
+int	infiless(t_shell *shell, char *infile)
+{
+	int	fd;
+
+	fd = open(infile, O_RDONLY);
+	if (fd < 0)
+	{
+		shell->exit_status = EXIT_FAILURE;
+		return (oi_err(shell, infile));
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (EXIT_SUCCESS);
+}
+
+static int	handle_infile(t_shell *shell, t_cmd *cmd, char *redir)
+{
+	int	j;
+
+	j = 0;
+	while (cmd->infiles && cmd->infiles[j])
+	{
+		if (ft_strcmp(redir, cmd->infiles[j]) == 0)
+		{
+			if (infiless(shell, cmd->infiles[j]))
+				return (1);
+			return (2);
+		}
+		j++;
+	}
+	return (0);
+}
+
+static int	handle_outfile(t_shell *shell, t_cmd *cmd, char *redir)
+{
+	int	j;
+
+	j = 0;
+	while (cmd->outfiles && cmd->outfiles[j])
+	{
+		if (ft_strcmp(redir, cmd->outfiles[j]) == 0)
+		{
+			if (outfiless(shell, cmd->outfiles[j], j))
+				return (1);
+			return (2);
+		}
+		j++;
+	}
+	return (0);
+}
+
+int	in_out(t_shell *shell)
 {
 	int		i;
-	int		fd;
-	int		flags;
+	int		result;
+	t_cmd	*cmd;
 
+	cmd = shell->cmds;
 	i = 0;
-	while (outfiles && outfiles[i])
+	while (cmd->rediriction[i])
 	{
-		flags = O_WRONLY | O_CREAT;
-		if (append_flags && append_flags[i])
-			flags |= O_APPEND;
-		else
-			flags |= O_TRUNC;
-		fd = open(outfiles[i], flags, 0644);
-		if (fd < 0)
-			return (oi_err(shell, outfiles[i]));
-		close(fd);
+		result = handle_infile(shell, cmd, cmd->rediriction[i]);
+		if (result == 1)
+			return (1);
+		if (result == 0)
+		{
+			result = handle_outfile(shell, cmd, cmd->rediriction[i]);
+			if (result == 1)
+				return (1);
+		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

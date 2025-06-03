@@ -52,7 +52,7 @@ int	check_semicolon(char *line, int i)
 	{
 		if (line[i + 1] == ';')
 			return (-2);
-		else if(line[i + 1] == '|')
+		else if (line[i + 1] == '|')
 			return (-6);
 		return (1);
 	}

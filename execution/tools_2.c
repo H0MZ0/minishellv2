@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:00:53 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 18:54:00 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:42:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ void	print_arr(char **arr)
 			printf(" ");
 		i++;
 	}
-}
-
-int	check_inout(t_shell *shell)
-{
-	if (shell->cmds->infiles)
-		if (!check_all_infiles(shell, shell->cmds->infiles))
-			return (1);
-	if (shell->cmds->outfiles)
-		if (!check_all_outfiles(shell, shell->cmds->outfiles,
-				shell->cmds->append_flags))
-			return (1);
-	return (1);
 }
 
 void	mini_display(void)

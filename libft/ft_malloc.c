@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:53:14 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/17 16:36:44 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:08:12 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	}
 }
 
-
 void	*ft_malloc(size_t size, t_list **alloc_list)
 {
 	void	*ptr;
@@ -54,7 +53,7 @@ void	*ft_malloc(size_t size, t_list **alloc_list)
 		return (NULL);
 	}
 	if (!alloc_list)
-		return (ptr); 
+		return (ptr);
 	new_node = ft_lstnew(ptr);
 	if (!new_node)
 	{
@@ -64,7 +63,6 @@ void	*ft_malloc(size_t size, t_list **alloc_list)
 	ft_lstadd_back(alloc_list, new_node);
 	return (ptr);
 }
-
 
 void	free_all(t_list **alloc_list)
 {
@@ -83,4 +81,3 @@ void	free_all(t_list **alloc_list)
 	}
 	*alloc_list = NULL;
 }
-

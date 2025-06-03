@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:11:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 21:10:09 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 21:40:23 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	execute_exit(t_shell *shell, t_list *alloc_list)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		shell->exit_status = 1;
-		exit (shell->exit_status);
+		return ;
 	}
-	printf("exit\n");
+	if(!shell->cmds->has_pipe)
+		ft_putendl_fd("exit",2);
 	free_all(&alloc_list);
 	exit (status);
 }

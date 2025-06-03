@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:26:10 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/05 12:51:03 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:25:52 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,46 +40,58 @@ int	ft_len(const char *s, char c, int *start)
 	return (len);
 }
 
-char	**ft_allocate_words(char const *s, char c, char **ptr, int count,
-		t_list *alloc_list)
-{
-	int	start;
-	int	index;
-	int	word_len;
-
-	index = 0;
-	start = 0;
-	while (index < count)
-	{
-		word_len = ft_len(s, c, &start);
-		ptr[index] = ft_substr(s, start, word_len, alloc_list);
-		if (!ptr[index])
-		{
-			while (index >= 0)
-			{
-				free(ptr[index]);
-				--index;
-			}
-			free(ptr);
-			return (NULL);
-		}
-		start += word_len;
-		index++;
-	}
-	ptr[count] = NULL;
-	return (ptr);
-}
+// char	**ft_allocate_words(char const *s, char c, t_split *split,
+// 		t_list *alloc_list)
+// {
+// 	int (start), (index), (word_len);
+// 	index = 0;
+// 	start = 0;
+// 	while (index < split->count)
+// 	{
+// 		word_len = ft_len(s, c, &start);
+// 		split->ptr[index] = ft_substr(s, start, word_len, alloc_list);
+// 		if (!split->ptr[index])
+// 		{
+// 			while (index >= 0)
+// 			{
+// 				free(split->ptr[index]);
+// 				--index;
+// 			}
+// 			free(split->ptr);
+// 			return (NULL);
+// 		}
+// 		start += word_len;
+// 		index++;
+// 	}
+// 	split->ptr[split->count] = NULL;
+// 	return (split->ptr);
+// }
 
 char	**ft_split(char const *s, char c, t_list *alloc_list)
 {
-	char	**ptr;
-	int		count;
+	t_split	split;
+	int		start;
+	int		index;
+	int		word_len;
 
 	if (!s)
 		return (NULL);
-	count = count_word(s, c);
-	ptr = (char **)ft_malloc((count + 1) * sizeof(char *), &alloc_list);
-	if (!ptr)
+	split.count = count_word(s, c);
+	split.ptr = (char **)ft_malloc((split.count + 1) * sizeof(char *),
+			&alloc_list);
+	if (!split.ptr)
 		return (NULL);
-	return (ft_allocate_words(s, c, ptr, count, alloc_list));
+	start = 0;
+	index = 0;
+	while (index < split.count)
+	{
+		word_len = ft_len(s, c, &start);
+		split.ptr[index] = ft_substr(s, start, word_len, alloc_list);
+		if (!split.ptr[index])
+			return (NULL);
+		start += word_len;
+		index++;
+	}
+	split.ptr[split.count] = NULL;
+	return (split.ptr);
 }

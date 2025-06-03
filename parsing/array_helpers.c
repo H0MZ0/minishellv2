@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:56:41 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/31 16:49:23 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/01 18:22:40 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ char	**append_str_array(char **arr, char *new_str, t_list *alloc_list)
 
 int	get_int_array_length(int *arr)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!arr)
 		return (0);
 	while (arr[i] != -1)
@@ -45,13 +46,14 @@ int	get_int_array_length(int *arr)
 	return (i);
 }
 
-
-int	*append_int_array(int *arr, int value, t_list *alloc_list)
+int	*append_arr(int *arr, int value, t_list *alloc_list)
 {
 	int	*new_arr;
-	int	i = get_int_array_length(arr);
-	int	j = 0;
+	int	i;
+	int	j;
 
+	i = get_int_array_length(arr);
+	j = 0;
 	new_arr = ft_malloc(sizeof(int) * (i + 2), &alloc_list);
 	if (!new_arr)
 		return (NULL);
@@ -65,9 +67,8 @@ int	*append_int_array(int *arr, int value, t_list *alloc_list)
 	return (new_arr);
 }
 
-
 t_heredoc_tmp	*alloc_array(t_heredoc_tmp *old, int new_count,
-	t_list *alloc_list)
+		t_list *alloc_list)
 {
 	t_heredoc_tmp	*new_array;
 	int				i;

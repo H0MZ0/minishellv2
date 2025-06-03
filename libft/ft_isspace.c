@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:47:57 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/17 22:19:49 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:07:21 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ft_isspace(int c)
 
 int	is_quote(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if(str[i] == '"' || str[i] == '\'')
+		if (str[i] == '"' || str[i] == '\'')
 			return (0);
 		i++;
 	}

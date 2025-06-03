@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:57:57 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 20:46:18 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 20:16:57 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	execute_pwd(t_cmd *cmd)
 	}
 	else
 	{
-		free (cmd);
+		ft_putstr_fd("minishell: ", 2);
 		perror("pwd");
 		return (EXIT_FAILURE);
 	}

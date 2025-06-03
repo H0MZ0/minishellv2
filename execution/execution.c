@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/30 21:11:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 22:03:50 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 	int	error;
 
 	error = 0;
+	set_child_signals();
 	if (shell->cmds->heredoc_delim)
 	{
 		if (shell->cmds->heredoc_fd == -1)
@@ -40,7 +41,7 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 
 	if (shell->cmds->args && stat(shell->cmds->args[0], &sa) == 0
 		&& S_ISDIR(sa.st_mode)
-		&& strchr(shell->cmds->args[0], '/'))
+		&& ft_strchr(shell->cmds->args[0], '/'))
 		return (err_dir(shell));
 	if (if_builtin(shell, (*alloc_list)))
 		return ;

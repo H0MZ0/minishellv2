@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:58:34 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/22 22:08:10 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:45:08 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,27 @@ char	*check_cmd(char **paths, char *cmd, t_list *alloc_list)
 		i++;
 	}
 	return (NULL);
+}
+
+int	check_options(t_cmd *cmd, char *msg)
+{
+	int		i;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		if (cmd->args[i][0] == '-')
+		{
+			if (cmd->args[i][1])
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(msg, 2);
+				ft_putendl_fd(": no options allowed", 2);
+				return (EXIT_FAILURE);
+			}
+			return (EXIT_SUCCESS);
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

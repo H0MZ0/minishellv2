@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:08:35 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/26 16:24:48 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/02 21:08:32 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,20 @@ void	append_env(t_env **head, t_env *new_node)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
+}
+
+char	*get_env_value(t_shell *shell, char *key, t_list *alloc_list)
+{
+	t_env	*tmp;
+
+	if (!strcmp(key, "?"))
+		return (ft_itoa(shell->exit_status, alloc_list));
+	tmp = shell->env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (ft_strdup(tmp->value, alloc_list));
+		tmp = tmp->next;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:08:28 by hakader           #+#    #+#             */
-/*   Updated: 2025/05/29 18:24:11 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:58:34 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	is_new_line(char *arg)
 int	execute_echo(t_cmd *cmd)
 {
 	int	i;
+	int	check;
 	int	n_flag;
 
 	i = 1;
@@ -42,7 +43,9 @@ int	execute_echo(t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
-		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i]));
+		check = write(1, cmd->args[i], ft_strlen(cmd->args[i]));
+		if (check == -1)
+			return (err_write());
 		if (cmd->args[i + 1])
 			write(STDOUT_FILENO, " ", 1);
 		i++;

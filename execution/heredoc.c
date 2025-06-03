@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:01:14 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/05/30 21:15:05 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:31:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	child_heredoc(t_cmd *cmd, t_shell *shell,
+static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
 						t_list *alloc_list, int *pipe_fd)
 {
 	char	*line;
@@ -23,12 +23,12 @@ static void	child_heredoc(t_cmd *cmd, t_shell *shell,
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, cmd->heredocs->delim) == 0)
+		if (!line || ft_strcmp(line, heredoc->delim) == 0)
 		{
 			free(line);
-			break ;
+			break;
 		}
-		if (cmd->heredocs->expand)
+		if (heredoc->expand)
 			line = expand_token_value(line, shell, alloc_list);
 		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);
@@ -39,7 +39,7 @@ static void	child_heredoc(t_cmd *cmd, t_shell *shell,
 	exit(0);
 }
 
-static int	handle_heredoc_child(t_cmd *cmd, t_shell *shell,
+static int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
 								t_list *alloc_list, int *pipe_fd)
 {
 	pid_t	pid;
@@ -47,44 +47,52 @@ static int	handle_heredoc_child(t_cmd *cmd, t_shell *shell,
 
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork"), 0);
+	{
+		perror("fork");
+		return 0;
+	}
 	if (pid == 0)
-		child_heredoc(cmd, shell, alloc_list, pipe_fd);
-	waitpid(pid, &status, 0);
+		child_heredoc(heredoc, shell, alloc_list, pipe_fd);
 	close(pipe_fd[1]);
+	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-		write(1, "\n", 1);
 		close(pipe_fd[0]);
 		shell->exit_status = 130;
-		return (0);
+		return 0;
 	}
-	return (1);
+	return 1;
 }
 
 int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 {
-	int		pipe_fd[2];
-	int		i;
+	int	pipe_fd[2];
+	int	i;
+	t_heredoc_tmp *heredoc;
 
 	i = 0;
+	cmd->heredoc_fd = -1;
 	while (i < cmd->heredoc_count)
 	{
+		heredoc = &cmd->heredocs[i];
 		if (pipe(pipe_fd) == -1)
-			return (perror("pipe"), 0);
-		cmd->heredocs += i;
-		if (!handle_heredoc_child(cmd, shell, alloc_list, pipe_fd))
-			return (0);
+		{
+			perror("pipe");
+			return 0;
+		}
+		if (!handle_heredoc_child(heredoc, shell, alloc_list, pipe_fd))
+			return 0;
 		if (i == cmd->heredoc_count - 1)
 		{
 			cmd->heredoc_fd = pipe_fd[0];
-			cmd->heredoc_delim = cmd->heredocs->delim;
-			cmd->heredoc_expand = cmd->heredocs->expand;
+			cmd->heredoc_delim = heredoc->delim;
+			cmd->heredoc_expand = heredoc->expand;
 		}
 		else
 			close(pipe_fd[0]);
-		cmd->heredocs -= i;
 		i++;
 	}
-	return (1);
+	return 1;
 }
+
+
