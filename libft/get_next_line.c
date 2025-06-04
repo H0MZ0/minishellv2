@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:06:13 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/04 10:07:25 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:03:41 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ int	check_new_line_buffer(char *str)
 
 char	*process_line(char **full_buff, int new_line_index, t_list *alloc_list)
 {
-	char	*line;
-	char	*temp;
+    char	*line;
+    char	*temp;
 
-	line = ft_substr(*full_buff, 0, new_line_index + 1, alloc_list);
-	temp = ft_substr(*full_buff, new_line_index + 1,
-			ft_strlen(*full_buff) - new_line_index - 1, alloc_list);
-	// free_memory(full_buff);
-	*full_buff = temp;
-	return (line);
+    // Extract the line up to the newline character
+    line = ft_substr(*full_buff, 0, new_line_index, alloc_list); // Exclude '\n'
+    temp = ft_substr(*full_buff, new_line_index + 1,
+            ft_strlen(*full_buff) - new_line_index - 1, alloc_list);
+    *full_buff = temp;
+    return (line);
 }
 
 char	*read_and_join(int fd, char **full_buff, t_list *alloc_list)
@@ -79,7 +79,7 @@ char	*read_and_join(int fd, char **full_buff, t_list *alloc_list)
 			break ;
 		}
 		buffer[bytes_read] = '\0';
-		*full_buff = ft_strjoin(*full_buff, buffer, &alloc_list);
+		*full_buff = ft_strjoin(*full_buff, buffer, alloc_list);
 	}
 	// free(buffer);
 	return (*full_buff);

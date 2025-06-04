@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/03 16:19:07 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:41:50 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,34 @@ static int	process_redir(char **files, int *types, int *in_fd, int *out_fd, t_sh
 
 int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell) 
 {
-	int	in_fd;
-	int	out_fd;
+    int	in_fd;
+    int	out_fd;
 
-	(void)alloc_list;
-	in_fd = -1;
-	out_fd = -1;
-	if (!cmd->rediriction)
-		return (0);
-	if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list , cmd))
-		return (1);
-	if (in_fd != -1)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
-	if (out_fd != -1)
-	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-	}
-	return (0);
+    (void)alloc_list;
+    in_fd = -1;
+    out_fd = -1;
+    if (!cmd->rediriction)
+        return (0);
+    if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list, cmd))
+        return (1);
+	printf("here");
+    if (cmd->heredoc_fd != -1) 
+    {
+        dup2(cmd->heredoc_fd, STDIN_FILENO);
+        close(cmd->heredoc_fd);
+        cmd->heredoc_fd = -1; // Mark as closed
+    }
+    else if (in_fd != -1) // Redirect input file descriptor
+    {
+        dup2(in_fd, STDIN_FILENO);
+        close(in_fd);
+        in_fd = -1; // Mark as closed
+    }
+    if (out_fd != -1) // Redirect output file descriptor
+    {
+        dup2(out_fd, STDOUT_FILENO);
+        close(out_fd);
+        out_fd = -1; // Mark as closed
+    }
+    return (0);
 }

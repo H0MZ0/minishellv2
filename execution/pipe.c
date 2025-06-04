@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/04 10:10:06 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:46:34 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,44 @@
 
 void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd, t_shell *shell)
 {
-	char	*cmd_path;
+    char	*cmd_path;
 
-	set_child_signals();
-	dup2(in_fd, STDIN_FILENO);
-	dup2(out_fd, STDOUT_FILENO);
-	if (handle_redirections(data->cmd, data->alloc_list, shell))
-		exit(EXIT_FAILURE);
-	if (!data->cmd->args || !data->cmd->args[0])
-		exit(EXIT_SUCCESS);
-	if (is_builtin_name(data->cmd->args[0]))
-		exit(exec_builtin(&data->shell, data->cmd, data->alloc_list));
-	cmd_path = check_cmd(data->paths, data->cmd->args[0], data->alloc_list);
-	if (!cmd_path)
-	{
-		ft_putstr_fd(data->cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
-	}
-	execve(cmd_path, data->cmd->args, data->shell->envp);
-	perror("execve");
-	exit(EXIT_FAILURE);
+    set_child_signals();
+    if (data->cmd->heredoc_fd != -1)
+    {
+		dup2(data->cmd->heredoc_fd, STDIN_FILENO);
+        close(data->cmd->heredoc_fd);
+        data->cmd->heredoc_fd = -1; // Mark as closed
+		// printf("heredoc_fd: %d\n", data->cmd->heredoc_fd);
+    }
+    else
+    {
+        dup2(in_fd, STDIN_FILENO);
+    }
+    dup2(out_fd, STDOUT_FILENO);
+
+    // Close unused file descriptors
+    if (in_fd != STDIN_FILENO)
+        close(in_fd);
+    if (out_fd != STDOUT_FILENO)
+        close(out_fd);
+
+    if (handle_redirections(data->cmd, data->alloc_list, shell))
+        exit(EXIT_FAILURE);
+    if (!data->cmd->args || !data->cmd->args[0])
+        exit(EXIT_SUCCESS);
+    if (is_builtin_name(data->cmd->args[0]))
+        exit(exec_builtin(&data->shell, data->cmd, data->alloc_list));
+    cmd_path = check_cmd(data->paths, data->cmd->args[0], data->alloc_list);
+    if (!cmd_path)
+    {
+        ft_putstr_fd(data->cmd->args[0], 2);
+        ft_putstr_fd(": command not found\n", 2);
+        exit(127);
+    }
+    execve(cmd_path, data->cmd->args, data->shell->envp);
+    perror("execve");
+    exit(EXIT_FAILURE);
 }
 
 static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
