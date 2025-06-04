@@ -1,12 +1,47 @@
 {
-   readline_leak
+   readline_internal_teardown_leak
    Memcheck:Leak
+   match-leak-kinds: definite
    fun:malloc
    fun:xmalloc
-   fun:rl_make_bare_keymap
-   fun:rl_generic_bind
-   fun:rl_bind_keyseq_if_unbound_in_map
-   fun:_rl_init_terminal_io
+   fun:readline_internal_teardown
+   fun:readline
+}
+
+{
+   readline_history_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_rl_add_history
+   fun:add_history
+   fun:readline
+}
+
+{
+   readline_var_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_rl_set_prompt
+   fun:readline
+}
+
+{
+   readline_signal_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_rl_signal_handler
+   fun:readline
+}
+
+{
+   readline_keymap_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:_rl_init_keymap
    fun:rl_initialize
    fun:readline
 }

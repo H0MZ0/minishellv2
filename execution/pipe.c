@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/03 15:51:49 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:10:06 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd)
+void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd, t_shell *shell)
 {
 	char	*cmd_path;
 
 	set_child_signals();
 	dup2(in_fd, STDIN_FILENO);
 	dup2(out_fd, STDOUT_FILENO);
-	if (handle_redirections(data->cmd, data->alloc_list))
+	if (handle_redirections(data->cmd, data->alloc_list, shell))
 		exit(EXIT_FAILURE);
 	if (!data->cmd->args || !data->cmd->args[0])
 		exit(EXIT_SUCCESS);
@@ -37,7 +37,7 @@ void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd)
 	exit(EXIT_FAILURE);
 }
 
-static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo)
+static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
 {
 	int			pipe_fd[2];
 	t_exec_data	data;
@@ -55,7 +55,7 @@ static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo)
 		data.cmd = cmd;
 		data.paths = pinfo->paths;
 		data.alloc_list = pinfo->alloc_list;
-		exec_pipeline_cmd(&data, pinfo->prev_fd, pipe_fd[1]);
+		exec_pipeline_cmd(&data, pinfo->prev_fd, pipe_fd[1], shell);
 	}
 	close(pipe_fd[1]);
 	if (pinfo->prev_fd != STDIN_FILENO)
@@ -63,7 +63,7 @@ static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo)
 	pinfo->prev_fd = pipe_fd[0];
 }
 
-static void	exec_last_cmd(t_cmd *cmd, t_pipex_info *pinfo)
+static void	exec_last_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
 {
 	t_exec_data	data;
 
@@ -74,7 +74,7 @@ static void	exec_last_cmd(t_cmd *cmd, t_pipex_info *pinfo)
 		data.cmd = cmd;
 		data.paths = pinfo->paths;
 		data.alloc_list = pinfo->alloc_list;
-		exec_pipeline_cmd(&data, pinfo->prev_fd, STDOUT_FILENO);
+		exec_pipeline_cmd(&data, pinfo->prev_fd, STDOUT_FILENO, shell);
 	}
 	if (pinfo->prev_fd != STDIN_FILENO)
 		close(pinfo->prev_fd);
@@ -114,11 +114,11 @@ void	pipex(t_shell **shell, t_list *alloc_list)
 	pinfo.last_pid = 0;
 	while (cmd && cmd->has_pipe)
 	{
-		exec_middle_cmd(cmd, &pinfo);
+		exec_middle_cmd(cmd, &pinfo, (*shell));
 		cmd = cmd->next;
 	}
 	if (cmd)
-		exec_last_cmd(cmd, &pinfo);
+		exec_last_cmd(cmd, &pinfo, (*shell));
 	wait_for_children(shell, pinfo.last_pid);
 }
 

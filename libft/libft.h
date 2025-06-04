@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 17:57:06 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/02 20:45:28 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:03:10 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # define EXIT_FAILURE 1
 # define EXIT_CMD_NOT_FOUND 127
 # define EXIT_INVALID_ARGS 2
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
 
 typedef struct s_list
 {
@@ -86,4 +90,6 @@ void				*ft_malloc(size_t size, t_list **alloc_list);
 void				free_all(t_list **alloc_list);
 void				put_error(char *msg);
 void				exit_error(const char *str, t_list *alloc_list);
+char				*get_next_line(int fd, t_list *alloc_list);
+
 #endif
