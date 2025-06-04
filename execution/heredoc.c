@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:01:14 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/03 14:31:20 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:02:07 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,35 +64,35 @@ static int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
 	return 1;
 }
 
-int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
+int read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 {
-	int	pipe_fd[2];
-	int	i;
-	t_heredoc_tmp *heredoc;
+    int	pipe_fd[2];
+    int	i;
+    t_heredoc_tmp *heredoc;
 
-	i = 0;
-	cmd->heredoc_fd = -1;
-	while (i < cmd->heredoc_count)
-	{
-		heredoc = &cmd->heredocs[i];
-		if (pipe(pipe_fd) == -1)
-		{
-			perror("pipe");
-			return 0;
-		}
-		if (!handle_heredoc_child(heredoc, shell, alloc_list, pipe_fd))
-			return 0;
-		if (i == cmd->heredoc_count - 1)
-		{
-			cmd->heredoc_fd = pipe_fd[0];
-			cmd->heredoc_delim = heredoc->delim;
-			cmd->heredoc_expand = heredoc->expand;
-		}
-		else
-			close(pipe_fd[0]);
-		i++;
-	}
-	return 1;
+    i = 0;
+    cmd->heredoc_fd = -1;
+    while (i < cmd->heredoc_count)
+    {
+        heredoc = &cmd->heredocs[i];
+        if (pipe(pipe_fd) == -1)
+        {
+            perror("pipe");
+            return 0;
+        }
+        if (!handle_heredoc_child(heredoc, shell, alloc_list, pipe_fd))
+            return 0;
+        if (i == cmd->heredoc_count - 1)
+        {
+            cmd->heredoc_fd = pipe_fd[0];
+            cmd->heredoc_delim = heredoc->delim;
+            cmd->heredoc_expand = heredoc->expand;
+        }
+        else
+            close(pipe_fd[0]); 
+        i++;
+    }
+    return 1;
 }
 
 

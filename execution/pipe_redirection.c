@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/02 22:27:21 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:19:07 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	open_output(char *file, int *out_fd, int append)
 	return (0);
 }
 
-static int	process_redir(char **files, int *types, int *in_fd, int *out_fd)
+static int	process_redir(char **files, int *types, int *in_fd, int *out_fd, t_shell *shell, t_list *alloc_list, t_cmd *cmd)
 {
 	int	i;
 
@@ -68,32 +68,34 @@ static int	process_redir(char **files, int *types, int *in_fd, int *out_fd)
 			return (1);
 		if (types[i] == 2 && open_output(files[i], out_fd, 1))
 			return (1);
+		if (types[i] == 3 && read_heredoc(cmd, shell, alloc_list))
+			return (1);
 		i++;
 	}
 	return (0);
 }
 
-// int	handle_redirections(t_cmd *cmd, t_list *alloc_list)
-// {
-// 	int	in_fd;
-// 	int	out_fd;
+int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell) 
+{
+	int	in_fd;
+	int	out_fd;
 
-// 	(void)alloc_list;
-// 	in_fd = -1;
-// 	out_fd = -1;
-// 	if (!cmd->rediriction)
-// 		return (0);
-// 	if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd))
-// 		return (1);
-// 	if (in_fd != -1)
-// 	{
-// 		dup2(in_fd, STDIN_FILENO);
-// 		close(in_fd);
-// 	}
-// 	if (out_fd != -1)
-// 	{
-// 		dup2(out_fd, STDOUT_FILENO);
-// 		close(out_fd);
-// 	}
-// 	return (0);
-// }
+	(void)alloc_list;
+	in_fd = -1;
+	out_fd = -1;
+	if (!cmd->rediriction)
+		return (0);
+	if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list , cmd))
+		return (1);
+	if (in_fd != -1)
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+	}
+	if (out_fd != -1)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+	}
+	return (0);
+}

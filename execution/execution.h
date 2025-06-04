@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/02 22:36:43 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:19:45 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int		check_options(t_cmd *cmd, char *msg);
 void	print_list_env(t_env **head, t_list *alloc_list);
 int		in_out(t_shell *shell);
 int		oi_err(t_shell *shell, char *err);
-// int		handle_redirections(t_cmd *cmd, t_list *alloc_list);
+int		handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell);
 
 #endif
