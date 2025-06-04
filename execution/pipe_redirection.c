@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/04 11:41:50 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:26:34 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,23 +88,24 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell)
     if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list, cmd))
         return (1);
 	printf("here");
-    if (cmd->heredoc_fd != -1) 
-    {
-        dup2(cmd->heredoc_fd, STDIN_FILENO);
-        close(cmd->heredoc_fd);
-        cmd->heredoc_fd = -1; // Mark as closed
-    }
-    else if (in_fd != -1) // Redirect input file descriptor
+	if (cmd->heredoc_fd != -1) 
+	{
+		dup2(cmd->heredoc_fd, STDIN_FILENO);
+		close(cmd->heredoc_fd);
+		cmd->heredoc_fd = -1;
+	}
+	
+    else if (in_fd != -1)
     {
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
-        in_fd = -1; // Mark as closed
+        in_fd = -1;
     }
-    if (out_fd != -1) // Redirect output file descriptor
+    if (out_fd != -1)
     {
         dup2(out_fd, STDOUT_FILENO);
         close(out_fd);
-        out_fd = -1; // Mark as closed
+        out_fd = -1; 
     }
     return (0);
 }

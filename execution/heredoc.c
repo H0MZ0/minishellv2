@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:52:28 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/04 11:40:48 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:39:04 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
 
     signal(SIGINT, SIG_DFL); 
     signal(SIGQUIT, SIG_IGN); 
+    signal(SIGPIPE, SIG_IGN); // <-- Add this line
 
     fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd == -1)
@@ -110,21 +111,29 @@ int read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
         if (!handle_heredoc_child(heredoc, shell, alloc_list, filename))
             return (0);
 
-        if (i == cmd->heredoc_count - 1)
-        {
-            cmd->heredoc_fd = open(filename, O_RDONLY);
-            if (cmd->heredoc_fd == -1)
+            if (i == cmd->heredoc_count - 1)
             {
-                perror("open heredoc");
-                return (0);
+                if (cmd->heredoc_fd != -1)
+                    close(cmd->heredoc_fd);
+
+                cmd->heredoc_fd = open(filename, O_RDONLY);
+                if (cmd->heredoc_fd == -1)
+                {
+                    perror("open heredoc");
+                    unlink(filename);
+                    return (0);
+                }
+
+                unlink(filename); 
+                cmd->heredoc_delim = heredoc->delim;
+                cmd->heredoc_expand = heredoc->expand;
             }
-            cmd->heredoc_delim = heredoc->delim;
-            cmd->heredoc_expand = heredoc->expand;
-        }
-        else
-        {
-            unlink(filename); // Remove intermediate heredoc files
-        }
+            else
+            {
+                unlink(filename); 
+            }
+
+            
         i++;
     }
     return 1;

@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/04 11:47:08 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:43:07 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,38 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 
 void	execution_part(t_shell *shell, t_list **alloc_list)
 {
-	char	**paths;
+    char	**paths;
 
-	paths = get_paths(&shell, (*alloc_list));
-	while (shell->cmds)
-	{
-		if (shell->cmds->heredocs)
-		{
-			if (!read_heredoc(shell->cmds, shell, *alloc_list))
-				return ;
-		}
-		if (shell->cmds->has_pipe)
-		{
-			pipex(&shell, (*alloc_list));
-			while (shell->cmds && shell->cmds->has_pipe)
-				shell->cmds = shell->cmds->next;
-			if (shell->cmds)
-				shell->cmds = shell->cmds->next;
-			continue ;
-		}
-		exec_command(shell, paths, alloc_list);
-		shell->cmds = shell->cmds->next;
-	}
+    paths = get_paths(&shell, (*alloc_list));
+    while (shell->cmds)
+    {
+        if (shell->cmds->heredocs)
+        {
+            if (!read_heredoc(shell->cmds, shell, *alloc_list)) {
+                shell->cmds = shell->cmds->next;
+                continue;
+            }
+        }
+        if (shell->cmds->has_pipe)
+        {
+            pipex(&shell, (*alloc_list));
+            while (shell->cmds && shell->cmds->has_pipe)
+                shell->cmds = shell->cmds->next;
+            if (shell->cmds)
+                shell->cmds = shell->cmds->next;
+            // Always close heredoc_fd if still open
+            if (shell->cmds && shell->cmds->heredoc_fd != -1) {
+                close(shell->cmds->heredoc_fd);
+                shell->cmds->heredoc_fd = -1;
+            }
+            continue ;
+        }
+        exec_command(shell, paths, alloc_list);
+        if (shell->cmds->heredoc_fd != -1 && shell->cmds->heredoc_fd != STDIN_FILENO)
+        {
+            close(shell->cmds->heredoc_fd);
+            shell->cmds->heredoc_fd = -1;
+        }
+        shell->cmds = shell->cmds->next;
+    }
 }
