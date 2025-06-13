@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/13 11:31:26 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/13 16:59:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
 		close(shell->cmds->heredoc_fd);
 	}
 	else if (shell->cmds->infiles || shell->cmds->outfiles)
+	{
 		if (in_out(shell))
 			exit (shell->exit_status);
+	}
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");
 	exit(EXIT_FAILURE);

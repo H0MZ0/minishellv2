@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:47:09 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/02 21:09:25 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/13 16:39:21 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	set_prompt_signals(t_shell *shell)
 
 void	set_child_signals(void)
 {
+	signal(SIGPIPE, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }

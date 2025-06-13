@@ -6,102 +6,220 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 11:30:56 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:51:22 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd, t_shell *shell)
-{
-	char	*cmd_path;
+// void	exec_pipeline_cmd(t_exec_data *data, int in_fd, int out_fd, t_shell *shell)
+// {
+//     char	*cmd_path;
+//     int		stdin_redirected = 0;
+//     int		stdout_redirected = 0;
 
+//     set_child_signals();
+
+//     // Handle redirections first
+//     if (handle_redirections(data->cmd, data->alloc_list, shell))
+//         exit(EXIT_FAILURE);
+
+//     // Detect if STDIN was redirected (heredoc or infile)
+//     // if (data->cmd->heredoc_fd == -1 && in_fd != STDIN_FILENO)
+//     //     dup2(in_fd, STDIN_FILENO);
+//     // if (out_fd != STDOUT_FILENO)
+//     //     dup2(out_fd, STDOUT_FILENO);
+
+//     // if (in_fd != STDIN_FILENO)
+//     //     close(in_fd);
+//     // if (out_fd != STDOUT_FILENO)
+//     //     close(out_fd);
+//     if (!data->cmd->args || !data->cmd->args[0])
+//         exit(EXIT_SUCCESS);
+//     if (is_builtin_name(data->cmd->args[0]))
+//         exit(exec_builtin(&data->shell, data->cmd, data->alloc_list));
+//     cmd_path = check_cmd(data->paths, data->cmd->args[0], data->alloc_list);
+//     if (!cmd_path)
+//     {
+//         ft_putstr_fd(data->cmd->args[0], 2);
+//         ft_putstr_fd(": command not found\n", 2);
+//         exit(127);
+//     }
+//     execve(cmd_path, data->cmd->args, data->shell->envp);
+//     perror("execve");
+//     exit(EXIT_FAILURE);
+// }
+
+// static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
+// {
+// 	int			pipe_fd[2];
+// 	t_exec_data	data;
+
+// 	if (pipe(pipe_fd) == -1)
+// 	{
+// 		perror("pipe");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	pinfo->last_pid = fork();
+// 	if (pinfo->last_pid == 0)
+// 	{
+// 		// CHILD
+// 		close(pipe_fd[0]);
+// 		data.shell = pinfo->shell;
+// 		data.cmd = cmd;
+// 		data.paths = pinfo->paths;
+// 		data.alloc_list = pinfo->alloc_list;
+// 		exec_pipeline_cmd(&data, pinfo->prev_fd, pipe_fd[1], shell);
+// 	}
+// 	// PARENT
+// 	close(pipe_fd[1]);
+// 	// ✅ don't close prev_fd immediately
+// 	if (pinfo->prev_fd != STDIN_FILENO)
+// 		close(pinfo->prev_fd);
+// 	pinfo->prev_fd = pipe_fd[0];
+// }
+
+
+// static void	exec_last_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
+// {
+// 	t_exec_data	data;
+
+// 	pinfo->last_pid = fork();
+// 	if (pinfo->last_pid == 0)
+// 	{
+// 		// CHILD
+// 		data.shell = pinfo->shell;
+// 		data.cmd = cmd;
+// 		data.paths = pinfo->paths;
+// 		data.alloc_list = pinfo->alloc_list;
+// 		exec_pipeline_cmd(&data, pinfo->prev_fd, STDOUT_FILENO, shell);
+// 	}
+// 	// PARENT
+// 	if (pinfo->prev_fd != STDIN_FILENO)
+// 		close(pinfo->prev_fd);
+// }
+
+
+// static void	wait_for_children(t_shell **shell, pid_t last_pid)
+// {
+// 	int		status;
+// 	pid_t	wpid;
+
+// 	wpid = waitpid(-1, &status, 0);
+// 	while (wpid > 0)
+// 	{
+// 		if (wpid == last_pid)
+// 		{
+// 			if (WIFEXITED(status))
+// 				(*shell)->exit_status = WEXITSTATUS(status);
+// 			else if (WIFSIGNALED(status))
+// 				(*shell)->exit_status = 128 + WTERMSIG(status);
+// 			else
+// 				(*shell)->exit_status = 1;
+// 		}
+// 		wpid = waitpid(-1, &status, 0);
+// 	}
+// }
+
+// void	pipex(t_shell **shell, t_list *alloc_list)
+// {
+// 	t_cmd			*cmd;
+// 	t_pipex_info	pinfo;
+
+// 	cmd = (*shell)->cmds;
+// 	pinfo.shell = *shell;
+// 	pinfo.alloc_list = alloc_list;
+// 	pinfo.paths = get_paths(shell, alloc_list);
+// 	pinfo.prev_fd = dup(STDIN_FILENO);
+// 	pinfo.last_pid = 0;
+
+// 	while (cmd && cmd->has_pipe)
+// 	{
+// 		exec_middle_cmd(cmd, &pinfo, (*shell));
+// 		cmd = cmd->next;
+// 	}
+// 	if (cmd)
+// 	{
+// 		exec_last_cmd(cmd, &pinfo, (*shell));
+// 	}
+// 	wait_for_children(shell, pinfo.last_pid);
+
+// }
+
+void exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
+						int out_fd, t_list *alloc_list)
+{
+	char *cmd_path;
 	set_child_signals();
 	dup2(in_fd, STDIN_FILENO);
 	dup2(out_fd, STDOUT_FILENO);
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	if (out_fd != STDOUT_FILENO)
-		close(out_fd);
-
-	if (handle_redirections(data->cmd, data->alloc_list, shell))
-		exit(EXIT_FAILURE);
-
-	if (!data->cmd->args || !data->cmd->args[0])
+	if (handle_redirections(cmd, alloc_list, shell))
+        exit(EXIT_FAILURE);
+	if (!cmd->args || !cmd->args[0])
+	{
+		// ft_putstr_fd("here\n", 2);
 		exit(EXIT_SUCCESS);
-	if (is_builtin_name(data->cmd->args[0]))
-		exit(exec_builtin(&data->shell, data->cmd, data->alloc_list));
-	cmd_path = check_cmd(data->paths, data->cmd->args[0], data->alloc_list);
+	}
+
+	if (is_builtin_name(cmd->args[0]))
+	{
+		exit(exec_builtin(&shell, cmd, alloc_list));
+	}
+
+	cmd_path = check_cmd(paths, cmd->args[0], alloc_list);
 	if (!cmd_path)
 	{
-		ft_putstr_fd(data->cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		fprintf(stderr, "%s: command not found\n", cmd->args[0]);
 		exit(127);
 	}
-	execve(cmd_path, data->cmd->args, data->shell->envp);
+	execve(cmd_path, cmd->args, shell->envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
 
-static void	exec_middle_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
+
+void pipex(t_shell **shell, t_list *alloc_list)
 {
-	int			pipe_fd[2];
-	t_exec_data	data;
+	int		pipe_fd[2];
+	int		in_fd = dup(STDIN_FILENO);
+	int		prev_fd = in_fd;
+	pid_t	pid;
+	char	**paths = get_paths(shell, alloc_list);
+	t_cmd	*current = (*shell)->cmds;
 
-	if (pipe(pipe_fd) == -1)
+	while (current && current->has_pipe)
 	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
+		if (pipe(pipe_fd) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		pid = fork();
+		if (pid == 0)
+		{
+			close(pipe_fd[0]);
+			exec_pipeline_cmd(*shell, current, paths, prev_fd, pipe_fd[1], alloc_list);
+		}
+		close(pipe_fd[1]);
+		if (prev_fd != STDIN_FILENO)
+			close(prev_fd);
+		prev_fd = pipe_fd[0];
+		current = current->next;
 	}
-	pinfo->last_pid = fork();
-	if (pinfo->last_pid == 0)
+
+	if (current)
 	{
-		// CHILD
-		close(pipe_fd[0]);
-		data.shell = pinfo->shell;
-		data.cmd = cmd;
-		data.paths = pinfo->paths;
-		data.alloc_list = pinfo->alloc_list;
-		exec_pipeline_cmd(&data, pinfo->prev_fd, pipe_fd[1], shell);
+		pid = fork();
+		if (pid == 0)
+			exec_pipeline_cmd(*shell, current, paths, prev_fd, STDOUT_FILENO, alloc_list);
+		if (prev_fd != STDIN_FILENO)
+			close(prev_fd);
 	}
-	// PARENT
-	close(pipe_fd[1]);
-	// ✅ don't close prev_fd immediately
-	if (pinfo->prev_fd != STDIN_FILENO)
-		close(pinfo->prev_fd);
-	pinfo->prev_fd = pipe_fd[0];
-}
-
-
-static void	exec_last_cmd(t_cmd *cmd, t_pipex_info *pinfo, t_shell *shell)
-{
-	t_exec_data	data;
-
-	pinfo->last_pid = fork();
-	if (pinfo->last_pid == 0)
+	int status;
+	pid_t wpid;
+	while ((wpid = waitpid(-1, &status, 0)) > 0)
 	{
-		// CHILD
-		data.shell = pinfo->shell;
-		data.cmd = cmd;
-		data.paths = pinfo->paths;
-		data.alloc_list = pinfo->alloc_list;
-		exec_pipeline_cmd(&data, pinfo->prev_fd, STDOUT_FILENO, shell);
-	}
-	// PARENT
-	if (pinfo->prev_fd != STDIN_FILENO)
-		close(pinfo->prev_fd);
-}
-
-
-static void	wait_for_children(t_shell **shell, pid_t last_pid)
-{
-	int		status;
-	pid_t	wpid;
-
-	wpid = waitpid(-1, &status, 0);
-	while (wpid > 0)
-	{
-		if (wpid == last_pid)
+		if (wpid == pid)
 		{
 			if (WIFEXITED(status))
 				(*shell)->exit_status = WEXITSTATUS(status);
@@ -110,32 +228,5 @@ static void	wait_for_children(t_shell **shell, pid_t last_pid)
 			else
 				(*shell)->exit_status = 1;
 		}
-		wpid = waitpid(-1, &status, 0);
 	}
 }
-
-void	pipex(t_shell **shell, t_list *alloc_list)
-{
-	t_cmd			*cmd;
-	t_pipex_info	pinfo;
-
-	cmd = (*shell)->cmds;
-	pinfo.shell = *shell;
-	pinfo.alloc_list = alloc_list;
-	pinfo.paths = get_paths(shell, alloc_list);
-	pinfo.prev_fd = dup(STDIN_FILENO);
-	pinfo.last_pid = 0;
-
-	while (cmd && cmd->has_pipe)
-	{
-		exec_middle_cmd(cmd, &pinfo, (*shell));
-		cmd = cmd->next;
-	}
-	if (cmd)
-	{
-		exec_last_cmd(cmd, &pinfo, (*shell));
-	}
-	wait_for_children(shell, pinfo.last_pid);
-
-}
-

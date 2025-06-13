@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 11:48:41 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/13 17:50:44 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,20 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell)
     if (!cmd->rediriction)
         return (0);
     if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list, cmd))
-        exit (1);
-	if (cmd->heredoc_fd != -1) 
 	{
-		dup2(cmd->heredoc_fd, STDIN_FILENO);
-		close(cmd->heredoc_fd);
-		cmd->heredoc_fd = -1;
+        exit (1);
 	}
-	
-    else if (in_fd != -1)
+	// if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)  
+	// {
+	// 	if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
+	// 	{
+	// 		perror("dup2");
+	// 		exit(EXIT_FAILURE);
+	// 	}
+	// 	close(cmd->heredoc_fd);
+	// 	cmd->heredoc_fd = -1;
+	// }
+    if (in_fd != -1)
     {
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
