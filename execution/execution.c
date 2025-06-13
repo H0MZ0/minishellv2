@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/06 21:13:41 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:31:26 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
         if (shell->cmds->has_pipe)
         {
             pipex(&shell, (*alloc_list));
+			shell->cmds = shell->cmds->next;
             while (shell->cmds && shell->cmds->has_pipe)
                 shell->cmds = shell->cmds->next;
             if (shell->cmds)
                 shell->cmds = shell->cmds->next;
-            // Always close heredoc_fd if still open
-            if (shell->cmds && shell->cmds->heredoc_fd != -1) {
+            if (shell->cmds && shell->cmds->heredoc_fd != -1) 
+			{
                 close(shell->cmds->heredoc_fd);
                 shell->cmds->heredoc_fd = -1;
             }
