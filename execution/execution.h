@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/06 21:13:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:24:49 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int		check_options(t_cmd *cmd, char *msg);
 void	print_list_env(t_env **head, t_list *alloc_list);
 int		in_out(t_shell *shell);
 int		oi_err(t_shell *shell, char *err);
-int		handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell);
+int		handle_redirections(t_cmd *cmd, t_list *alloc_list);
 
 #endif

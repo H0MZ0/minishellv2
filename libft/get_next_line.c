@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:06:13 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/04 11:03:41 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:29:55 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,16 @@ int	check_new_line_buffer(char *str)
 	return (-1);
 }
 
-// void	free_memory(char **str)
-// {
-// 	if (str && *str)
-// 	{
-// 		free(*str);
-// 		*str = NULL;
-// 	}
-// }
-
 char	*process_line(char **full_buff, int new_line_index, t_list *alloc_list)
 {
-    char	*line;
-    char	*temp;
+	char	*line;
+	char	*temp;
 
-    // Extract the line up to the newline character
-    line = ft_substr(*full_buff, 0, new_line_index, alloc_list); // Exclude '\n'
-    temp = ft_substr(*full_buff, new_line_index + 1,
-            ft_strlen(*full_buff) - new_line_index - 1, alloc_list);
-    *full_buff = temp;
-    return (line);
+	line = ft_substr(*full_buff, 0, new_line_index, alloc_list);
+	temp = ft_substr(*full_buff, new_line_index + 1,
+			ft_strlen(*full_buff) - new_line_index - 1, alloc_list);
+	*full_buff = temp;
+	return (line);
 }
 
 char	*read_and_join(int fd, char **full_buff, t_list *alloc_list)
@@ -71,17 +61,12 @@ char	*read_and_join(int fd, char **full_buff, t_list *alloc_list)
 		if (bytes_read <= 0)
 		{
 			if (bytes_read < 0)
-			{
-				// free(buffer);
-				// free_memory(full_buff);
 				return (NULL);
-			}
 			break ;
 		}
 		buffer[bytes_read] = '\0';
 		*full_buff = ft_strjoin(*full_buff, buffer, alloc_list);
 	}
-	// free(buffer);
 	return (*full_buff);
 }
 
@@ -96,16 +81,10 @@ char	*get_next_line(int fd, t_list *alloc_list)
 	if (!read_and_join(fd, &full_buff, alloc_list))
 		return (NULL);
 	if (!full_buff || *full_buff == '\0')
-	{
-		// if (full_buff && *full_buff == '\0')
-		// 	free_memory(&full_buff);
 		return (NULL);
-	}
 	new_line_index = check_new_line_buffer(full_buff);
 	if (new_line_index >= 0)
 		return (process_line(&full_buff, new_line_index, alloc_list));
 	line = ft_strdup(full_buff, alloc_list);
-	// free_memory(&full_buff);
 	return (line);
 }
-

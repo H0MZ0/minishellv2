@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/14 18:09:17 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:33:32 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	exec_child(t_shell *shell, char *cmd, t_list **alloc_list)
+static void	exec_child(t_shell *shell, char *cmd)
 {
 	int	error;
 
@@ -52,7 +52,7 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 	{
 		pid = fork();
 		if (pid == 0)
-			exec_child(shell, cmd, alloc_list);
+			exec_child(shell, cmd);
 		else
 			update_exit_status(shell, pid);
 	}
@@ -63,24 +63,24 @@ static void	exec_command(t_shell *shell, char **paths, t_list **alloc_list)
 void	execution_part(t_shell *shell, t_list **alloc_list)
 {
 	char	**paths;
+	t_cmd	*cmd;
+	t_cmd	*pipe_cmd;
 
 	paths = get_paths(&shell, (*alloc_list));
 	while (shell->cmds)
 	{
-		t_cmd *cmd = shell->cmds;
-
+		cmd = shell->cmds;
 		if (cmd->heredocs && !cmd->has_pipe)
 		{
 			if (!read_heredoc(cmd, shell, *alloc_list))
 			{
 				shell->cmds = cmd->next;
-				continue;
+				continue ;
 			}
 		}
 		if (cmd->has_pipe)
 		{
-			t_cmd *pipe_cmd = cmd;
-
+			pipe_cmd = cmd;
 			while (pipe_cmd && pipe_cmd->has_pipe)
 			{
 				if (pipe_cmd->heredocs)
@@ -88,7 +88,7 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 					if (!read_heredoc(pipe_cmd, shell, *alloc_list))
 					{
 						shell->cmds = pipe_cmd->next;
-						break;
+						break ;
 					}
 				}
 				pipe_cmd = pipe_cmd->next;
@@ -98,13 +98,14 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 				if (!read_heredoc(pipe_cmd, shell, *alloc_list))
 				{
 					shell->cmds = pipe_cmd->next;
-					continue;
+					continue ;
 				}
 			}
 			pipex(&shell, *alloc_list);
 			while (shell->cmds && shell->cmds->has_pipe)
 			{
-				if (shell->cmds->heredoc_fd != -1 && shell->cmds->heredoc_fd != STDIN_FILENO)
+				if (shell->cmds->heredoc_fd != -1
+					&& shell->cmds->heredoc_fd != STDIN_FILENO)
 				{
 					close(shell->cmds->heredoc_fd);
 					shell->cmds->heredoc_fd = -1;
@@ -113,14 +114,15 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 			}
 			if (shell->cmds)
 			{
-				if (shell->cmds->heredoc_fd != -1 && shell->cmds->heredoc_fd != STDIN_FILENO)
+				if (shell->cmds->heredoc_fd != -1
+					&& shell->cmds->heredoc_fd != STDIN_FILENO)
 				{
 					close(shell->cmds->heredoc_fd);
 					shell->cmds->heredoc_fd = -1;
 				}
 				shell->cmds = shell->cmds->next;
 			}
-			continue;
+			continue ;
 		}
 		exec_command(shell, paths, alloc_list);
 		if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)
@@ -131,4 +133,3 @@ void	execution_part(t_shell *shell, t_list **alloc_list)
 		shell->cmds = cmd->next;
 	}
 }
-

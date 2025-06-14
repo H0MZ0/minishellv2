@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:38:23 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/01 18:22:40 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:22:00 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	handle_redir_in(t_cmd *cmd, char *target, t_list *alloc_list)
-{
-	cmd->infiles = append_str_array(cmd->infiles, target, alloc_list);
-	cmd->rediriction = append_str_array(cmd->rediriction, target, alloc_list);
-	return (1);
-}
+// static int	handle_redir_in(t_cmd *cmd, char *target, t_list *alloc_list)
+// {
+// 	cmd->infiles = append_str_array(cmd->infiles, target, alloc_list);
+// 	cmd->rediriction = append_str_array(cmd->rediriction, target, alloc_list);
+// 	return (1);
+// }
 
 int	handle_output_redir(t_cmd *cmd, int type, char *target, t_list *alloc_list)
 {

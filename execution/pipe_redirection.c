@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/14 18:08:09 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:40:16 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	open_output(char *file, int *out_fd, int append)
 	return (0);
 }
 
-static int	process_redir(char **files, int *types, int *in_fd, int *out_fd, t_shell *shell, t_list *alloc_list, t_cmd *cmd)
+static int	process_redir(char **files, int *types, int *in_fd, int *out_fd)
 {
 	int	i;
 
@@ -73,21 +73,19 @@ static int	process_redir(char **files, int *types, int *in_fd, int *out_fd, t_sh
 	return (0);
 }
 
-int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell) 
+int	handle_redirections(t_cmd *cmd, t_list *alloc_list)
 {
-    int	in_fd;
-    int	out_fd;
+	int	in_fd;
+	int	out_fd;
 
-    (void)alloc_list;
-    in_fd = -1;
-    out_fd = -1;
-    if (!cmd->rediriction)
-        return (0);
-    if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd, shell, alloc_list, cmd))
-	{
-        exit (1);
-	}
-	if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)  
+	(void)alloc_list;
+	in_fd = -1;
+	out_fd = -1;
+	if (!cmd->rediriction)
+		return (0);
+	if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd))
+		exit (1);
+	if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)
 	{
 		if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
 		{
@@ -97,17 +95,17 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell)
 		close(cmd->heredoc_fd);
 		cmd->heredoc_fd = -1;
 	}
-    if (in_fd != -1)
-    {
-        dup2(in_fd, STDIN_FILENO);
-        close(in_fd);
-        in_fd = -1;
-    }
-    if (out_fd != -1)
-    {
-        dup2(out_fd, STDOUT_FILENO);
-        close(out_fd);
-        out_fd = -1; 
-    }
-    return (0);
+	if (in_fd != -1)
+	{
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
+		in_fd = -1;
+	}
+	if (out_fd != -1)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+		out_fd = -1;
+	}
+	return (0);
 }

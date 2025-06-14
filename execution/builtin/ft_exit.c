@@ -6,7 +6,7 @@
 /*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:11:01 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/04 10:10:51 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:34:04 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	execute_exit(t_shell *shell, t_list *alloc_list)
 		shell->exit_status = 1;
 		return ;
 	}
-	if(!shell->cmds->has_pipe)
+	if (!shell->cmds->has_pipe)
 		ft_putendl_fd("exit", 2);
 	free_all(&alloc_list);
 	exit (status);
