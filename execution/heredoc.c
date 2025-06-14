@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:52:28 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/06 21:13:49 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:10:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,11 @@ int read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
                 if (cmd->heredoc_fd == -1)
                 {
                     perror("open heredoc");
-                    unlink(filename);
                     return (0);
                 }
-
-                unlink(filename); 
                 cmd->heredoc_delim = heredoc->delim;
                 cmd->heredoc_expand = heredoc->expand;
             }
-            else
-            {
-                unlink(filename); 
-            }
-
-            
         i++;
     }
     return 1;

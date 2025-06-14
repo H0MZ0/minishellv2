@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:30:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/01 18:42:26 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:15:10 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	*handle_exit_status(int *i, t_shell *shell, t_list *alloc_list)
 
 char	*handle_dollar(char *value, int *i, t_shell *shell, t_list *alloc_list)
 {
-	char	*result;
-
 	(*i)++;
 	if (value[*i] == '?')
 		return (handle_exit_status(i, shell, alloc_list));

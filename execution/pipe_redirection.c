@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 17:50:44 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:08:09 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ static int	process_redir(char **files, int *types, int *in_fd, int *out_fd, t_sh
 			return (1);
 		if (types[i] == 2 && open_output(files[i], out_fd, 1))
 			return (1);
-		if (types[i] == 3 && read_heredoc(cmd, shell, alloc_list))
-			return (1);
 		i++;
 	}
 	return (0);
@@ -89,16 +87,16 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list, t_shell *shell)
 	{
         exit (1);
 	}
-	// if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)  
-	// {
-	// 	if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
-	// 	{
-	// 		perror("dup2");
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// 	close(cmd->heredoc_fd);
-	// 	cmd->heredoc_fd = -1;
-	// }
+	if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)  
+	{
+		if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(cmd->heredoc_fd);
+		cmd->heredoc_fd = -1;
+	}
     if (in_fd != -1)
     {
         dup2(in_fd, STDIN_FILENO);
