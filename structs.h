@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:13:58 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 19:00:41 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:18:18 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTS_H
 
 # include "libft/libft.h"
+
 
 typedef struct s_env
 {
@@ -121,17 +122,23 @@ typedef struct s_pipex_info
 	pid_t			last_pid;
 }					t_pipex_info;
 
+typedef struct s_exec_state
+{
+	t_shell		*shell;
+	t_list		*alloc_list;
+	t_cmd		*current;
+	char		**paths;
+	int			prev_fd;
+}	t_exec_state;
 typedef struct s_exec_data
 {
-	t_shell			*shell;
-	t_cmd			*cmd;
-	char			**paths;
-	t_list			*alloc_list;
-}					t_exec_data;
-typedef struct s_exec_context
-{
-    t_shell		*shell;
-    char		**paths;
-    t_list		*alloc_list;
-}	t_exec_context;
-#endif
+	t_shell		*shell;
+	t_cmd		*cmd;
+	char		**paths;
+	int			in_fd;
+	int			out_fd;
+	t_list		*alloc_list;
+}	t_exec_data;
+
+
+#endif /* STRUCTS_H */
