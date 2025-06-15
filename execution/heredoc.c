@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:52:28 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/14 18:38:20 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:00:57 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*generate_tmp_name(t_list *alloc_list)
 }
 
 static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
-						t_list *alloc_list, const char *filename)
+		t_list *alloc_list, const char *filename)
 {
 	int		fd;
 	char	*line;
@@ -40,12 +40,7 @@ static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		perror("open");
-		exit(1);
-	}
+	fd = open_heredoc_file(filename);
 	while (1)
 	{
 		write(STDOUT_FILENO, "> ", 2);
@@ -64,8 +59,8 @@ static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
 	exit(0);
 }
 
-static int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
-								t_list *alloc_list, const char *filename)
+int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
+		t_list *alloc_list, const char *filename)
 {
 	pid_t	pid;
 	int		status;
@@ -89,33 +84,14 @@ static int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
 
 int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 {
-	int				i;
-	char			*filename;
-	t_heredoc_tmp	*heredoc;
+	int	i;
 
 	i = 0;
 	cmd->heredoc_fd = -1;
 	while (i < cmd->heredoc_count)
 	{
-		heredoc = &cmd->heredocs[i];
-		filename = generate_tmp_name(alloc_list);
-		if (!filename)
+		if (!handle_single_heredoc(cmd, shell, alloc_list, i))
 			return (0);
-		if (!handle_heredoc_child(heredoc, shell, alloc_list, filename))
-			return (0);
-		if (i == cmd->heredoc_count - 1)
-		{
-			if (cmd->heredoc_fd != -1)
-				close(cmd->heredoc_fd);
-			cmd->heredoc_fd = open(filename, O_RDONLY);
-			if (cmd->heredoc_fd == -1)
-			{
-				perror("open heredoc");
-				return (0);
-			}
-			cmd->heredoc_delim = heredoc->delim;
-			cmd->heredoc_expand = heredoc->expand;
-		}
 		i++;
 	}
 	return (1);

@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:06:13 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/14 18:29:55 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/15 16:41:28 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-size_t	ft_min(size_t a, size_t b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
 
 int	check_new_line_buffer(char *str)
 {

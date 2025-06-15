@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:00:37 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/14 18:47:30 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/15 16:22:58 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ void	exec_pipeline_cmd(t_shell *shell, t_cmd *cmd, char **paths, int in_fd,
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
+
+// handle_pipe_command.c
+void	handle_pipes(t_shell *shell, t_list **alloc_list)
+{
+	t_cmd	*cmd;
+
+	cmd = shell->cmds;
+	if (!heredoc_pipe(cmd, shell, *alloc_list))
+		return ;
+	pipex(&shell, *alloc_list);
+	while (shell->cmds && shell->cmds->has_pipe)
+	{
+		close_heredoc_fd(shell->cmds);
+		shell->cmds = shell->cmds->next;
+	}
+	if (shell->cmds)
+	{
+		close_heredoc_fd(shell->cmds);
+		shell->cmds = shell->cmds->next;
+	}
+}
+
 
 void	pipex(t_shell **shell, t_list *alloc_list)
 {

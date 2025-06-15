@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/14 18:24:49 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:01:11 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,13 @@ void	print_list_env(t_env **head, t_list *alloc_list);
 int		in_out(t_shell *shell);
 int		oi_err(t_shell *shell, char *err);
 int		handle_redirections(t_cmd *cmd, t_list *alloc_list);
-
+void	handle_pipes(t_shell *shell, t_list **alloc_list);
+void	close_heredoc_fd(t_cmd *cmd);
+int		heredoc_pipe(t_cmd *cmd, t_shell *shell, t_list *alloc_list);
+char	*generate_tmp_name(t_list *alloc_list);
+int		open_heredoc_file(const char *filename);
+int		handle_single_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list,
+			int i);
+int		handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
+			t_list *alloc_list, const char *filename);
 #endif
