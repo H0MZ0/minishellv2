@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:13:58 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 21:18:18 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:36:55 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define STRUCTS_H
 
 # include "libft/libft.h"
-
 
 typedef struct s_env
 {
@@ -139,6 +138,5 @@ typedef struct s_exec_data
 	int			out_fd;
 	t_list		*alloc_list;
 }	t_exec_data;
-
 
 #endif /* STRUCTS_H */

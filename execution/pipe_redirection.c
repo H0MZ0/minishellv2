@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 21:27:42 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:33:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,30 @@ static int	process_redir(char **files, int *types, int *in_fd, int *out_fd)
 	return (0);
 }
 
+void	inout(int in_fd, int in_out)
+{
+	if (in_fd != -1)
+	{
+		if (dup2(in_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(in_fd);
+		in_fd = -1;
+	}
+	if (in_out != -1)
+	{
+		if (dup2(in_out, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(EXIT_FAILURE);
+		}
+		close(in_out);
+		in_out = -1;
+	}
+}
+
 int	handle_redirections(t_cmd *cmd, t_list *alloc_list)
 {
 	int	in_fd;
@@ -84,7 +108,7 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list)
 	if (!cmd->rediriction)
 		return (0);
 	if (process_redir(cmd->rediriction, cmd->rediriction_ag, &in_fd, &out_fd))
-		exit (1);
+		exit(1);
 	if (cmd->heredoc_fd != -1 && cmd->heredoc_fd != STDIN_FILENO)
 	{
 		if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
@@ -95,17 +119,6 @@ int	handle_redirections(t_cmd *cmd, t_list *alloc_list)
 		close(cmd->heredoc_fd);
 		cmd->heredoc_fd = -1;
 	}
-	if (in_fd != -1)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-		in_fd = -1;
-	}
-	if (out_fd != -1)
-	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-		out_fd = -1;
-	}
+	inout(in_fd, out_fd);
 	return (0);
 }

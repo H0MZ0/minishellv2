@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:56:42 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 21:24:50 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:36:23 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	wait_all_processes(pid_t last_pid, t_shell **shell)
 			else
 				(*shell)->exit_status = 1;
 		}
+		wpid = waitpid(-1, &status, 0);
 	}
 }
 
