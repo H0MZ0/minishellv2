@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/13 16:59:29 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:14:01 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,15 @@ int	is_builtin_name(const char *name)
 
 static void	no_pipe(t_shell *shell, t_list *alloc_list)
 {
-	int	in_backup;
-	int	out_backup;
-
-	in_backup = dup(STDIN_FILENO);
-	out_backup = dup(STDOUT_FILENO);
+	shell->in = dup(STDIN_FILENO);
+	shell->out = dup(STDOUT_FILENO);
 	if (shell->cmds->infiles || shell->cmds->outfiles)
 		in_out(shell);
 	exec_builtin(&shell, shell->cmds, alloc_list);
-	dup2(in_backup, STDIN_FILENO);
-	dup2(out_backup, STDOUT_FILENO);
-	close(in_backup);
-	close(out_backup);
+	dup2(shell->in, STDIN_FILENO);
+	dup2(shell->out, STDOUT_FILENO);
+	close(shell->in);
+	close(shell->out);
 }
 
 static void	with_pipe(t_shell *shell, t_list *alloc_list)

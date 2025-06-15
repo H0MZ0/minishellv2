@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:13:58 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 18:16:11 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:13:23 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct s_shell
 	int				skip_syntax_error;
 	char			**envp;
 	int				exit_status;
+	int				in;
+	int				out;
 }					t_shell;
 
 typedef struct s_build_ctx
