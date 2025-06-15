@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:13:58 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 21:36:55 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/15 21:38:15 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,6 @@ typedef struct s_expand_ctx
 	t_shell			*shell;
 	t_list			*alloc_list;
 }					t_expand_ctx;
-
-typedef struct s_pipex_info
-{
-	t_shell			*shell;
-	t_list			*alloc_list;
-	char			**paths;
-	int				prev_fd;
-	pid_t			last_pid;
-}					t_pipex_info;
 
 typedef struct s_exec_state
 {
