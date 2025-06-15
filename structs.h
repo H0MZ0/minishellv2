@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:13:58 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 17:13:23 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/15 19:00:41 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,10 @@ typedef struct s_exec_data
 	char			**paths;
 	t_list			*alloc_list;
 }					t_exec_data;
-
+typedef struct s_exec_context
+{
+    t_shell		*shell;
+    char		**paths;
+    t_list		*alloc_list;
+}	t_exec_context;
 #endif

@@ -19,7 +19,7 @@ SRC = parsing/array_helpers.c parsing/env_copy.c parsing/get_token_length.c \
       execution/builtin/ft_unset.c execution/builtin/ft_cd.c \
       execution/builtin/ft_env.c execution/builtin/ft_pwd.c \
       execution/builtin/ft_export_helpers2.c execution/print.c \
-      execution/pipe_redirection.c  execution/heredoc_utils.c \
+      execution/pipe_redirection.c  execution/heredoc_utils.c  execution/pipe_utils.c \
       libft/ft_malloc.c libft/ft_strcmp.c
 
 OBJ = $(SRC:.c=.o)
