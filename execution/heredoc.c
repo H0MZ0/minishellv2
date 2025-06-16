@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:52:28 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 17:00:57 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:11:23 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,16 @@ static void	child_heredoc(t_heredoc_tmp *heredoc, t_shell *shell,
 		write(STDOUT_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO, alloc_list);
 		if (!line)
+		{
+			write(STDOUT_FILENO, "\n", 1);
 			break ;
+		}
 		if (ft_strcmp(line, heredoc->delim) == 0)
 			break ;
 		if (heredoc->expand)
 			line = expand_token_value(line, shell, alloc_list);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
-		free(line);
 	}
 	close(fd);
 	exit(0);
@@ -77,6 +79,7 @@ int	handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		shell->exit_status = 130;
+		shell->cmds->heredoc_fd = -1;
 		return (0);
 	}
 	return (1);
@@ -91,7 +94,10 @@ int	read_heredoc(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 	while (i < cmd->heredoc_count)
 	{
 		if (!handle_single_heredoc(cmd, shell, alloc_list, i))
+		{
+			cmd->heredoc_fd = -1;
 			return (0);
+		}
 		i++;
 	}
 	return (1);

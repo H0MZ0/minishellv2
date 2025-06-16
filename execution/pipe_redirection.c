@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:35:24 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/15 21:33:20 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:10:20 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static int	open_output(char *file, int *out_fd, int append)
 
 	flags = O_WRONLY | O_CREAT;
 	if (append)
-		flags |= O_APPEND;
+		flags += O_APPEND;
 	else
-		flags |= O_TRUNC;
+		flags += O_TRUNC;
 	tmp_fd = open(file, flags, 0644);
 	if (tmp_fd < 0)
 	{

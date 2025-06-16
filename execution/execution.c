@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/15 16:24:30 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:12:02 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,25 @@ int	heredoc_pipe(t_cmd *cmd, t_shell *shell, t_list *alloc_list)
 	t_cmd	*pipe_cmd;
 
 	pipe_cmd = cmd;
-	while (pipe_cmd && pipe_cmd->has_pipe)
+	while (pipe_cmd)
 	{
 		if (pipe_cmd->heredocs && !read_heredoc(pipe_cmd, shell, alloc_list))
 		{
-			shell->cmds = pipe_cmd->next;
+			while (shell->cmds && shell->cmds->has_pipe)
+			{
+				close_heredoc_fd(shell->cmds);
+				shell->cmds = shell->cmds->next;
+			}
+			if (shell->cmds)
+			{
+				close_heredoc_fd(shell->cmds);
+				shell->cmds = shell->cmds->next;
+			}
 			return (0);
 		}
+		if (!pipe_cmd->has_pipe)
+			break ;
 		pipe_cmd = pipe_cmd->next;
-	}
-	if (pipe_cmd && pipe_cmd->heredocs && !read_heredoc(pipe_cmd, shell,
-			alloc_list))
-	{
-		shell->cmds = pipe_cmd->next;
-		return (0);
 	}
 	return (1);
 }

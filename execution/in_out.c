@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_out.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:55:41 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/02 16:46:50 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:10:08 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	outfiless(t_shell *shell, char *outfile, int j)
 	fd = -1;
 	flags = O_WRONLY | O_CREAT;
 	if (shell->cmds->append_flags[j])
-		flags |= O_APPEND;
+		flags += O_APPEND;
 	else
-		flags |= O_TRUNC;
+		flags += O_TRUNC;
 	fd = open(outfile, flags, 0644);
 	if (fd < 0)
 	{
