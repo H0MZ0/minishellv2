@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:47:09 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 16:39:21 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 12:01:10 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	set_child_signals(void)
 void	sigint_prompt_handlera(int sig)
 {
 	(void)sig;
+	signal(SIGQUIT, SIG_IGN);
 	write(1, "\n", 1);
 	if (g_shell_context)
 		g_shell_context->exit_status = 130;

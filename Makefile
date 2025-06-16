@@ -1,10 +1,9 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_SRC = $(wildcard libft/*.c)
+HEADER = minishell.h 
 
 SRC = parsing/array_helpers.c parsing/env_copy.c parsing/get_token_length.c \
       parsing/handle_token_redirection.c parsing/parce_cmd.c parsing/parcing.c \
@@ -24,27 +23,26 @@ SRC = parsing/array_helpers.c parsing/env_copy.c parsing/get_token_length.c \
 
 OBJ = $(SRC:.c=.o)
 
+all : $(NAME)
+
 $(NAME): $(OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
-%.o: %.c
+%.o: %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT): $(LIBFT_SRC) libft/libft.h
-	$(MAKE) -C $(LIBFT_DIR)
-
-all: $(LIBFT) $(NAME)
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ) 
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME) $(LIBFT)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
 
 .SECONDARY:
