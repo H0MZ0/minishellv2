@@ -12,6 +12,7 @@ SRCS =  ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
         ft_lstdelone_bonus.c ft_lstlast_bonus.c \
         ft_lstnew_bonus.c ft_atoi.c ft_errors.c \
         ft_strncmp.c ft_strndup.c get_next_line.c \
+        ft_malloc.c ft_strcmp.c \
 
 HEADER = libft.h
 OBJS = $(SRCS:.c=.o)

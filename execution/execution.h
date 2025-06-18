@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:02 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/15 21:22:32 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:59:51 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int		handle_heredoc_child(t_heredoc_tmp *heredoc, t_shell *shell,
 void	wait_all_processes(pid_t last_pid, t_shell **shell);
 int		setup_pipe(int pipe_fd[2]);
 void	child_exec(t_exec_state *s, int out_fd);
+void	mini_display(void);
 
 #endif

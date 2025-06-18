@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:26:10 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/02 16:25:52 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/16 14:41:18 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,6 @@ int	ft_len(const char *s, char c, int *start)
 		len++;
 	return (len);
 }
-
-// char	**ft_allocate_words(char const *s, char c, t_split *split,
-// 		t_list *alloc_list)
-// {
-// 	int (start), (index), (word_len);
-// 	index = 0;
-// 	start = 0;
-// 	while (index < split->count)
-// 	{
-// 		word_len = ft_len(s, c, &start);
-// 		split->ptr[index] = ft_substr(s, start, word_len, alloc_list);
-// 		if (!split->ptr[index])
-// 		{
-// 			while (index >= 0)
-// 			{
-// 				free(split->ptr[index]);
-// 				--index;
-// 			}
-// 			free(split->ptr);
-// 			return (NULL);
-// 		}
-// 		start += word_len;
-// 		index++;
-// 	}
-// 	split->ptr[split->count] = NULL;
-// 	return (split->ptr);
-// }
 
 char	**ft_split(char const *s, char c, t_list *alloc_list)
 {

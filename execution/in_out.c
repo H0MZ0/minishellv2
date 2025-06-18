@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:55:41 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/16 14:10:08 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:50:29 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	handle_infile(t_shell *shell, t_cmd *cmd, char *redir)
 		{
 			if (infiless(shell, cmd->infiles[j]))
 				return (1);
-			return (2);
+			return (0);
 		}
 		j++;
 	}
@@ -78,7 +78,7 @@ static int	handle_outfile(t_shell *shell, t_cmd *cmd, char *redir)
 		{
 			if (outfiless(shell, cmd->outfiles[j], j))
 				return (1);
-			return (2);
+			return (0);
 		}
 		j++;
 	}

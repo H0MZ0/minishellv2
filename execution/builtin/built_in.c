@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:16:08 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/15 17:14:01 by hakader          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:52:25 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,16 @@ static void	no_pipe(t_shell *shell, t_list *alloc_list)
 	shell->in = dup(STDIN_FILENO);
 	shell->out = dup(STDOUT_FILENO);
 	if (shell->cmds->infiles || shell->cmds->outfiles)
-		in_out(shell);
+	{
+		if (in_out(shell))
+		{
+			dup2(shell->in, STDIN_FILENO);
+			dup2(shell->out, STDOUT_FILENO);
+			close(shell->in);
+			close(shell->out);
+			return ;
+		}
+	}
 	exec_builtin(&shell, shell->cmds, alloc_list);
 	dup2(shell->in, STDIN_FILENO);
 	dup2(shell->out, STDOUT_FILENO);

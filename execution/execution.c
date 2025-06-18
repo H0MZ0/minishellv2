@@ -6,7 +6,7 @@
 /*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 09:49:04 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/16 14:12:02 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/16 15:22:26 by sjoukni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ static void	exec_child(t_shell *shell, char *cmd)
 	else if (shell->cmds->infiles || shell->cmds->outfiles)
 	{
 		if (in_out(shell))
+		{
 			exit(shell->exit_status);
+		}
 	}
 	execve(cmd, &shell->cmds->args[0], shell->envp);
 	perror("execve failed");

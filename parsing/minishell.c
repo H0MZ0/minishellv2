@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:23:38 by sjoukni           #+#    #+#             */
-/*   Updated: 2025/06/13 11:53:18 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:14:29 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,21 @@ int	main(int ac, char **av, char **envp)
 	t_list	*alloc_list;
 	char	*line;
 
-	(void)ac;
-	(void)av;
+	((void)ac), ((void)av);
 	alloc_list = NULL;
 	shell = ft_malloc(sizeof(t_shell), &alloc_list);
 	if (!shell)
 		return (1);
 	ft_bzero(shell, sizeof(t_shell));
 	setup_shell_env(shell, envp, &alloc_list);
+	mini_display();
 	while (1)
 	{
 		set_prompt_signals(shell);
-		line = readline(CYAN "minishell$ " RESET);
+		if (shell->exit_status == 0)
+			line = readline(PROMPT);
+		else
+			line = readline(RED "🤬minishell$ " RESET);
 		signal(SIGINT, sigint_prompt_handlera);
 		handle_exit(line, shell, &alloc_list);
 		process_line(line, shell, &alloc_list);

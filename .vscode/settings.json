@@ -1,20 +1,5 @@
 {
-    "files.associations": {
-        "cstdlib": "c",
-        "execution.h": "c",
-        "parsing.h": "c",
-        "array": "c",
-        "charconv": "c",
-        "compare": "c",
-        "functional": "c",
-        "ratio": "c",
-        "tuple": "c",
-        "type_traits": "c",
-        "utility": "c",
-        "variant": "c",
-        "libft.h": "c",
-        "chrono": "c",
-        "span": "c",
-        "format": "c"
-    }
+	"files.associations": {
+		"execution.h": "c"
+	}
 }

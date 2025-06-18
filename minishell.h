@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sjoukni <sjoukni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakader <hakader@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:56:19 by hakader           #+#    #+#             */
-/*   Updated: 2025/06/02 21:15:56 by sjoukni          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:30:03 by hakader          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//EXIT_STATUS
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 # define EXIT_CMD_NOT_FOUND 127
@@ -36,14 +35,17 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# define RESET "\x1b[0m"
-# define BLACK "\x1b[30m"
-# define RED "\x1b[31m"
-# define GREEN "\x1b[32m"
-# define YELLOW "\x1b[33m"
-# define BLUE "\x1b[34m"
-# define MAGENTA "\x1b[35m"
-# define CYAN "\x1b[36m"
-# define WHITE "\x1b[37m"
+
+# define RESET   "\001\x1b[0m\002"
+# define BLACK   "\001\x1b[30m\002"
+# define RED     "\001\x1b[31m\002"
+# define GREEN   "\001\x1b[32m\002"
+# define YELLOW  "\001\x1b[33m\002"
+# define BLUE    "\001\x1b[34m\002"
+# define MAGENTA "\001\x1b[35m\002"
+# define CYAN    "\001\x1b[36m\002"
+# define WHITE   "\001\x1b[37m\002"
+
+# define PROMPT "\001\x1b[36m\002💃minishell$ \001\x1b[0m\002"
 
 #endif
